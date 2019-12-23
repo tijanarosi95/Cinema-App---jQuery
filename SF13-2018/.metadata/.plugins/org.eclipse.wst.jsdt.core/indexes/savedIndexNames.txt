@@ -1,7 +1,0 @@
-INDEX VERSION 1.4+/home/tijana/Desktop/ProjectOWP/SF13-2018/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
-861298286.index
-675995859.index
-2550073131.index
-3615816000.index
-817667150.index
-2051650095.index
