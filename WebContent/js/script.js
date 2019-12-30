@@ -3,9 +3,11 @@ $('.collapse').collapse();
 
 //multiselect
 $(document).ready(function(){
-    $('.mdb-select').multiselect({
-        includeSelectAllOption : true
-    });
+    $('#multi-select').multiselect();
+});
+
+$(document).ready(function(){
+    $('#multi-select2').multiselect();
 });
 
 //jquery's range slider
@@ -24,22 +26,26 @@ $(document).ready(function(){
 
 //jquery's datetime picker
 $(function () {
-    $('#datetimepicker1').datetimepicker();
+    
+    $('#datetimepicker1').datetimepicker({ 
+        useCurrent: false,
+        step : 5});
+
+    $('#datetimepicker1').on('change', function(){
+        var selected = $(this).val();
+        //alert(selected);
+        $('#date1').val(selected);
+    });
      
     $('#datetimepicker2').datetimepicker({
         useCurrent: false,
-        onSelect: function(dateText) {
-            console.log("Selected date: " + dateText + "; input's current value: " + this.value);
-        }
+        step: 5
     });
 
-    $("#datetimepicker1").on("dp.change", function (e) {
-        $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-    });
-    $("#datetimepicker2").on("dp.change", function (e) {
-        $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-    });
-
+    $('#datetimepicker2').on('change', function(){
+        var selected = $(this).val();
+        $('#date2').val(selected);
+    }); 
    
 });
 
