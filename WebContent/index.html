@@ -11,6 +11,9 @@
     
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="js/Login.js"></script>
+    <script src="js/Register.js"></script>
 
     <!--jquery's multiselect js-->
     <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
@@ -44,12 +47,12 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown active"><a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Register</a>
                     <div class="dropdown-menu dropdown-menu-right bg-dark">
-                        <form class="form-horizontal" method="post" action="">
-                            <input class="form-control login" type="text" name="username" placeholder="Enter your username.."><br>
-                            <input class="form-control login" type="password" name="password" id="password" placeholder="Enter your password.."><br>
-                            <input class="form-control login" type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Repeat entered password.."><br>
-                            <span id="message"></span>
-                            <input class="btn btn-primary" type="submit" name="submit" value="Register"/>
+                        <form class="form-horizontal">
+                            <input class="form-control login" type="text" name="username" placeholder="Enter your username.." id="usernameReg"><br>
+                            <input class="form-control login" type="password" name="password" placeholder="Enter your password.." id="passwordReg"><br>
+                            <input class="form-control login" type="password" name="passwordConfirm" placeholder="Repeat entered password.." id="passwordRepReg"><br>
+                            <span id="message"></span><br>
+                            <input class="btn btn-primary" type="submit" name="submit" value="Register" id="registerSubmitId"/>
                         </form>
 
                     </div>
@@ -57,10 +60,10 @@
                 </li>
                 <li class="nav-item dropdown active"><a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Log In</a>
                     <div class="dropdown-menu dropdown-menu-right bg-dark">
-                        <form class="form-horizontal" method="post" action="">
-                            <input class="form-control login" type="text" name="username" placeholder="Username.."><br>
-                            <input class="form-control login" type="password" name="password" placeholder="Password.."><br>
-                            <input class="btn btn-primary" type="submit" name="submit" value="Login" />
+                        <form class="form-horizontal">
+                            <input class="form-control login" type="text" name="username" placeholder="Username.." id="usernameId"><br>
+                            <input class="form-control login" type="password" name="password" placeholder="Password.." id="passwordId"><br>
+                            <input class="btn btn-primary" type="submit" name="submit" value="Login" id="loginSubmitId"/>
                         </form>
                     </div>
                 </li>

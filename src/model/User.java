@@ -10,16 +10,26 @@ public class User {
 	private String password;
 	private Timestamp registrationDate;
 	private Role role;
+	private boolean isActive;
 	
 	public User() {}
 	
-	public User(String username, String password, Timestamp registrationDate, Role role) {
+	public User(String username, String password, Timestamp registrationDate, Role role, boolean isActive) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.registrationDate = registrationDate;
 		this.role = role;
+		this.isActive = isActive;
 	}
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	public String getUsername() {
 		return username;
 	}

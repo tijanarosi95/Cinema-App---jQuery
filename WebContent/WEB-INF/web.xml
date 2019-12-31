@@ -7,4 +7,44 @@
   <listener>
     <listener-class>servlets.InitListener</listener-class>
   </listener>
+  <servlet>
+    <description></description>
+    <display-name>LogInServlet</display-name>
+    <servlet-name>LogInServlet</servlet-name>
+    <servlet-class>servlets.user.LogInServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogInServlet</servlet-name>
+    <url-pattern>/LogInServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SuccessServlet</display-name>
+    <servlet-name>SuccessServlet</servlet-name>
+    <servlet-class>servlets.status.SuccessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SuccessServlet</servlet-name>
+    <url-pattern>/SuccessServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FailureServlet</display-name>
+    <servlet-name>FailureServlet</servlet-name>
+    <servlet-class>servlets.status.FailureServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FailureServlet</servlet-name>
+    <url-pattern>/FailureServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RegisterServlet</display-name>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>servlets.user.RegisterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/RegisterServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
