@@ -8,6 +8,12 @@ body {
     background-size: cover;
 }
 
+#adminBody {
+    padding-top: 5rem;
+    background: url(../images/adminbackground.jpg);
+    background-size: cover;
+}
+
 .navbar-brand {
     color: whitesmoke;
     font-family: Arial, Helvetica, sans-serif;
@@ -101,5 +107,32 @@ footer {
     margin-bottom: 0px;
 }
 
+#manageDiv {
+    width: 200px;
+}
+
+#oldPassword {
+    margin-top: 5px;
+}
+
+#newPassword{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#profileDiv{
+    height: 250px;
+}
+
+img {
+    margin-top: 50px;
+    margin-left: 30px;
+}
 
 
+.fa {
+    color: #4b4fe2;
+    margin-top: 30px;
+    margin-left: 20px;
+    
+}
