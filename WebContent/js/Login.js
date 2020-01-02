@@ -26,11 +26,30 @@ $(document).ready(function(){
 				
 				return;
 			}
+			
 			if(data.status == 'success'){
 				
-				window.location.replace('');
+				getUserPage();
 			}
 		});
+		
+		
+		function getUserPage(){
+			$.get('UserServlet', {'loggedUser' : 'loggedUserRole'}, function(data){
+				
+				if(data.status == 'success'){
+					
+					if(data.loggedUserRole == 'ADMIN'){
+						
+						window.location.replace('AdminProfile.html');
+					}
+					else if(data.loggedUserRole == 'USER'){
+						
+						window.location.replace('');
+					}
+				}
+			});
+		}
 		
 		event.preventDefault();
 		
@@ -38,5 +57,5 @@ $(document).ready(function(){
 		
 	});
 	
-	
 });
+

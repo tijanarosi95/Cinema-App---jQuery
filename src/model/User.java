@@ -1,6 +1,8 @@
 package model;
 
-import java.sql.Timestamp;
+
+import java.util.Date;
+
 
 import enums.Role;
 
@@ -8,13 +10,13 @@ public class User {
 	
 	private String username;
 	private String password;
-	private Timestamp registrationDate;
+	private Date registrationDate;
 	private Role role;
 	private boolean isActive;
 	
 	public User() {}
 	
-	public User(String username, String password, Timestamp registrationDate, Role role, boolean isActive) {
+	public User(String username, String password, Date registrationDate, Role role, boolean isActive) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -42,10 +44,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Timestamp getRegistrationDate() {
+	public Date getRegistrationDate() {
 		return registrationDate;
 	}
-	public void setRegistrationDate(Timestamp registrationDate) {
+	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 	public Role getRole() {

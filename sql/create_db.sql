@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS Users;
 CREATE TABLE Users(
     userName varchar(30) not null,
     password varchar(30) not null,
-    dateRegistration text varchar(10) not null,
+    dateRegistration text varchar(20) not null,
     role varchar(10) not null default 'USER',
     active bool not null,
     PRIMARY KEY(userName)

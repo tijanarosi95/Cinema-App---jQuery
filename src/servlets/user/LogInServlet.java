@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import dao.UserDAO;
 import model.User;
 
-
 @SuppressWarnings("serial")
 public class LogInServlet extends HttpServlet {
 

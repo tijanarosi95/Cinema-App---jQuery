@@ -1,7 +1,7 @@
 package servlets.user;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,9 +37,8 @@ public class RegisterServlet extends HttpServlet {
 			if(password.equals(""))
 				throw new Exception("You didn't enter password!");
 			
-			
-			Timestamp dateRegistration = new Timestamp(System.currentTimeMillis());
-			System.out.println(dateRegistration);
+			Date dateRegistration = new Date(System.currentTimeMillis());
+
 			
 			boolean isActive = true;
 			

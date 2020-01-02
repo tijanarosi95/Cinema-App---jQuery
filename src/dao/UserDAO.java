@@ -3,13 +3,15 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import enums.Role;
 import model.User;
 
 public class UserDAO {
 	
+	public static SimpleDateFormat date_format = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 	
 	public static User getUser(String userName, String password) throws Exception{
 		
@@ -34,7 +36,12 @@ public class UserDAO {
 			
 			while(set.next()) {
 				index = 1;
-				Timestamp registrationDate = set.getTimestamp(index++);
+				
+				String date = set.getString(index++);
+				System.out.println("date from base  " + date);
+				
+				Date registrationDate = date_format.parse(date);
+				
 				Role role = Role.valueOf(set.getString(index++));
 				boolean isActive = set.getBoolean(index++);
 				
@@ -71,7 +78,8 @@ public class UserDAO {
 			while(set.next()) {
 				index = 1;
 				String password = set.getString(index++);
-				Timestamp registartionDate = set.getTimestamp(index++);
+				Date registartionDate = date_format.parse(set.getString(index++));
+				System.out.println(registartionDate);
 				Role role = Role.valueOf(set.getString(index++));
 				boolean isActive = set.getBoolean(index++);
 				
@@ -103,7 +111,7 @@ public class UserDAO {
 			int index = 1;
 			pstm.setString(index++, user.getUsername());
 			pstm.setString(index++, user.getPassword());
-			pstm.setTimestamp(index++, user.getRegistrationDate());
+			pstm.setString(index++, date_format.format(user.getRegistrationDate()));
 			pstm.setString(index++, user.getRole().toString());
 			pstm.setBoolean(index++, user.isActive());
 			
