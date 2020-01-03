@@ -12,6 +12,11 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$('#allUsersId').on('click', function(event){
+		
+		window.location.replace('AllUsers.html');
+	});
+	
 	function getLoggedInUser(){
 		
 		$.get('UserServlet', {'loggedUser' : 'loggedInUser'}, function(data){

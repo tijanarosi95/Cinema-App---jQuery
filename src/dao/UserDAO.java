@@ -3,7 +3,9 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat;
 
 import enums.Role;
@@ -11,7 +13,7 @@ import model.User;
 
 public class UserDAO {
 	
-	public static SimpleDateFormat date_format = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+	public static SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
 	public static User getUser(String userName, String password) throws Exception{
 		
@@ -93,6 +95,47 @@ public class UserDAO {
 			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
 		}
 	return null;
+	}
+	
+	public static List<User> getAll(String username, String role) throws Exception{
+		
+		List<User> filteredUsers = new ArrayList<User>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		ResultSet set = null;
+		try {
+			String query = "Select userName, password, dateRegistration, role, active from Users "
+					+ " where userName like ? and role like ?";
+			
+			pstm = conn.prepareStatement(query);
+			int index = 1;
+			pstm.setString(index++, "%" + username + "%");
+			pstm.setString(index++, "%" + role + "%");
+			
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				index = 1;
+				String userName = set.getString(index++);
+				String password = set.getString(index++);
+				//throws ParseException : Unparseable date because time in my db has ms 
+				Date registartionDate = date_format.parse(set.getString(index++));
+				Role userRole = Role.valueOf(set.getString(index++));
+				boolean isActive = set.getBoolean(index++);
+				
+				filteredUsers.add(new User (userName, password, registartionDate,userRole , isActive));
+				
+			}
+			
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+		
+		return filteredUsers;
 	}
 	
 	

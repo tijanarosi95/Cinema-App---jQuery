@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AllUsers</title>
+
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css"/>
+    
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js/AllUsers.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#"><i>All Users</i></a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link active" href="AdminProfile.html">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link active" id="logout">Log out</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="filter-div">
+            <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                    <div class="card bg-dark">
+                        <div class="card-header blue" role="tab" id="headingOne">
+                            <a data-toggle="collapse" data-parent="accordionEx" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <h5 class="mb-0">
+                                    Username<i class="fas fa-angle-down rotate-icon"></i>
+                                </h5>
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
+                            <div class="card-body">
+                                    <form class="form-inline active-cyan-3 active-cyan-4">
+                                        <i class="fas fa-search" aria-hidden="true"></i>
+                                        <input class="form-control form-control-sm ml-3 w-75" type="text" aria-label="Search" id="userNameInput">
+                                    </form>
+                            </div>
+    
+                        </div>
+                </div>
+            </div>
+
+            <div class="card bg-dark">
+                    <div class="card-header" role="tab" id="headingTwo">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <h5 class="mb-0">
+                                Type of user<i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>    
+                    <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="card-body overflow-auto">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultRadios">
+                                <label class="custom-control-label" for="defaultUnchecked" id="type1"></label>
+                            </div>
+                            <br>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="defaultChecked" name="defaultRadios">
+                                <label class="custom-control-label" for="defaultChecked" id="type2"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    </div>
+
+
+    <div class="table-responsive-md">
+        <table class="table table-hover table-dark" id="allUsersTable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Date registration</th>
+                    <th scope="col">Role</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    
+</body>
+</html>
