@@ -9,6 +9,8 @@ $(document).ready(function(){
         event.preventDefault();
 		return false;
     });
+    
+    
 
     var userNameInput = $('#userNameInput');
     var chosenRadioButtom = $('.custom-control-input');
@@ -18,6 +20,8 @@ $(document).ready(function(){
     
     var role1 = $('#defaultUnchecked');
     var role2 = $('#defaultChecked');
+    
+    var usersTable = $('#allUsersTable');
     
     
     
@@ -31,18 +35,6 @@ $(document).ready(function(){
     	
     	role2.val(data.allRoles[1]);
     	
-    	$('.custom-control-input').change(function(){
-    		if ($(this).is(':checked')) {
-    			alert($(this).val());
-    			
-    		  }
-    		
-    	});
-    	
-    	$('.form-control').change(function(){
-    		alert($(this).val());
-    		
-    	});
     	
     });
     
@@ -58,8 +50,43 @@ $(document).ready(function(){
     			
     	};
     	
+    	console.log("params: " + params.userNameFilter);
+    	console.log("params2: " + params.typeOfUser);
+    	
     	$.get('AllUsersServlet', params, function(data){
     		console.log(data);
+    		
+    		if(data.status == 'unauthenticated'){
+    			console.log(data.status);
+    			window.location.replace('index.html');
+    			return;
+    		}
+    		if(data.status == 'success'){
+    			console.log(data.status);
+    			
+    			usersTable.find('tr:gt(0)').remove();
+    			
+    			var filteredUsers = data.filteredUsers;
+    			
+    			console.log(filteredUsers);
+    			
+    			for(user in filteredUsers){
+    				
+    				
+    				console.log("indexUsera" + user);
+    				
+    				usersTable.append(
+    								'<tr>' +
+    									'<td>' + user + '</td>' +
+    									'<td><a href="User.html?username=' + filteredUsers[user].username + '">' + filteredUsers[user].username + '</a></td>' +
+    									'<td>' + '<p>' + filteredUsers[user].registrationDate + '</p>' + '</td>' +
+    									'<td>' + filteredUsers[user].role + '</td>' +
+    									'<td><form><input type="submit" value="Change" class="changeUser" userId="' + filteredUsers[user].username  +'"></form></td>' +
+    								'</tr>'	);
+    			}
+    		}
+    		
+    		
     	});
     }
     
@@ -72,7 +99,7 @@ $(document).ready(function(){
     	return false;
     });
     
-    chosenRadioButtom.on('keyup', function(event){
+    chosenRadioButtom.on('change', function(event){
     	getUsers();
     	
     	event.preventDefault();
@@ -80,6 +107,6 @@ $(document).ready(function(){
     });
     
     
-   
+   getUsers();
         
 });

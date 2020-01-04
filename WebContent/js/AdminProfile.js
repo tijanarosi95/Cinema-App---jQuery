@@ -37,8 +37,8 @@ $(document).ready(function(){
 				var userNameParagraph = $('#userNameVal');
 				var dateRegParagraph = $('#dateRegVal');
 				
-				userNameParagraph.val(loggedInAdmin.username);
-				dateRegParagraph.val(loggedInAdmin.registrationDate);
+				userNameParagraph.text(loggedInAdmin.username);
+				dateRegParagraph.text(loggedInAdmin.registrationDate);
 			}
 		});
 	}

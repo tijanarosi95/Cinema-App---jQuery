@@ -39,6 +39,7 @@ public class UserServlet extends HttpServlet {
 			
 			String loggedUser = (String) request.getParameter("loggedUser");
 			
+			
 			switch(loggedUser) {
 				case("loggedUserRole"):{
 					data.put("loggedUserRole", loggedInUser.getRole());
@@ -50,6 +51,7 @@ public class UserServlet extends HttpServlet {
 				}
 				case("allRoles"):{
 					data.put("allRoles", Role.values());
+					break;
 				}
 			}
 			

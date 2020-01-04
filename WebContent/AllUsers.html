@@ -11,10 +11,13 @@
     
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    
+    
     <script src="js/AllUsers.js"></script>
+    
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.5/bootstrap-table.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
@@ -84,10 +87,12 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Username</th>
+                    <th scope="col" data-sortable="true">Username</th>
                     <th scope="col">Date registration</th>
                     <th scope="col">Role</th>
-                </tr>
+                    <th scope="col"></th>
+                </tr>                
+                
             </thead>
         </table>
     </div>

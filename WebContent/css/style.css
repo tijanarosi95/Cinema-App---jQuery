@@ -136,3 +136,16 @@ img {
     margin-left: 20px;
     
 }
+
+.container-fluid {
+
+    margin-top: 20px;
+}
+
+#btnChangeUser {
+    display: block;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+
