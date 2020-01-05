@@ -77,4 +77,14 @@
     <servlet-name>AllUsersServlet</servlet-name>
     <url-pattern>/AllUsersServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowUserServlet</display-name>
+    <servlet-name>ShowUserServlet</servlet-name>
+    <servlet-class>servlets.user.ShowUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowUserServlet</servlet-name>
+    <url-pattern>/ShowUserServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

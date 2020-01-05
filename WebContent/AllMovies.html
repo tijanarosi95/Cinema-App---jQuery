@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Movies</title>
+
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css"/>
+    
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script type='text/javascript'  src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js' ></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#"><i>All Movies</i></a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link active" href="AdminProfile.html">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link active" id="logoutMovies">Log out</a></li>
+                    </ul>
+                </div>
+        </nav>
+    </div>
+
+    <div class="filter-div">
+            <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                    <div class="card bg-dark">
+                        <div class="card-header blue" role="tab" id="headingOne">
+                            <a data-toggle="collapse" data-parent="accordionEx" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <h5 class="mb-0">
+                                    Name<i class="fas fa-angle-down rotate-icon"></i>
+                                </h5>
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
+                            <div class="card-body">
+                                    <form class="form-inline active-cyan-3 active-cyan-4">
+                                        <i class="fas fa-search" aria-hidden="true"></i>
+                                        <input class="form-control form-control-sm ml-3 w-75" type="text" aria-label="Search" id="MovieNameInput">
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="card bg-dark">
+                    <div class="card-header" role="tab" id="headingTwo">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <h5 class="mb-0">
+                                Genre type<i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>    
+                    <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="card-body overflow-auto">
+                            <div class="form-group col-md-10">
+                                <select id="selectGenre" class="form-control">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="card bg-dark">
+                    <div class="card-header" role="tab" id="headingThree">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <h5 class="mb-0">
+                                Duration<i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>    
+                    <div id="collapseThree" class="collapse show" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="card-body overflow-auto">
+                            <div id="range-slider" class="pmd-range-slider">
+                                <div class="row">
+                                    <p>
+                                        <input type="text" id="durationMin">
+                                        <input type="text" id="durationMax">
+                                    </p>
+                                </div>
+                                        <div id="sliderDuration"></div> 
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="card bg-dark">
+                    <div class="card-header" role="tab" id="headingFour">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <h5 class="mb-0">
+                                Distributer<i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>    
+                    <div id="collapseFour" class="collapse show" role="tabpanel" aria-labelledby="headingFour">
+                        <div class="card-body overflow-auto">
+                            <form class="form-inline active-cyan-3 active-cyan-4">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                                <input class="form-control form-control-sm ml-3 w-75" type="text" aria-label="Search" id="DistributerInput">
+                            </form>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="card bg-dark">
+                    <div class="card-header" role="tab" id="headingFive">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            <h5 class="mb-0">
+                                Origin<i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>   
+
+                    <div id="collapseFive" class="collapse show" role="tabpanel" aria-labelledby="headingFive">
+                            <div class="card-body overflow-auto">
+                                <form class="form-inline active-cyan-3 active-cyan-4">
+                                    <i class="fas fa-search" aria-hidden="true"></i>
+                                    <input class="form-control form-control-sm ml-3 w-75" type="text" aria-label="Search" id="OriginCountryInput">
+                                </form>
+                            </div>
+                    </div>
+            </div>    
+
+            <div class="card bg-dark">
+                <div class="card-header" role="tab" id="headingSix">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        <h5 class="mb-0">
+                            Year<i class="fas fa-angle-down rotate-icon"></i>
+                        </h5>
+                    </a>
+                </div>    
+                <div id="collapseSix" class="collapse show" role="tabpanel" aria-labelledby="headingSix">
+                    <div class="card-body overflow-auto">
+                        <div id="year-slider" class="pmd-range-slider">
+                            <div class="row">
+                                <p>
+                                    <input type="text" id="yearMin">
+                                    <input type="text" id="yearMax">
+                                </p>
+                            </div>
+                                <div id="sliderYear"></div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="table-responsive-md">
+        
+            <table class="table table-hover table-dark" id="moviesTableId">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Duartion</th>
+                        <th scope="col">Distributer</th>
+                        <th scope="col">Origin</th>
+                        <th scope="col">Year</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        
+                    </tbody>
+            </table>
+        
+    </div>
+    
+</body>
+</html>

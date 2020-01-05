@@ -84,11 +84,13 @@ $(document).ready(function(){
     									'<td><form><input type="submit" value="Change" class="changeUser" userId="' + filteredUsers[user].username  +'"></form></td>' +
     								'</tr>'	);
     			}
+    			    
     		}
     		
     		
     	});
     }
+    
     
     
 

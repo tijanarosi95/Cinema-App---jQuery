@@ -148,4 +148,18 @@ img {
     margin-left: 15px;
 }
 
+#selectGenre{
+    margin-left: 25px;
+}
+
+#durationMin, #yearMin{
+    width: 12%;
+    float: left;
+}
+
+#durationMax, #yearMax{
+    width: 12%;
+    float: right;
+}
+
 
