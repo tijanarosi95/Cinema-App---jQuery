@@ -68,20 +68,22 @@ $(document).ready(function(){
     			
     			var filteredUsers = data.filteredUsers;
     			
+    			//userNameInput.val('');
+    			//chosenRadioButton.attr('checked', false);
+    			
     			console.log(filteredUsers);
+    			
+    			var index = 1;
     			
     			for(user in filteredUsers){
     				
-    				
-    				console.log("indexUsera" + user);
-    				
     				usersTable.append(
     								'<tr>' +
-    									'<td>' + user + '</td>' +
+    									'<td>' + index++ + '</td>' +
     									'<td><a href="User.html?username=' + filteredUsers[user].username + '">' + filteredUsers[user].username + '</a></td>' +
     									'<td>' + '<p>' + filteredUsers[user].registrationDate + '</p>' + '</td>' +
     									'<td>' + filteredUsers[user].role + '</td>' +
-    									'<td><form><input type="submit" value="Change" class="changeUser" userId="' + filteredUsers[user].username  +'"></form></td>' +
+    									'<td><form><input type="submit" value="Change" class="btn btn-primary" userId="' + filteredUsers[user].username  +'"></form></td>' +
     								'</tr>'	);
     			}
     			    

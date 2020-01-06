@@ -37,6 +37,7 @@ public class AllUsersServlet extends HttpServlet {
 			userNameFilter = (userNameFilter != null ? userNameFilter : "");
 			
 			String typeOfUser = request.getParameter("typeOfUser");
+			typeOfUser = (typeOfUser != null ? typeOfUser : "");
 			
 			List<User> filteredUsers = UserDAO.getAll(userNameFilter, typeOfUser);
 			

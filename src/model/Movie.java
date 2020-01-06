@@ -16,11 +16,12 @@ public class Movie {
 	private String originCountry;
 	private int productionYear;
 	private String description;
+	private boolean isActive;
 	
 	public Movie() {}
 
 	public Movie(int idMovie, String name, String director, String actors, ArrayList<Genre> genres, int duration,
-			String distribution, String originCountry, int productionYear, String description) {
+			String distribution, String originCountry, int productionYear, String description, boolean isActive) {
 		super();
 		this.idMovie = idMovie;
 		this.name = name;
@@ -32,6 +33,15 @@ public class Movie {
 		this.originCountry = originCountry;
 		this.productionYear = productionYear;
 		this.description = description;
+		this.isActive = isActive;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public int getIdMovie() {
