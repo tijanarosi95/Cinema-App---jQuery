@@ -87,4 +87,24 @@
     <servlet-name>ShowUserServlet</servlet-name>
     <url-pattern>/ShowUserServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MovieServlet</display-name>
+    <servlet-name>MovieServlet</servlet-name>
+    <servlet-class>servlets.movie.MovieServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MovieServlet</servlet-name>
+    <url-pattern>/MovieServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AllMoviesServlet</display-name>
+    <servlet-name>AllMoviesServlet</servlet-name>
+    <servlet-class>servlets.movie.AllMoviesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AllMoviesServlet</servlet-name>
+    <url-pattern>/AllMoviesServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

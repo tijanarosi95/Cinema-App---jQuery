@@ -1,5 +1,8 @@
 package enums;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public enum Genre {
 	ACTION,
 	ADVENTURE,
@@ -7,8 +10,18 @@ public enum Genre {
 	CRIME,
 	DRAMA,
 	FANTASY,
-	HISTORICAL,
+	HISTORY,
 	SCIENCE_FICTION,
 	THRILLER,
-	WESTERN
+	WESTERN;
+	
+	public static Map<String, Genre> getGenres() {
+		Map<String, Genre> genres = new LinkedHashMap<String, Genre>();
+		
+		for(Genre genre : Genre.values()) {
+			genres.put(genre.toString(), genre);
+		}
+		
+		return genres;
+	}
 }
