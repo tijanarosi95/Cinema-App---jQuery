@@ -14,7 +14,7 @@ $(document).ready(function(){
 	
 	var movieInput = $('#movieNameInput');
 	
-	var genresSelect = $('#selectGenre');
+	var genresSelect = $('.selectGenre');
 	
 	
 	$.get('MovieServlet', {"action" : "genres"}, function(data){
@@ -28,10 +28,12 @@ $(document).ready(function(){
 		});
 	});
 	
+	var sliderDuration = $('#sliderDuration');
+	
 	var durationMin = $('#durationMin');
 	var durationMax = $('#durationMax');
 	
-	$('#sliderDuration').slider({
+	sliderDuration.slider({
 		range: true,
 		min: 0,
 		max: 500,
@@ -46,10 +48,11 @@ $(document).ready(function(){
 	
 	var originInput = $('#originCountryInput');
 	
+	var sliderYear = $('#sliderYear');
 	var yearMin = $('#yearMin');
 	var yearMax = $('#yearMax');
 	
-	$('#sliderYear').slider({
+	sliderYear.slider({
 		range: true,
 		min: 1930,
 		max: 2020,
@@ -123,21 +126,124 @@ $(document).ready(function(){
 				
 			}
 			
-		});
-		
-		
-		
+		});	
 	}
 	
-	 
+	var modalAdd = $('#addMovieModal');
+	
+	modalAdd.on('show.bs.modal', function(event){
+		
+		var button = $(event.relatedTarget);
+	});
+	
+	var movieName = $('#movie-name');
+	var selectedGenre = $('#selectedGenre');
+	var directorName = $('#director-name');
+	var actorsName = $('#actors-name');
+	var durationNum = ('#durationNum');
+	var distributionName= ('#distributionName');
+	var originName = ('#origin-name');
+	var year = ('#year-input');
+	var descName = ('#desc-name');
+	
+	$('#addMovieSubmit').on('click', function(event){
+		
+		var movieNameInput = movieName.val();
+		var directorNameInput = directorName.val();
+		var genre = selectedGenre.val();
+		var actors = actorsName.val();
+		var duration = durationNum.val();
+		var distribution = distributionName.val();
+		var origin = originName.val();
+		var yearMovie = year.val();
+		var description = descName.val();
+		
+		params = {
+				'action' : 'add',
+				'movieName' : movieNameInput,
+				'directorName' : directorNameInput,
+				'genre' : genre,
+				'actors' : actors,
+				'duration' : duration,
+				'distribution' : distribution,
+				'origin' : origin,
+				'yearMovie' : yearMovie,
+				'description' : description
+		}
+		
+		$.post('AllMoviesServlet', params, function(data){
+			
+			console.log(data.status);
+			
+			if(data.status == 'unauthenticated'){
+				window.location.replace('index.html');
+				return;
+			}
+			if(data.status == 'unauthorized'){
+				window.location.replace('index.html');
+			}
+			if(data.status == 'success'){
+				alert('You successufully added new movie!');
+				getMovies();
+			}
+			
+			
+		});
+	});
 	
 	
 	
 	
 	
 	
+movieInput.on('keyup', function(event){
 	
+	getMovies();
+	
+	event.preventDefault();
+	return false;
+});
+
+genresSelect.on('change', function(event){
+	
+	getMovies();
+	
+	event.preventDefault();
+	return false;
+});
+
+sliderDuration.on('slide', function(event){
+	
+	getMovies();
+	
+	//event.preventDefault();
+	//return false;
+});
+
+distributionInput.on('keyup', function(event){
+	
+	getMovies();
+	
+	event.preventDefault();
+	return false;
+});
+
+originInput.on('keyup', function(event){
+	
+	getMovies();
+	
+	event.preventDefault();
+	return false;
+});
+
+sliderYear.on('slide', function(event){
+	
+	getMovies();
+	
+	//event.preventDefault();
+	//return false;
+});
+
 getMovies();	
-	
 	
 });

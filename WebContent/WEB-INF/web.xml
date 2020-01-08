@@ -107,4 +107,14 @@
     <servlet-name>AllMoviesServlet</servlet-name>
     <url-pattern>/AllMoviesServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UnauthorizedServlet</display-name>
+    <servlet-name>UnauthorizedServlet</servlet-name>
+    <servlet-class>servlets.status.UnauthorizedServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UnauthorizedServlet</servlet-name>
+    <url-pattern>/UnauthorizedServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

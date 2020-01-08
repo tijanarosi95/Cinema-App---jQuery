@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.MovieDAO;
 import dao.UserDAO;
+import enums.Role;
 import model.Movie;
 import model.User;
 
@@ -92,8 +93,36 @@ public class AllMoviesServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String loggedInUser = (String) request.getSession().getAttribute("loggedInUser");
+		if(loggedInUser == null) {
+			request.getRequestDispatcher("./FailureServlet").forward(request, response);
+			return;
+		}
+		
+		try {
+			User loggedUser = UserDAO.getUser(loggedInUser);
+			if(loggedUser == null) {
+				request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				return;
+			}
+			if(loggedUser.getRole() != Role.ADMIN) {
+				request.getRequestDispatcher("./UnauthorizedServlet").forward(request, response);
+				return;
+			}
+				
+			String action = request.getParameter("action");
+			
+			switch(action) {
+				case("add"):{
+				
+				}
+			}
+			
+			
+			
+		}catch(Exception ex) {}
+		
 	}
 
 }
