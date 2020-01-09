@@ -68,6 +68,7 @@ $(document).ready(function(){
 	function getMovies(){
 		var movieName = movieInput.val();
 		var genres = genresSelect.val();
+		console.log(genres + " ----");
 		var minDuration = durationMin.val();
 		var maxDuration = durationMax.val();
 		var distribution = distributionInput.val();
@@ -140,11 +141,11 @@ $(document).ready(function(){
 	var selectedGenre = $('#selectedGenre');
 	var directorName = $('#director-name');
 	var actorsName = $('#actors-name');
-	var durationNum = ('#durationNum');
-	var distributionName= ('#distributionName');
-	var originName = ('#origin-name');
-	var year = ('#year-input');
-	var descName = ('#desc-name');
+	var durationNum = $('#durationNum');
+	var distributionName= $('#distributionName');
+	var originName = $('#origin-name');
+	var year = $('#year-input');
+	var descName = $('#desc-name');
 	
 	$('#addMovieSubmit').on('click', function(event){
 		
@@ -158,6 +159,7 @@ $(document).ready(function(){
 		var yearMovie = year.val();
 		var description = descName.val();
 		
+		
 		params = {
 				'action' : 'add',
 				'movieName' : movieNameInput,
@@ -170,6 +172,10 @@ $(document).ready(function(){
 				'yearMovie' : yearMovie,
 				'description' : description
 		}
+		
+		console.log(params);
+		
+		
 		
 		$.post('AllMoviesServlet', params, function(data){
 			
@@ -186,14 +192,47 @@ $(document).ready(function(){
 				alert('You successufully added new movie!');
 				getMovies();
 			}
-			
-			
+				
 		});
+		
+		
+		event.preventDefault();
+		
+		//modalAdd.modal('toggle');
+		
+		return false;
 	});
-	
-	
-	
-	
+
+	function validation(){
+		var regexTN = "/^[a-zA-Z0-9]+$/";
+		var regexTxt = /^[a-zA-Z]+$/;
+		var regexNum = /^[0-9]+$/;
+		
+		if(!String(movieNameInput).match(regexTN)){
+			alert('You must input name!');
+			return false;
+		}
+		if(!String(directorNameInput).match(regexTxt)){
+			alert('You must input director!');
+			return false;
+		}
+		if(!duration.match(regexNum)){
+			alert('You must enter number!');
+			return false;
+		}
+		if(!String(distribution).match(regexTxt)){
+			alert('You must input distribution!');
+			return false;
+		}
+		if(!String(origin).match(regexTxt)){
+			alert('You must enter origin!');
+			return false;
+		}
+		if(!yearMovie.match(regexNum)){
+			alert('You must enter year!');
+			return false;
+		}
+	}
 	
 	
 movieInput.on('keyup', function(event){

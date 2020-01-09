@@ -192,11 +192,11 @@
               <form>
                 <div class="form-group">
                   <label class="col-form-label">Name:</label>
-                  <input type="text" class="form-control" id="movie-name">
+                  <input type="text" class="form-control" id="movie-name" required>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Director:</label>
-                  <input type="text" class="form-control" id="director-name">
+                  <input type="text" pattern="[a-zA-Z]+" class="form-control" id="director-name">
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Actors:</label>
@@ -208,19 +208,19 @@
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Duration:</label>
-                  <input type="text" class="form-control" id="durationNum">
+                  <input type="number" min="20" max="500" class="form-control" id="durationNum" required>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Distribution:</label>
-                  <input type="text" class="form-control" id="distributionName">
+                  <input type="text" class="form-control" id="distributionName" required>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Origin:</label>
-                  <input type="text" class="form-control" id="origin-name">
+                  <input type="text" pattern="[a-zA-Z]+" class="form-control" id="origin-name" required>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Year:</label>
-                  <input type="text" class="form-control" id="year-input">
+                  <input type="number" min="1930" max="2020" class="form-control" id="year-input">
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Description:</label>

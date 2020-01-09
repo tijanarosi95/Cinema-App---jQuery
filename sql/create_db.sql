@@ -38,7 +38,7 @@ CREATE TABLE Movies(
 );
 
 INSERT INTO Movies(name, director, actors, genre, duration, distributer, origin, year, description, active) 
-VALUES ('Star Wars - The Rise of Skywalker', 'J.J.Abrams', 'Carrie Fisher, Mark Hamill, Adam Driver', 'ACTION, ADVNETURE, FANTASY', 142, 'Walt Disney Studios', 'United States', 2019,
+VALUES ('Star Wars - The Rise of Skywalker', 'J.J.Abrams', 'Carrie Fisher, Mark Hamill, Adam Driver', 'ACTION, ADVENTURE, FANTASY', 142, 'Walt Disney Studios', 'United States', 2019,
 'The Rise of Skywalker follows Rey, Finn, and Poe Dameron', true);
 INSERT INTO Movies(name, director, actors, genre, duration, distributer, origin, year, description, active)
 VALUES ('Little Women', 'Greta Gerwig', 'Saoirse Ronan, Emma Watson, Florence Pugh', 'DRAMA', 135, 'Sony Picture Realeasing', 'United States', 2019, 

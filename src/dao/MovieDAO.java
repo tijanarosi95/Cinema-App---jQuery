@@ -113,16 +113,49 @@ public class MovieDAO {
 		return movies;
 	}
 	
+	public static boolean add(Movie movie) throws Exception {
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			String query = "Insert into Movies(name, director, actors, genre, duration, distributer, origin, year, description, active) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			
+			pstm = conn.prepareStatement(query);
+			int index = 1;
+			pstm.setString(index++, movie.getName());
+			pstm.setString(index++, movie.getDirector());
+			pstm.setString(index++, movie.getActors());
+			pstm.setString(index++, movie.getGenres().get(0).toString());
+			pstm.setInt(index++, movie.getDuration());
+			pstm.setString(index++, movie.getDistribution());
+			pstm.setString(index++, movie.getOriginCountry());
+			pstm.setInt(index++, movie.getProductionYear());
+			pstm.setString(index++, movie.getDescription());
+			pstm.setBoolean(index++, movie.isActive());
+			
+			
+			return pstm.executeUpdate() == 1;
+			
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+	}
+	
 	public static ArrayList<Genre> returnGenres(List<String> dbGenres){
 		
 		ArrayList<Genre> genres = new ArrayList<Genre>();
 		for(String g : dbGenres) {
+			System.out.println(g);
 			Genre genre = Genre.valueOf(g);
 			genres.add(genre);
 		}
-		
 		return genres;
-		
 	}
+	
+
 	
 }

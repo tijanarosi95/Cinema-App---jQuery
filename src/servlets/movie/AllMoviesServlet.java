@@ -1,6 +1,7 @@
 package servlets.movie;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.MovieDAO;
 import dao.UserDAO;
+import enums.Genre;
 import enums.Role;
 import model.Movie;
 import model.User;
@@ -114,15 +116,59 @@ public class AllMoviesServlet extends HttpServlet {
 			String action = request.getParameter("action");
 			
 			switch(action) {
+			
 				case("add"):{
-				
+					
+					String movieName = request.getParameter("movieName");
+					movieName = (!"".equals(movieName)? movieName : "Empty field");
+					
+					String director = request.getParameter("directorName");
+					director = (!"".equals(director)? director : "Empty field");
+					
+					String genre = request.getParameter("genre");
+					genre = (!"".equals(genre)? genre : "Empty field");
+					Genre movieGenre = Genre.valueOf(genre);
+					
+					String actors = request.getParameter("actors");
+					actors = (!"".equals(actors)? actors : "Empty field");
+					
+					String duration = request.getParameter("duration");
+					duration = (!"".equals(duration)? duration : "1");
+					int movieDuration = Integer.parseInt(duration);
+					movieDuration = (movieDuration > 0 ? movieDuration : Integer.MAX_VALUE);
+						
+					String distribution = request.getParameter("distribution");
+					distribution = (!"".equals(distribution)? distribution : "Empty field");
+					
+					String origin = request.getParameter("origin");
+					origin = (!"".equals(origin)? origin : "Empty field");
+					
+					String year = request.getParameter("yearMovie");
+					year = (!"".equals(year)? year : "1930");
+					int yearMovie = Integer.parseInt(year);
+					yearMovie = (yearMovie > 0 ? yearMovie : 1);
+					
+					String description = request.getParameter("description");
+					description = (!"".equals(description)? description : "Empty field");
+					
+					ArrayList<Genre> genres = new ArrayList<Genre>();
+					genres.add(movieGenre);
+					
+					Movie movie = new Movie(1, movieName, director, actors, genres, movieDuration, distribution,origin ,yearMovie, description, true);
+					
+					MovieDAO.add(movie);
+					
+					break;
+					
 				}
 			}
 			
-			
-			
-		}catch(Exception ex) {}
-		
+			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			request.getRequestDispatcher("./FailureServlet").forward(request, response);
+		}	
 	}
 
 }
