@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.MovieDAO;
 import dao.UserDAO;
-import enums.Genre;
+import model.Movie;
 import model.User;
 
 
-public class MovieServlet extends HttpServlet {
+public class ShowMovieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
@@ -33,22 +34,21 @@ public class MovieServlet extends HttpServlet {
 			
 			Map<String, Object> data = new LinkedHashMap<String, Object>();
 			
-			String param = request.getParameter("action");
+			String movieID = request.getParameter("movieID");
+			int movieid = Integer.parseInt(movieID);
 			
-			switch(param) {
-				case("genres"):{
-					data.put("genres", Genre.getGenres());
-					break;
-				}
-			}
+			Movie selectedMovie = MovieDAO.getMovie(movieid);
+			
+			data.put("selectedMovie", selectedMovie);
 			
 			request.setAttribute("data", data);
+			
 			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			
 			
 		}catch(Exception ex) {ex.printStackTrace();}
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

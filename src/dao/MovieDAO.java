@@ -35,15 +35,15 @@ public class MovieDAO {
 				String name = set.getString(index++);
 				String director = set.getString(index++);
 				String actors = set.getString(index++);
-				@SuppressWarnings("unchecked")
-				ArrayList<Genre> genres = (ArrayList<Genre>) set.getArray(index++);
+				String genres = set.getString(index++);
+				ArrayList<Genre> movieGenre = returnGenres(Arrays.asList(genres.split("\\s*,\\s*")));
 				int duration = set.getInt(index++);
 				String distribution = set.getString(index++);
 				String origin = set.getString(index++);
 				int year = set.getInt(index++);
 				String description = set.getString(index++);
 				
-				return new Movie(id, name, director, actors, genres, duration, distribution, origin, year, description, true);
+				return new Movie(id, name, director, actors, movieGenre, duration, distribution, origin, year, description, true);
 				
 			}
 			

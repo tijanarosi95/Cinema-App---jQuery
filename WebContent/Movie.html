@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movie</title>
+
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css"/>
+    
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js/Movie.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+
+</head>
+<body>
+
+        <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                    <a class="navbar-brand" href="#"><i>User</i></a>
+                        <div class="collapse navbar-collapse">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item"><a class="nav-link active" href="AllMovies.html">All Movies</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="AdminProfile.html">Profile</a></li>
+                                <li class="nav-item"><a class="nav-link active" id="logoutUser">Log out</a></li>
+                            </ul>
+                        </div>
+                </nav>
+            </div>
+    
+        <div class="container-fluid">
+            <form>
+                <div class="form-group col-md-2">
+                    <label for="input1">Movie name</label>
+                    <input type="text" class="form-control" id="movieNameInput">
+                </div>
+            
+                <div class="form-group col-md-2">
+                    <label for="input2">Director</label>
+                    <input type="text" class="form-control" id="directorInput">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="input3">Actors</label>
+                    <input type="text" class="form-control" id="actorInput">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="input4">Genre</label>
+                    <select class="form-control" id="selectMovieGenre"></select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="input5">Duration</label>
+                    <input type="number" class="form-control" id="durationInput">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="input6">Distribution</label>
+                    <input type="text" class="form-control" id="distributionInput">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="input7">Origin</label>
+                    <input type="text" class="form-control" id="originInput">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="input8">Year</label>
+                    <input type="number" class="form-control" id="yearInput">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="input9">Description</label>
+                    <input type="text" class="form-control" id="descriptionInput">
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="btnChangeUser">Change</button>
+
+            </form>
+        </div>
+</body>
+</html>

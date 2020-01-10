@@ -193,38 +193,47 @@
                 <div class="form-group">
                   <label class="col-form-label">Name:</label>
                   <input type="text" class="form-control" id="movie-name" required>
+                  <p id="messageName" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Director:</label>
-                  <input type="text" pattern="[a-zA-Z]+" class="form-control" id="director-name">
+                  <input type="text" pattern="[a-zA-Z.]+" class="form-control" id="director-name" required>
+                  <p id="messageDir" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Actors:</label>
-                  <input type="text" class="form-control" id="actors-name">
+                  <input type="text" class="form-control" id="actors-name" required>
+                  <p id="messageAct" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                 	<label class="col-form-label">Genres:</label>
                 	<select class="form-control selectGenre" id="selectedGenre"></select>
+                	<p id="messageGenre" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Duration:</label>
                   <input type="number" min="20" max="500" class="form-control" id="durationNum" required>
+                  <p id="messageDur" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Distribution:</label>
                   <input type="text" class="form-control" id="distributionName" required>
+                  <p id="messageDist" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Origin:</label>
                   <input type="text" pattern="[a-zA-Z]+" class="form-control" id="origin-name" required>
+                  <p id="messageOrigin" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Year:</label>
-                  <input type="number" min="1930" max="2020" class="form-control" id="year-input">
+                  <input type="number" min="1930" max="2020" class="form-control" id="year-input" required>
+                  <p id="messageYear" style="color: red;"></p>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Description:</label>
-                  <input type="text" class="form-control" id="desc-name">
+                  <input type="text" class="form-control" id="desc-name" required>
+                  <p id="messageDesc" style="color: red;"></p>
                 </div>
               </form>
             </div>

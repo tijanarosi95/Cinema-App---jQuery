@@ -120,7 +120,9 @@ $(document).ready(function(){
     									'<td>' + filteredMovies[m].distribution + '</td>' +
     									'<td>' + filteredMovies[m].originCountry + '</td>' +
     									'<td>' + filteredMovies[m].productionYear + '</td>' +
-    									'<td><form><input type="submit" value="Change" class="btn btn-primary" movieId="' + filteredMovies[m].idMovie  +'"></form></td>' +
+										'<td><form><a href="Movie.html?id=' + filteredMovies[m].idMovie +  '"><input type="submit" value="Change" class="btn btn-primary"/></a>' + 
+										'<input type="submit" value="Delete" class="btn btn-primary delMovie"/>' +
+										'</form></td>' +
     								'</tr>'	    
 					);
 				}
@@ -147,17 +149,29 @@ $(document).ready(function(){
 	var year = $('#year-input');
 	var descName = $('#desc-name');
 	
-	$('#addMovieSubmit').on('click', function(event){
-		
-		var movieNameInput = movieName.val();
-		var directorNameInput = directorName.val();
-		var genre = selectedGenre.val();
-		var actors = actorsName.val();
-		var duration = durationNum.val();
-		var distribution = distributionName.val();
-		var origin = originName.val();
-		var yearMovie = year.val();
-		var description = descName.val();
+	var addMovie = $('#addMovieSubmit');
+	
+	var movieNameInput;
+	var directorNameInput;
+	var genre;
+	var actors;
+	var duration;
+	var distribution;
+	var origin;
+	var yearMovie;
+	var description;
+	
+	
+	addMovie.on('click', function(event){
+		movieNameInput = movieName.val();
+		directorNameInput = directorName.val();
+		genre = selectedGenre.val();
+		actors = actorsName.val();
+		duration = durationNum.val();
+		distribution = distributionName.val();
+		origin = originName.val();
+		yearMovie = year.val();
+		description = descName.val();
 		
 		
 		params = {
@@ -175,7 +189,7 @@ $(document).ready(function(){
 		
 		console.log(params);
 		
-		
+		if(validation()){
 		
 		$.post('AllMoviesServlet', params, function(data){
 			
@@ -189,51 +203,85 @@ $(document).ready(function(){
 				window.location.replace('index.html');
 			}
 			if(data.status == 'success'){
-				alert('You successufully added new movie!');
+				alert('You successfully added new movie!');
 				getMovies();
 			}
 				
 		});
 		
+		}
 		
 		event.preventDefault();
 		
+		return false;
+		
 		//modalAdd.modal('toggle');
+		
+	});
+	
+	
+	moviesTable.on('click', 'input.delMovie', function(event){
+		
+		var movieID = $(this).attr('movieId');
+		console.log("movie id: " + movieID);
+		
+		$.get('ShowMovieServlet', {'movieID': movieID}, function(data){
+			
+			console.log(data);
+			
+			if(data.status == 'unauthenticated'){
+				window.location.replace('index.html');
+				return;
+			}
+			if(data.status == 'success'){
+				
+				var selectedMovie = data.selectedMovie;
+				
+				console.log(selectedMovie);
+			}
+		});
+		
 		
 		return false;
 	});
+	
 
 	function validation(){
-		var regexTN = "/^[a-zA-Z0-9]+$/";
-		var regexTxt = /^[a-zA-Z]+$/;
-		var regexNum = /^[0-9]+$/;
 		
-		if(!String(movieNameInput).match(regexTN)){
-			alert('You must input name!');
+		if(movieNameInput === ""){
+			$('#messageName').text('You must input name!');
 			return false;
 		}
-		if(!String(directorNameInput).match(regexTxt)){
-			alert('You must input director!');
+		if(directorNameInput === ""){
+			$('#messageDir').text('You must input director!');
 			return false;
 		}
-		if(!duration.match(regexNum)){
-			alert('You must enter number!');
+		if(duration === ""){
+			('#messageDur').text('You must input duration!');
 			return false;
 		}
-		if(!String(distribution).match(regexTxt)){
-			alert('You must input distribution!');
+		if(actors === ""){
+			$('#messageAct').text('You must input actors!');
 			return false;
 		}
-		if(!String(origin).match(regexTxt)){
-			alert('You must enter origin!');
+		if(distribution === ""){
+			$('#messageDist').text('You must input distribution!');
 			return false;
 		}
-		if(!yearMovie.match(regexNum)){
-			alert('You must enter year!');
+		if(origin === ""){
+			$('#messageOrigin').text('You must input origin!');
 			return false;
 		}
+		if(yearMovie === ""){
+			$('#messageYear').text('You must input year!');
+			return false;
+		}
+		if(description === ""){
+			$('#messageDesc').text('You must input description!');
+			return false;
+		}
+		return true;
 	}
-	
 	
 movieInput.on('keyup', function(event){
 	

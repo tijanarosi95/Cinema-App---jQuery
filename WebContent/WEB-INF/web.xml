@@ -117,4 +117,14 @@
     <servlet-name>UnauthorizedServlet</servlet-name>
     <url-pattern>/UnauthorizedServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowMovieServlet</display-name>
+    <servlet-name>ShowMovieServlet</servlet-name>
+    <servlet-class>servlets.movie.ShowMovieServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowMovieServlet</servlet-name>
+    <url-pattern>/ShowMovieServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
