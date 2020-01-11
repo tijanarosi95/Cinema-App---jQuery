@@ -120,8 +120,8 @@ $(document).ready(function(){
     									'<td>' + filteredMovies[m].distribution + '</td>' +
     									'<td>' + filteredMovies[m].originCountry + '</td>' +
     									'<td>' + filteredMovies[m].productionYear + '</td>' +
-										'<td><form><a href="Movie.html?id=' + filteredMovies[m].idMovie +  '"><input type="submit" value="Change" class="btn btn-primary"/></a>' + 
-										'<input type="submit" value="Delete" class="btn btn-primary delMovie"/>' +
+										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie +  '"><input type="submit" value="Change" class="btn btn-primary"/></a></td>' + 
+										'<td><form><input type="submit" value="Delete" class="btn btn-primary delMovie"/>' +
 										'</form></td>' +
     								'</tr>'	    
 					);

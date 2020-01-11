@@ -2,6 +2,7 @@ package servlets.movie;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,6 +161,50 @@ public class AllMoviesServlet extends HttpServlet {
 					
 					break;
 					
+				}
+				
+				case("update"):{
+					
+					int movieID = Integer.parseInt(request.getParameter("movieID"));
+					Movie movie = MovieDAO.getMovie(movieID);
+					
+					String movieName = request.getParameter("movieName");
+					movieName = (!"".equals(movieName)? movieName : "Empty field");
+					
+					String director = request.getParameter("director");
+					director = (!"".equals(director)? director : "Empty field");
+					
+					String actors = request.getParameter("actors");
+					actors = (!"".equals(actors)? actors: "Empty field");
+					
+					String genres = request.getParameter("genres");
+					ArrayList<Genre> genresMovie = MovieDAO.returnGenres(Arrays.asList(genres.split("\\s*,\\s*")));
+					
+					
+					int duration = Integer.parseInt(request.getParameter("duration"));
+					duration = (duration > 0 ? duration : Integer.MAX_VALUE);
+					
+					String distribution = request.getParameter("distribution");
+					distribution = (!"".equals(distribution)? distribution : "Empty field");
+					
+					int year = Integer.parseInt(request.getParameter("year"));
+					year = (year > 0 ? year : 2020);
+					
+					String description = request.getParameter("description");
+					description = (!"".equals(description)? description : "Empty field");
+					
+					movie.setIdMovie(movieID);
+					movie.setName(movieName);
+					movie.setDirector(director);
+					movie.setActors(actors);
+					movie.setGenres(genresMovie);
+					movie.setDuration(duration);
+					movie.setDistribution(distribution);
+					movie.setProductionYear(year);
+					movie.setDescription(description);
+					
+					MovieDAO.update(movie);
+					break;
 				}
 			}
 			

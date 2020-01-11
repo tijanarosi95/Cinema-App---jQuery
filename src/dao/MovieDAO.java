@@ -145,11 +145,44 @@ public class MovieDAO {
 		}
 	}
 	
+	public static boolean update(Movie movie) throws Exception{
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			String query = "Update Movies SET name = ?, director = ?, actors = ?, genre = ?, duration = ?, distributer = ?, "
+					+ "origin = ?, year = ?, description = ?, active = ? where id = ?";
+			
+			pstm = conn.prepareStatement(query);
+			int index = 1;
+			pstm.setString(index++, movie.getName());
+			pstm.setString(index++, movie.getDirector());
+			pstm.setString(index++, movie.getActors());
+			pstm.setString(index++, movie.getGenres().toString().replaceAll("^.|.$", ""));
+			pstm.setInt(index++, movie.getDuration());
+			pstm.setString(index++, movie.getDistribution());
+			pstm.setString(index++, movie.getOriginCountry());
+			pstm.setInt(index++, movie.getProductionYear());
+			pstm.setString(index++, movie.getDescription());
+			pstm.setBoolean(index++, movie.isActive());
+			pstm.setInt(index++, movie.getIdMovie());
+			
+			return pstm.executeUpdate() == 1;
+			
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+	}
+	
+	
+	
 	public static ArrayList<Genre> returnGenres(List<String> dbGenres){
 		
 		ArrayList<Genre> genres = new ArrayList<Genre>();
 		for(String g : dbGenres) {
-			System.out.println(g);
 			Genre genre = Genre.valueOf(g);
 			genres.add(genre);
 		}

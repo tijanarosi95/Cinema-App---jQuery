@@ -40,6 +40,7 @@ public class ShowMovieServlet extends HttpServlet {
 			Movie selectedMovie = MovieDAO.getMovie(movieid);
 			
 			data.put("selectedMovie", selectedMovie);
+			data.put("loggedInUser", loggedUser);
 			
 			request.setAttribute("data", data);
 			
