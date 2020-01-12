@@ -43,6 +43,10 @@ public class AllMoviesServlet extends HttpServlet {
 			String genre = request.getParameter("genre");
 			genre = (genre != null ? genre : "");
 			
+			ArrayList<Genre> genres = MovieDAO.returnGenres(Arrays.asList(genre.split("\\s*,\\s*")));
+			
+			System.out.println("geeeenres " + genres.toString());
+			
 			int minDuration = 0;
 			try {
 				String durationMin = request.getParameter("minDuration");
@@ -78,7 +82,7 @@ public class AllMoviesServlet extends HttpServlet {
 			}catch(Exception ex) {}
 			
 			
-			List<Movie> filteredMovies = MovieDAO.getAll(movieName, genre, minDuration, maxDuration, distribution, origin, minYear, maxYear);
+			List<Movie> filteredMovies = MovieDAO.getAll(movieName, genres, minDuration, maxDuration, distribution, origin, minYear, maxYear);
 			
 			Map<String, Object> data = new LinkedHashMap<String, Object>();
 			
@@ -127,8 +131,8 @@ public class AllMoviesServlet extends HttpServlet {
 					director = (!"".equals(director)? director : "Empty field");
 					
 					String genre = request.getParameter("genre");
-					genre = (!"".equals(genre)? genre : "Empty field");
-					Genre movieGenre = Genre.valueOf(genre);
+					genre = (!"".equals(genre)? genre : "");
+					ArrayList<Genre> genres = MovieDAO.returnGenres(Arrays.asList(genre.split("\\s*,\\s*")));
 					
 					String actors = request.getParameter("actors");
 					actors = (!"".equals(actors)? actors : "Empty field");
@@ -152,8 +156,6 @@ public class AllMoviesServlet extends HttpServlet {
 					String description = request.getParameter("description");
 					description = (!"".equals(description)? description : "Empty field");
 					
-					ArrayList<Genre> genres = new ArrayList<Genre>();
-					genres.add(movieGenre);
 					
 					Movie movie = new Movie(1, movieName, director, actors, genres, movieDuration, distribution,origin ,yearMovie, description, true);
 					

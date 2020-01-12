@@ -33,8 +33,10 @@ $(document).ready(function(){
     
 
     var movieID = window.location.search.split('&')[0].split('=')[1];
+    var mode = window.location.search.split('&')[1].split('=')[1];
 
     console.log(movieID);
+    console.log(mode);
     
     var movieInput = $('#movieNameInput');
     var directorInput = $('#directorInput');
@@ -44,6 +46,8 @@ $(document).ready(function(){
     var originInput = $('#originInput');
     var yearInput = $('#yearInput');
     var descInput = $('#descriptionInput');
+    
+    var changeMovie = $('#btnChangeMovie');
     
     function getMovie(){
     	$.get('ShowMovieServlet', {'movieID' : movieID}, function(data){
@@ -59,7 +63,7 @@ $(document).ready(function(){
     			var loggedUser = data.loggedInUser;
     			var chosenMovie = data.selectedMovie;
     			
-    			if(loggedUser.role == 'ADMIN'){
+    			if(loggedUser.role == 'ADMIN' && mode == 'change'){
     				
     				console.log(chosenMovie);
     				
@@ -80,21 +84,27 @@ $(document).ready(function(){
     				yearInput.val(chosenMovie.productionYear);
     				descInput.val(chosenMovie.description);
     				
-    				$('#btnChangeUser').on('click', function(event){
+    				
+    				
+    				var movie, director, actors, genres, duration, distribution, origin, year, description;
+    				
+    				
+    				changeMovie.on('click', function(event){
     					
-    					var movie = movieInput.val();
-    					var director = directorInput.val();
-    					var actors = actorInput.val();
+    					movie = movieInput.val();
+    					director = directorInput.val();
+    					actors = actorInput.val();
     					console.log(movie);
     					console.log(director);
     					console.log(actors);
     					
-    					var genres = selectGenre.select2('val').toString();	
+    					genres = selectGenre.select2('val').toString();	
     		
-    					var duration = durationInput.val();
-    					var distribution = distributionInput.val();
-    					var year = yearInput.val();
-    					var description = descInput.val();
+    					duration = durationInput.val();
+    					distribution = distributionInput.val();
+    					origin = originInput.val();
+    					year = yearInput.val();
+    					description = descInput.val();
     					
     					params = {'action' : 'update',
     							'movieID' : movieID,
@@ -104,11 +114,14 @@ $(document).ready(function(){
     							'genres' : genres,
     							'duration': duration,
     							'distribution': distribution,
+    							'origin' : origin,
     							'year': year,
     							'description': description
     							}
     					
     					console.log(params);
+    					
+    					if(validation()){
     					
     					$.post('AllMoviesServlet', params, function(data){
     						
@@ -122,10 +135,90 @@ $(document).ready(function(){
     						}
     					});
     					
+    					}
     					event.preventDefault();
     					return false;
     				});
     				
+    					
+    				
+    				function validation(){
+    					if(movie === ""){
+    						$('#movieNameChange').text('You didnt enter new movie name!');
+    						return false;
+    					}
+    					if(director === ""){
+    						$('#directorChange').text('You didnt enter director!');
+    						return false;
+    					}
+    					if(actors === ""){
+    						$('#actorChange').text('You didnt enter new actors!');
+    						return false;
+    					}
+    					if(genres === ""){
+    						$('#genreChange').text('You didnt enter new genres!');
+    						return false;
+    					}
+    					if(duration === ""){
+    						$('#durationChange').text('You didnt enter duration!');
+    						return false;
+    					}
+    					if(distribution === ""){
+    						$('#distibutionChange').text('You didnt enter distribution!');
+    						return false;
+    					}
+    					if(origin === ""){
+    						$('#originChange').text('You didnt enter origin');
+    						return false;
+    					}
+    					if(year === ""){
+    						$('#yearChange').text('You didnt enter year!');
+    						return false;
+    					}
+    					if(description === ""){
+    						$('#descriptionChange').text('You didnt enter description!');
+    						return false;
+    					}
+    					return true;
+    				}
+    				
+    			}if(loggedUser.role == 'ADMIN' && mode == 'show'){
+    				
+    				console.log(chosenMovie);
+    				
+    				movieInput.val(chosenMovie.name);
+    				movieInput.prop('disabled', true);
+    				
+    				directorInput.val(chosenMovie.director);
+    				directorInput.prop('disabled', true);
+    				
+    				actorInput.val(chosenMovie.actors);
+    				actorInput.prop('disabled', true);
+    				
+    				var movieGenres = chosenMovie.genres;
+    				
+    				for(option in movieGenres){
+    					var checkedOption = new Option(movieGenres[option], movieGenres[option], true, true);
+    					selectGenre.append(checkedOption).trigger('change');
+    				}
+    				selectGenre.prop('disabled', true);
+    				
+    				durationInput.val(chosenMovie.duration);
+    				durationInput.prop('disabled', true);
+    				
+    				distributionInput.val(chosenMovie.distribution);
+    				distributionInput.prop('disabled', true);
+    				
+    				originInput.val(chosenMovie.originCountry);
+    				originInput.prop('disabled', true);
+    				
+    				yearInput.val(chosenMovie.productionYear);
+    				yearInput.prop('disabled', true);
+    				
+    				descInput.val(chosenMovie.description);
+    				descInput.prop('disabled', true);
+    				
+    				changeMovie.hide();
     			}
     			
     			

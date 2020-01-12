@@ -14,6 +14,9 @@
 
     <script type='text/javascript'  src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js' ></script>
     
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js"></script>
+    
     <script src="js/AllMovies.js"></script>
     
     <link rel="stylesheet" href="css/style.css">
@@ -67,7 +70,7 @@
                     <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
                         <div class="card-body overflow-auto">
                             <div class="form-group col-md-10">
-                                <select class="form-control selectGenre">
+                                <select class="form-control selectGenre" multiple="multiple">
                                     
                                 </select>
                             </div>
@@ -207,7 +210,7 @@
                 </div>
                 <div class="form-group">
                 	<label class="col-form-label">Genres:</label>
-                	<select class="form-control selectGenre" id="selectedGenre"></select>
+                	<select class="form-control selectGenre" id="selectedGenre" multiple="multiple" style="width:100%; display: block;"></select>
                 	<p id="messageGenre" style="color: red;"></p>
                 </div>
                 <div class="form-group">

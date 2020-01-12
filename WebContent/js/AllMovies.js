@@ -16,6 +16,10 @@ $(document).ready(function(){
 	
 	var genresSelect = $('.selectGenre');
 	
+	genresSelect.select2({
+		tags: true,
+    	tokenSeparators: [','],
+	});
 	
 	$.get('MovieServlet', {"action" : "genres"}, function(data){
 		console.log(data);
@@ -67,7 +71,7 @@ $(document).ready(function(){
 	
 	function getMovies(){
 		var movieName = movieInput.val();
-		var genres = genresSelect.val();
+		var genres = genresSelect.val().toString();
 		console.log(genres + " ----");
 		var minDuration = durationMin.val();
 		var maxDuration = durationMax.val();
@@ -114,13 +118,13 @@ $(document).ready(function(){
 					moviesTable.append(
 									'<tr>' +
 										'<td>' + index++ + '</td>' +
-										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie + '">' + filteredMovies[m].name + '</a></td>' +
+										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie + '&mode=show">' + filteredMovies[m].name + '</a></td>' +
     									'<td>' +  filteredMovies[m].genres + '</td>' +
     									'<td>' + filteredMovies[m].duration + '</td>' +
     									'<td>' + filteredMovies[m].distribution + '</td>' +
     									'<td>' + filteredMovies[m].originCountry + '</td>' +
     									'<td>' + filteredMovies[m].productionYear + '</td>' +
-										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie +  '"><input type="submit" value="Change" class="btn btn-primary"/></a></td>' + 
+										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie +  '&mode=change"><input type="submit" value="Change" class="btn btn-primary"/></a></td>' + 
 										'<td><form><input type="submit" value="Delete" class="btn btn-primary delMovie"/>' +
 										'</form></td>' +
     								'</tr>'	    
@@ -151,21 +155,14 @@ $(document).ready(function(){
 	
 	var addMovie = $('#addMovieSubmit');
 	
-	var movieNameInput;
-	var directorNameInput;
-	var genre;
-	var actors;
-	var duration;
-	var distribution;
-	var origin;
-	var yearMovie;
-	var description;
 	
-	
+	var movieNameInput, directorNameInput, genre,actors, duration, distribution, origin, yearMovie, description;
+
+		
 	addMovie.on('click', function(event){
 		movieNameInput = movieName.val();
 		directorNameInput = directorName.val();
-		genre = selectedGenre.val();
+		genre = selectedGenre.val().toString();
 		actors = actorsName.val();
 		duration = durationNum.val();
 		distribution = distributionName.val();
@@ -204,6 +201,13 @@ $(document).ready(function(){
 			}
 			if(data.status == 'success'){
 				alert('You successfully added new movie!');
+				
+				modalAdd.modal('toggle');
+				
+				modalAdd.on('hidden.bs.modal', function(){
+					$(this).removeData('bs.modal');
+				});
+				
 				getMovies();
 			}
 				
@@ -211,11 +215,7 @@ $(document).ready(function(){
 		
 		}
 		
-		event.preventDefault();
-		
 		return false;
-		
-		//modalAdd.modal('toggle');
 		
 	});
 	
@@ -241,8 +241,6 @@ $(document).ready(function(){
 			}
 		});
 		
-		
-		return false;
 	});
 	
 

@@ -56,7 +56,7 @@ public class MovieDAO {
 		return null;
 	}
 	
-	public static List<Movie> getAll(String movieName, String genre, int minDuration, int maxDuration, String distribution, String origin, int minYear, int maxYear) throws Exception{
+	public static List<Movie> getAll(String movieName, ArrayList<Genre> genres, int minDuration, int maxDuration, String distribution, String origin, int minYear, int maxYear) throws Exception{
 		
 		List<Movie> movies = new ArrayList<Movie>();
 		
@@ -74,7 +74,7 @@ public class MovieDAO {
 			pstm = conn.prepareStatement(query);
 			int index = 1;
 			pstm.setString(index++,"%" + movieName + "%");
-			pstm.setString(index++, "%" + genre + "%");
+			pstm.setString(index++, "%" + genres.toString().replaceAll("^.|.$", "") + "%");
 			pstm.setInt(index++, minDuration);
 			pstm.setInt(index++, maxDuration);
 			pstm.setString(index++, "%" + distribution + "%");
@@ -90,8 +90,8 @@ public class MovieDAO {
 				String name = set.getString(index++);
 				String director = set.getString(index++);
 				String actors = set.getString(index++);
-				String genres = set.getString(index++);
-				ArrayList<Genre> movieGenre = returnGenres(Arrays.asList(genres.split("\\s*,\\s*")));
+				String genresMovie = set.getString(index++);
+				ArrayList<Genre> movieGenre = returnGenres(Arrays.asList(genresMovie.split("\\s*,\\s*")));
 				int duration = set.getInt(index++);
 				String distributionM = set.getString(index++);
 				String originCountry = set.getString(index++);
@@ -128,7 +128,7 @@ public class MovieDAO {
 			pstm.setString(index++, movie.getName());
 			pstm.setString(index++, movie.getDirector());
 			pstm.setString(index++, movie.getActors());
-			pstm.setString(index++, movie.getGenres().get(0).toString());
+			pstm.setString(index++, movie.getGenres().toString().replaceAll("^.|.$", ""));
 			pstm.setInt(index++, movie.getDuration());
 			pstm.setString(index++, movie.getDistribution());
 			pstm.setString(index++, movie.getOriginCountry());
@@ -183,8 +183,13 @@ public class MovieDAO {
 		
 		ArrayList<Genre> genres = new ArrayList<Genre>();
 		for(String g : dbGenres) {
-			Genre genre = Genre.valueOf(g);
-			genres.add(genre);
+			try {
+				Genre genre = Genre.valueOf(g);
+				genres.add(genre);
+			}catch(Exception ex) {
+				//ex.printStackTrace();
+			}
+			
 		}
 		return genres;
 	}
