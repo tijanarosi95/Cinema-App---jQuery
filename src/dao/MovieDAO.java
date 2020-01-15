@@ -177,6 +177,25 @@ public class MovieDAO {
 		}
 	}
 	
+	public static boolean delete(int id) throws Exception{
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			String query = "Delete from Movies where id = ?";
+			
+			pstm = conn.prepareStatement(query);
+			int index = 1;
+			pstm.setInt(index++, id);
+			
+			return pstm.executeUpdate() == 1;
+			
+		}finally{
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+	}
 	
 	
 	public static ArrayList<Genre> returnGenres(List<String> dbGenres){

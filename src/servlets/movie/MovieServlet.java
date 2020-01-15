@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.MovieDAO;
 import dao.UserDAO;
 import enums.Genre;
+import model.Movie;
 import model.User;
 
 
@@ -38,6 +40,14 @@ public class MovieServlet extends HttpServlet {
 			switch(param) {
 				case("genres"):{
 					data.put("genres", Genre.getGenres());
+					break;
+				}
+				case("getMovie"):{
+					int movieID = Integer.parseInt(request.getParameter("movieID"));
+					Movie selectedMovie = MovieDAO.getMovie(movieID);
+					
+					data.put("selectedMovie", selectedMovie);
+					data.put("loggedInUser", loggedUser);
 					break;
 				}
 			}

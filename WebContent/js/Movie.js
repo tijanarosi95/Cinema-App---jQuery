@@ -49,8 +49,13 @@ $(document).ready(function(){
     
     var changeMovie = $('#btnChangeMovie');
     
+    var params = {
+    		'action' : 'getMovie',
+    		'movieID' : movieID,
+    }
+    
     function getMovie(){
-    	$.get('ShowMovieServlet', {'movieID' : movieID}, function(data){
+    	$.get('MovieServlet', params, function(data){
     		
     		console.log(data);
     		

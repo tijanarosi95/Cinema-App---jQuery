@@ -208,6 +208,13 @@ public class AllMoviesServlet extends HttpServlet {
 					MovieDAO.update(movie);
 					break;
 				}
+				
+				case "delete":{
+					
+					int movieID = Integer.parseInt(request.getParameter("movieID"));
+					MovieDAO.delete(movieID);
+					break;
+				}
 			}
 			
 			request.getRequestDispatcher("./SuccessServlet").forward(request, response);

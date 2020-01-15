@@ -33,12 +33,15 @@ $(document).ready(function(){
     
     var btnChange = $('#btnChangeUser');
     
-    
-    
     console.log("link: " + username);
+    
+    var params = {
+    		'loggedUser' : 'getUser',
+    		'username' : username,
+    }
 
     function getChosenUser(){
-        $.get('ShowUserServlet', {"username" : username}, function(data){
+        $.get('UserServlet', params, function(data){
 
             console.log(data);
 

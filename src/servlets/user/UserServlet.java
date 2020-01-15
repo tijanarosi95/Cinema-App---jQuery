@@ -53,6 +53,13 @@ public class UserServlet extends HttpServlet {
 					data.put("allRoles", Role.values());
 					break;
 				}
+				case("getUser"):{
+					String username = request.getParameter("username");
+					User selectedUser = UserDAO.getUser(username);
+					
+					data.put("chosenUser", selectedUser);
+					break;
+				}
 			}
 			
 			request.setAttribute("data", data);

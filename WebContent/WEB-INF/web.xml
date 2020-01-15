@@ -79,16 +79,6 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ShowUserServlet</display-name>
-    <servlet-name>ShowUserServlet</servlet-name>
-    <servlet-class>servlets.user.ShowUserServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ShowUserServlet</servlet-name>
-    <url-pattern>/ShowUserServlet</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>MovieServlet</display-name>
     <servlet-name>MovieServlet</servlet-name>
     <servlet-class>servlets.movie.MovieServlet</servlet-class>
@@ -116,15 +106,5 @@
   <servlet-mapping>
     <servlet-name>UnauthorizedServlet</servlet-name>
     <url-pattern>/UnauthorizedServlet</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ShowMovieServlet</display-name>
-    <servlet-name>ShowMovieServlet</servlet-name>
-    <servlet-class>servlets.movie.ShowMovieServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ShowMovieServlet</servlet-name>
-    <url-pattern>/ShowMovieServlet</url-pattern>
   </servlet-mapping>
 </web-app>

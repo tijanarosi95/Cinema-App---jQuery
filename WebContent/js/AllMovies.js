@@ -125,8 +125,8 @@ $(document).ready(function(){
     									'<td>' + filteredMovies[m].originCountry + '</td>' +
     									'<td>' + filteredMovies[m].productionYear + '</td>' +
 										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie +  '&mode=change"><input type="submit" value="Change" class="btn btn-primary"/></a></td>' + 
-										'<td><form><input type="submit" value="Delete" class="btn btn-primary delMovie"/>' +
-										'</form></td>' +
+										'<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popupModal" data-movieID="' + filteredMovies[m].idMovie + '">Delete' +
+										'</button></td>' +
     								'</tr>'	    
 					);
 				}
@@ -219,29 +219,55 @@ $(document).ready(function(){
 		
 	});
 	
+	var confirmModal = $('#popupModal');
+	var modalBody = $('#modalBody');
+	var deleteMovie = $('#btnDeleteMovie');
 	
-	moviesTable.on('click', 'input.delMovie', function(event){
+	var movieID;
+	
+	confirmModal.on('show.bs.modal', function(event){
 		
-		var movieID = $(this).attr('movieId');
+		var button = $(event.relatedTarget);
+		movieID = button.attr('data-movieID');
+		
 		console.log("movie id: " + movieID);
 		
-		$.get('ShowMovieServlet', {'movieID': movieID}, function(data){
+		var modal = $(this);
+		
+		modalBody.text('Are you sure you want to delete this movie?');
+		
+	});
+	
+	deleteMovie.on('click', function(event){
 			
-			console.log(data);
+		var params = {
+					'action' : 'delete',
+					'movieID' : movieID,
+					}
 			
+		console.log(params);
+			
+		$.post('AllMoviesServlet', params, function(data){
+				
 			if(data.status == 'unauthenticated'){
 				window.location.replace('index.html');
 				return;
 			}
-			if(data.status == 'success'){
-				
-				var selectedMovie = data.selectedMovie;
-				
-				console.log(selectedMovie);
+			if(data.status == 'unauthorized'){
+				window.location.replace('index.html');
+				return;
 			}
+			if(data.status == 'success'){
+				alert('You successfully delete this movie!');
+				confirmModdal.modal('toggle');
+				getMovies();
+			}
+				
 		});
 		
+		return false;
 	});
+	
 	
 
 	function validation(){
@@ -280,6 +306,32 @@ $(document).ready(function(){
 		}
 		return true;
 	}
+	
+	$('th').click(function(){
+		var table = $(this).parents('table').eq(0);
+		var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+		this.asc = !this.asc;
+		if(!this.asc){
+			rows = rows.reverse();
+		}
+		for (var i = 0; i < rows.length; i++){
+			table.append(rows[i]);
+		}
+	});
+	
+	function comparer(index){
+		return function(a, b){
+			var valA = getCellValue(a, index);
+			var valB = getCellValue(b, index);
+			
+			return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+		}
+	}
+	
+	function getCellValue(row, index){
+		return $(row).children('td').eq(index).text();
+	}
+	
 	
 movieInput.on('keyup', function(event){
 	
