@@ -51,7 +51,7 @@ public class RegisterServlet extends HttpServlet {
 		}catch(Exception ex) {
 			String message = ex.getMessage();
 			if(message == null) {
-				message = "Unpredicted message happened!";
+				message = "Unpredicted error happened!";
 				ex.printStackTrace();
 			}
 			

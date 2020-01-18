@@ -20,7 +20,6 @@ public class UserServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		@SuppressWarnings("unused")
 		String loggedUsername = (String) request.getSession().getAttribute("loggedInUser");
 		
 		if (loggedUsername == null) {

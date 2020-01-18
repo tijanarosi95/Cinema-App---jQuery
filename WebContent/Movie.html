@@ -40,61 +40,71 @@
             </div>
     
         <div class="container-fluid">
-            <form>
-                <div class="form-group col-md-2">
+            <form id="movieForm">
+            <div class="row justify-content">
+                <div class="form-group col-3">
                     <label for="input1">Movie name</label>
                     <input type="text" class="form-control" id="movieNameInput">
                     <p id="movieNameChange" style="color: red;"></p>
                 </div>
             
-                <div class="form-group col-md-2">
+                <div class="form-group col-2">
                     <label for="input2">Director</label>
                     <input type="text" class="form-control" id="directorInput">
                     <p id="directorChange" style="color: red;"></p>
                 </div>
+            </div>
 
-                <div class="form-group col-md-2">
+            <div class="row justify-content">
+                <div class="form-group col-3">
                     <label for="input3">Actors</label>
                     <input type="text" class="form-control" id="actorInput">
                     <p id="actorChange" style="color: red;"></p>
                 </div>
 
-                <div class="form-group col-md-2">
+                <div class="form-group col-3">
                     <label for="input4">Genre</label>
                     <select class="form-control" id="selectMovieGenre" multiple="multiple"></select>
                     <p id="genreChange" style="color: red;"></p>
                 </div>
+            </div>
 
-                <div class="form-group col-md-2">
+            <div class="row justify-content">
+                <div class="form-group col-md-1">
                     <label for="input5">Duration</label>
                     <input type="number" class="form-control" id="durationInput">
                     <p id="durationChange" style="color: red;"></p>
                 </div>
 
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                     <label for="input6">Distribution</label>
                     <input type="text" class="form-control" id="distributionInput">
                     <p id="distributionChange" style="color: red;"></p>
                 </div>
 
-                <div class="form-group col-md-2">
-                    <label for="input7">Origin</label>
-                    <input type="text" class="form-control" id="originInput">
-                    <p id="originChange" style="color: red;"></p>
-                </div>
-
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-1">
                     <label for="input8">Year</label>
                     <input type="number" class="form-control" id="yearInput">
                     <p id="yearChange" style="color: red;"></p>
                 </div>
 
-                <div class="form-group col-md-2">
+            </div>
+
+            <div class="row justify-content">
+                <div class="form-group col-md-3">
+                    <label for="input7">Origin</label>
+                    <input type="text" class="form-control" id="originInput">
+                    <p id="originChange" style="color: red;"></p>
+                </div>
+            </div>
+                
+            <div class="row justify-content">
+                <div class="form-group col-md-3">
                     <label for="input9">Description</label>
-                    <input type="text" class="form-control" id="descriptionInput">
+                    <textarea class="form-control" rows="4" id="descriptionInput"></textarea>
                     <p id="descriptionChange" style="color: red;"></p>
                 </div>
-
+            </div>
                 <button type="submit" class="btn btn-primary" id="btnChangeMovie">Change</button>
 
             </form>

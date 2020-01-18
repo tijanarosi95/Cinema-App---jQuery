@@ -125,7 +125,7 @@ $(document).ready(function(){
     									'<td>' + filteredMovies[m].originCountry + '</td>' +
     									'<td>' + filteredMovies[m].productionYear + '</td>' +
 										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie +  '&mode=change"><input type="submit" value="Change" class="btn btn-primary"/></a></td>' + 
-										'<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popupModal" data-movieID="' + filteredMovies[m].idMovie + '">Delete' +
+										'<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popupModal" data-movieID="' + filteredMovies[m].idMovie + '">Delete' +
 										'</button></td>' +
     								'</tr>'	    
 					);
@@ -204,8 +204,9 @@ $(document).ready(function(){
 				
 				modalAdd.modal('toggle');
 				
-				modalAdd.on('hidden.bs.modal', function(){
-					$(this).removeData('bs.modal');
+				modalAdd.on('hidden.bs.modal', function(event){
+					$(this).find('form').trigger('reset');
+					selectedGenre.val(null).trigger('change');
 				});
 				
 				getMovies();
@@ -259,11 +260,13 @@ $(document).ready(function(){
 			}
 			if(data.status == 'success'){
 				alert('You successfully delete this movie!');
-				confirmModdal.modal('toggle');
+				confirmModal.modal('toggle');
 				getMovies();
 			}
 				
 		});
+		
+		event.preventDefault();
 		
 		return false;
 	});
