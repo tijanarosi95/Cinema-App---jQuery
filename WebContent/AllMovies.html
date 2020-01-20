@@ -57,7 +57,7 @@
                             </div>
                         </div>
                     </div>
-            </div>
+            
 
             <div class="card bg-dark">
                     <div class="card-header" role="tab" id="headingTwo">
@@ -69,7 +69,9 @@
                     </div>    
                     <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
                         <div class="card-body overflow-auto">
+                        	
                             <div class="form-group col-md-10">
+                            	
                                 <select class="form-control selectGenre" multiple="multiple">
                                     
                                 </select>
@@ -105,7 +107,7 @@
                     <div class="card-header" role="tab" id="headingFour">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                             <h5 class="mb-0">
-                                Distributer<i class="fas fa-angle-down rotate-icon"></i>
+                                Distribution<i class="fas fa-angle-down rotate-icon"></i>
                             </h5>
                         </a>
                     </div>    
@@ -161,7 +163,7 @@
                 </div>
             </div>
     </div>
-
+</div>
     <div class="table-responsive-md">
         
             <table class="table table-hover table-dark" id="moviesTableId">
@@ -171,7 +173,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Genre</th>
                         <th scope="col">Duration</th>
-                        <th scope="col">Distributer</th>
+                        <th scope="col">Distribution</th>
                         <th scope="col">Origin</th>
                         <th scope="col">Year</th>
                     </tr>
@@ -183,7 +185,7 @@
     </div>
 
     <div class="modal fade" id="addMovieModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header bg-dark">
               <h5 class="modal-title" id="exampleModalLabel">Add new movie</h5>
@@ -213,29 +215,33 @@
                 	<select class="form-control selectGenre" id="selectedGenre" multiple="multiple" style="width:100%; display: block;"></select>
                 	<p id="messageGenre" style="color: red;"></p>
                 </div>
-                <div class="form-group">
+                <div class="row justify-content">
+                <div class="form-group col-md-6">
                   <label class="col-form-label">Duration:</label>
                   <input type="number" min="20" max="500" class="form-control" id="durationNum" required>
                   <p id="messageDur" style="color: red;"></p>
                 </div>
-                <div class="form-group">
-                  <label class="col-form-label">Distribution:</label>
-                  <input type="text" class="form-control" id="distributionName" required>
-                  <p id="messageDist" style="color: red;"></p>
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label">Origin:</label>
-                  <input type="text" pattern="[a-zA-Z]+" class="form-control" id="origin-name" required>
-                  <p id="messageOrigin" style="color: red;"></p>
-                </div>
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label class="col-form-label">Year:</label>
                   <input type="number" min="1930" max="2020" class="form-control" id="year-input" required>
                   <p id="messageYear" style="color: red;"></p>
                 </div>
+                </div>
+                <div class="row justify-content">
+                <div class="form-group col-md-7">
+                  <label class="col-form-label">Distribution:</label>
+                  <input type="text" class="form-control" id="distributionName" required>
+                  <p id="messageDist" style="color: red;"></p>
+                </div>
+                <div class="form-group col-md-5">
+                  <label class="col-form-label">Origin:</label>
+                  <input type="text" pattern="[a-zA-Z]+" class="form-control" id="origin-name" required>
+                  <p id="messageOrigin" style="color: red;"></p>
+                </div>
+                </div>
                 <div class="form-group">
                   <label class="col-form-label">Description:</label>
-                  <input type="text" class="form-control" id="desc-name" required>
+                  <textarea class="form-control" rows="3" id="desc-name" required></textarea>
                   <p id="messageDesc" style="color: red;"></p>
                 </div>
               </form>
@@ -256,7 +262,7 @@
         				<h5 class="modal-title"id="label">Confirmation</h5>
         				<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
       				</div>
-      		<div class="modal-body bg-dark" id="modalBody" style="{color : white;}"></div>
+      		<div class="modal-body" id="modalBody"></div>
       		<div class="modal-footer bg-dark">
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         		<button type="button" class="btn btn-primary" id="btnDeleteMovie">Yes</button>

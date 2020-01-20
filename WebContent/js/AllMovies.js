@@ -12,11 +12,14 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$('.collapse').collapse();
+	
 	var movieInput = $('#movieNameInput');
 	
 	var genresSelect = $('.selectGenre');
 	
 	genresSelect.select2({
+		width: 'element',
 		tags: true,
     	tokenSeparators: [','],
 	});
@@ -233,9 +236,11 @@ $(document).ready(function(){
 		
 		console.log("movie id: " + movieID);
 		
-		var modal = $(this);
+		
 		
 		modalBody.text('Are you sure you want to delete this movie?');
+		
+		
 		
 	});
 	

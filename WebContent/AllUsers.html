@@ -68,12 +68,12 @@
                         <div class="card-body overflow-auto">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="defaultUnchecked" name="defaultRadios">
-                                <label class="custom-control-label" for="defaultUnchecked" id="type1"></label>
+                                <label class="custom-control-label type1" for="defaultUnchecked"></label>
                             </div>
                             <br>
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="defaultChecked" name="defaultRadios">
-                                <label class="custom-control-label" for="defaultChecked" id="type2"></label>
+                                <label class="custom-control-label type2" for="defaultChecked"></label>
                             </div>
                         </div>
                     </div>
@@ -88,13 +88,56 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Username</th>
-                    <th scope="col">Date registration</th>
+                    <th scope="col">Registration date</th>
                     <th scope="col">Role</th>
                     <th scope="col"></th>
                 </tr>                
                 
             </thead>
         </table>
+    </div>
+    
+    <div class="modal fade" id="changeUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+    	<div class="modal-dialog" role="document">
+    		<div class="modal-content">
+    			<div class="modal-header bg-dark">
+              		<h5 class="modal-title" id="exampleModalLabel">Change user</h5>
+              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	<span aria-hidden="true">&times;</span>
+              		</button>
+            	</div>
+            
+            	<div class="modal-body bg-dark">
+            		<form>
+            			<div class="form-group">
+            				<label class="col-form-label">Username:</label>
+            				<input type="text" class="form-control" id="userNameField" required>
+            			</div>
+            			<div class="form-group">
+            				<label class="col-form-label">Password:</label>
+            				<input type="password" class="form-control" id="passwordField" required>
+            				<input type="checkbox" id="showPassword"><span style="color:white;">Show password</span>
+            			</div>
+            			<div class="form-group">
+            				<label class="col-form-label">Registration date:</label>
+            				<input type="text" class="form-control" id="dateField" required>
+            			</div>
+            			<div class="form-group form-check-inline">
+            				<input type="radio" class="form-check-input" id="userType1" name="materialExample">
+                            <label class="form-check-label type1" for="materialChecked"></label>
+            			</div>
+            			<div class="form-group form-check-inline">
+            				<input type="radio" class="form-check-input" id="userType2" name="materialExample">
+                            <label class="form-check-label type2" for="materialChecked"></label>
+            			</div>
+            		</form>
+            	</div>
+            	<div class="modal-footer bg-dark">
+              		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              		<button type="button" class="btn btn-primary" id="changeUserSubmit">Change</button>
+            	</div>
+    		</div>
+    	</div>
     </div>
     
 </body>

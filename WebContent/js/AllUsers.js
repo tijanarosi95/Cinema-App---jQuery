@@ -15,8 +15,8 @@ $(document).ready(function(){
     var userNameInput = $('#userNameInput');
     var chosenRadioButtom = $('.custom-control-input');
     
-    var labelType1 = $('#type1');
-    var labelType2 = $('#type2');
+    var labelType1 = $('.type1');
+    var labelType2 = $('.type2');
     
     var role1 = $('#defaultUnchecked');
     var role2 = $('#defaultChecked');
@@ -32,8 +32,10 @@ $(document).ready(function(){
     	labelType2.text(data.allRoles[1]);
     	
     	role1.val(data.allRoles[0]);
+    	checkUser.val(data.allRoles[0]);
     	
     	role2.val(data.allRoles[1]);
+    	checkAdmin.val(data.allRoles[1]);
     	
     	
     });
@@ -83,7 +85,8 @@ $(document).ready(function(){
     									'<td><a href="User.html?username=' + filteredUsers[user].username + '">' + filteredUsers[user].username + '</a></td>' +
     									'<td>' + '<p>' + filteredUsers[user].registrationDate + '</p>' + '</td>' +
     									'<td>' + filteredUsers[user].role + '</td>' +
-    									'<td><form><input type="submit" value="Change" class="btn btn-primary" userId="' + filteredUsers[user].username  +'"></form></td>' +
+    									'<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeUserModal" username="' + filteredUsers[user].username  +'">Change</button></td>' +
+    									'<td><button type="button" class="btn btn-danger" data-toggle="modal" username="' +  filteredUsers[user].username  +'">Delete</button></td>' +
     								'</tr>'	);
     			}
     			    
@@ -92,6 +95,90 @@ $(document).ready(function(){
     		
     	});
     }
+    
+    
+    var changeUserModal = $('#changeUserModal');
+    var userName;
+    
+    var userNameField = $('#userNameField');
+    var passwordField = $('#passwordField');
+    var dateField = $('#dateField');
+    var checkUser = $('#userType1');
+    var checkAdmin = $('#userType2');
+    
+    var changeUser = $('#changeUserSubmit');
+    
+    changeUserModal.on('show.bs.modal', function(event){
+    	
+    	var button = $(event.relatedTarget);
+    	userName = button.attr('username');
+    	console.log('Usernamee: ' + userName);
+    	
+    	var params = {
+        		'loggedUser' : 'getUser',
+        		'username' : userName
+        }
+    	
+    	$.get('UserServlet', params, function(data){
+        	console.log(data.chosenUser);
+        	
+        	if(data.status == 'unauthenticated'){
+        		console.log(data.status);
+    			window.location.replace('index.html');
+    			return;
+        	}
+        	if(data.status == 'success'){
+        		
+        	
+        		var chosenUser = data.chosenUser;
+        	
+        		userNameField.val(chosenUser.username);
+        		userNameField.prop('disabled', true);
+        		
+        		passwordField.val(chosenUser.password);
+        		dateField.val(chosenUser.registrationDate);
+        		if(chosenUser.role == 'USER'){
+        			checkUser.attr('checked', true);
+        		}else if(chosenUser.role == 'ADMIN'){
+        			checkAdmin.attr('checked', true);
+        		}
+        		
+        		var userName, password, date, role;
+        		
+        		changeUser.on('click', function(event){
+        			
+        			userName = userNameField.val();
+        			password = passwordField.val();
+        			date = dateField.val();
+        			role = $('.form-check-input[name=materialExample]:checked').val();
+        			
+        			console.log('Changed role: ' + role);
+        			
+        			var params = {
+        					'action' : 'change',
+        					'username' : userName,
+        					'password' : password,
+        					'date' : date,
+        					'role' : role
+        			}
+        			
+        			$.post('UserServlet', params, function(data){
+        				
+        			});
+        		});
+        	}
+        });
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     $('th').click(function(){
 		var table = $(this).parents('table').eq(0);

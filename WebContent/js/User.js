@@ -67,9 +67,12 @@ $(document).ready(function(){
             	
             	if(selectedUser.role == 'USER'){
             		checkedUser.attr("checked", true);
+            		
             	}else{
             		checkedAdmin.attr("checked", true);
+            		
             	}
+            	
             	
             	
             	
