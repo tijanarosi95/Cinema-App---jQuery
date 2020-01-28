@@ -166,4 +166,49 @@ public class UserDAO {
 		}
 		
 	}
+	
+	public static boolean updateUser(User user) throws Exception{
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			
+			String query = "Update Users set role = ? where userName = ?";
+			
+			pstm = conn.prepareStatement(query);
+			int index = 1;
+			
+			pstm.setString(index++, user.getRole().toString());
+			pstm.setString(index++, user.getUsername());
+			
+			return pstm.executeUpdate() == 1;
+			
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+	}
+	
+	public static boolean deleteUser(User user) throws Exception{
+		
+		Connection conn = ConnectionManager.getConnection();
+	
+		PreparedStatement pstm = null;
+	
+		try {
+		
+			String query = "Delete from Users where userName = ?";
+			
+			pstm = conn.prepareStatement(query);
+			int index = 1;
+			pstm.setString(index, user.getUsername());
+			
+			return pstm.executeUpdate() == 1;
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+	}
 }

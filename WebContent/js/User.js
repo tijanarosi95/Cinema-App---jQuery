@@ -31,7 +31,7 @@ $(document).ready(function(){
     var checkedUser = $('#checkbox1');
     var checkedAdmin = $('#checkbox2');
     
-    var btnChange = $('#btnChangeUser');
+    
     
     console.log("link: " + username);
     
@@ -61,7 +61,7 @@ $(document).ready(function(){
             	dateRegistrationInput.val(selectedUser.registrationDate);
             	dateRegistrationInput.prop("disabled", true);
             	
-            	btnChange.hide();
+            	
             	
             	console.log(selectedUser.role);
             	

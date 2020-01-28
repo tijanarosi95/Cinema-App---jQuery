@@ -34,6 +34,7 @@ public class UserServlet extends HttpServlet {
 				return;
 			}
 			
+			
 			Map<String, Object> data = new LinkedHashMap<String, Object>();
 			
 			String loggedUser = (String) request.getParameter("loggedUser");
@@ -72,8 +73,53 @@ public class UserServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String loggedUserName = (String) request.getSession().getAttribute("loggedInUser");
+		
+		if(loggedUserName == null) {
+			request.getRequestDispatcher("./LogoutServlet").forward(request, response);
+			return;
+		}
+		try {
+			User loggedUser = UserDAO.getUser(loggedUserName);
+			if(loggedUser == null) {
+				request.getRequestDispatcher("./LogoutServlet").forward(request, response);
+				return;
+			}
+			if(loggedUser.getRole() != Role.ADMIN) {
+				request.getRequestDispatcher("./UnauthorizedServlet").forward(request, response);
+				return;
+			}
+			
+			
+			String action = request.getParameter("action");
+			
+			switch(action) {
+				case("update"):{
+					
+				User changedUser = UserDAO.getUser(request.getParameter("userName"));	
+				String role = request.getParameter("role");
+				Role userRole = Role.valueOf(role);
+				
+				changedUser.setRole(userRole);
+				UserDAO.updateUser(changedUser);
+				break;
+			}
+				case("delete"):{
+					
+				User selectedUser = UserDAO.getUser(request.getParameter("username"));
+				
+				UserDAO.deleteUser(selectedUser);
+				break;
+				}
+			}
+			
+			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			request.getRequestDispatcher("./FailureServlet").forward(request, response);
+		}
 	}
 
 }

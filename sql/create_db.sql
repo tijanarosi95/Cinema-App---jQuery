@@ -20,9 +20,6 @@ INSERT INTO Users(userName, password, dateRegistration, role, active) VALUES ('b
 INSERT INTO Users(userName, password, dateRegistration, role, active) VALUES ('milos23', '1234', "2020-01-01 12:57", 'USER', true);
 
 
-SELECT * FROM Users;
-SELECT * FROM Movies;
-
 CREATE TABLE Movies(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name varchar(30) not null,
@@ -55,3 +52,52 @@ VALUES ('The Dark Knight', 'Christopher Nolan', 'Christian Bale, Heath Ledger', 
 INSERT INTO Movies(name, director, actors, genre, duration, distributer, origin, year, description, active)
 VALUES ('Schindlers List', 'Steven Spielberg', 'Liam Neeson, Ralph Fiennes', 'DRAMA, HISTORY', 195, 'Universal Pictures', 'United States', 1993, 
 'In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.', true);
+
+CREATE TABLE ProjectionType(
+    id int PRIMARY KEY,
+    name varchar(5) NOT NULL
+);
+
+Insert into ProjectionType(id, name) values(1,'2D');
+Insert into ProjectionType(id, name) values(2,'3D');
+Insert into ProjectionType(id, name) values(3,'4D');
+
+
+
+CREATE TABLE Hall(
+    id INTEGER PRIMARY KEY,
+    name varchar(5) not null,
+    projectionType INTEGER not null,
+    FOREIGN KEY(projectionType) REFERENCES ProjectionType(id)
+);
+
+Insert into Hall(id, name, projectionType) values (1, 'A1', 1);
+Insert into Hall(id, name, projectionTYpe) values (2, 'A1', 2);
+Insert into Hall(id, name, projectionTYpe) values (3, 'A2', 2);
+Insert into Hall(id, name, projectionTYpe) values (4, 'A2', 3);
+Insert into Hall(id, name, projectionTYpe) values (5, 'A3', 3);
+
+
+CREATE TABLE Projections(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    movieid INTEGER not null,
+    type INTEGER not null,
+    hall INTEGER not null,
+    datetime text varchar(20) not null,
+    price double not null,
+    user varchar(30) not null,
+    active bool not null,
+    FOREIGN KEY(type) REFERENCES ProjectionType(id),
+    FOREIGN KEY(movieid) REFERENCES Movies(id),
+    FOREIGN KEY(hall) REFERENCES Hall(id),
+    FOREIGN KEY(user) REFERENCES Users(userName)  
+);
+
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 1, "2020-01-30 15:00", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (2, 1, 1, "2020-01-31 18:00", 400, 'markom123', true);
+
+SELECT * FROM Users;
+SELECT * FROM Movies;
+select * from ProjectionType;
+select * from Hall;
+select * from Projections;

@@ -14,6 +14,20 @@ $(document).ready(function(){
 	
 	$('.collapse').collapse();
 	
+	var userRole;
+	
+	$.get('UserServlet', {'loggedUser': 'loggedUserRole'}, function(data){
+		
+		
+		userRole = data.loggedUserRole;
+		console.log('UserRoleOnMoviePage: ' + userRole);
+		
+		
+	});
+	
+	
+	
+	
 	var movieInput = $('#movieNameInput');
 	
 	var genresSelect = $('.selectGenre');
@@ -118,6 +132,8 @@ $(document).ready(function(){
 				
 				for(m in filteredMovies){
 					
+					if(userRole === 'ADMIN'){
+					
 					moviesTable.append(
 									'<tr>' +
 										'<td>' + index++ + '</td>' +
@@ -131,19 +147,37 @@ $(document).ready(function(){
 										'<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popupModal" data-movieID="' + filteredMovies[m].idMovie + '">Delete' +
 										'</button></td>' +
     								'</tr>'	    
-					);
+						);
+					
+					}else{
+						
+						moviesTable.append(
+								'<tr>' +
+									'<td>' + index++ + '</td>' +
+									'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie + '&mode=show">' + filteredMovies[m].name + '</a></td>' +
+									'<td>' +  filteredMovies[m].genres + '</td>' +
+									'<td>' + filteredMovies[m].duration + '</td>' +
+									'<td>' + filteredMovies[m].distribution + '</td>' +
+									'<td>' + filteredMovies[m].originCountry + '</td>' +
+									'<td>' + filteredMovies[m].productionYear + '</td>' +
+								'</tr>'	    
+						);
+					}
 				}
-				
+					
 			}
 			
 		});	
 	}
+	
+	
 	
 	var modalAdd = $('#addMovieModal');
 	
 	modalAdd.on('show.bs.modal', function(event){
 		
 		var button = $(event.relatedTarget);
+		
 	});
 	
 	var movieName = $('#movie-name');

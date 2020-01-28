@@ -40,6 +40,28 @@ $(document).ready(function(){
     	
     });
     
+    
+    var loggedUserName;
+    
+    
+    	$.get('UserServlet', {'loggedUser' : 'loggedInUser'}, function(data){
+    	
+    		loggedUserName = data.loggedInUser.username;
+    	
+    		console.log('userNameee ' + userName);
+    	
+    		if(userName == loggedUserName){
+    			changeUserModal.modal('hide');    		
+    			alert('You can not change your role!');
+    			
+    		}
+    		
+    		
+    	});
+    	
+    	
+    
+    
     function getUsers(){
     	var usernameFilter = userNameInput.val();
     	var typeOfUserButton = $('.custom-control-input[name=defaultRadios]:checked').val();
@@ -86,7 +108,7 @@ $(document).ready(function(){
     									'<td>' + '<p>' + filteredUsers[user].registrationDate + '</p>' + '</td>' +
     									'<td>' + filteredUsers[user].role + '</td>' +
     									'<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeUserModal" username="' + filteredUsers[user].username  +'">Change</button></td>' +
-    									'<td><button type="button" class="btn btn-danger" data-toggle="modal" username="' +  filteredUsers[user].username  +'">Delete</button></td>' +
+    									'<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target=#popUpModal username="' +  filteredUsers[user].username  +'">Delete</button></td>' +
     								'</tr>'	);
     			}
     			    
@@ -108,16 +130,21 @@ $(document).ready(function(){
     
     var changeUser = $('#changeUserSubmit');
     
+
+    
     changeUserModal.on('show.bs.modal', function(event){
     	
     	var button = $(event.relatedTarget);
     	userName = button.attr('username');
     	console.log('Usernamee: ' + userName);
     	
+    	
+    	
     	var params = {
         		'loggedUser' : 'getUser',
         		'username' : userName
         }
+    	
     	
     	$.get('UserServlet', params, function(data){
         	console.log(data.chosenUser);
@@ -127,6 +154,7 @@ $(document).ready(function(){
     			window.location.replace('index.html');
     			return;
         	}
+        	
         	if(data.status == 'success'){
         		
         	
@@ -136,48 +164,123 @@ $(document).ready(function(){
         		userNameField.prop('disabled', true);
         		
         		passwordField.val(chosenUser.password);
+        		passwordField.prop('disabled', true);
+        		
+        		
         		dateField.val(chosenUser.registrationDate);
+        		dateField.prop('disabled', true);
+        		
         		if(chosenUser.role == 'USER'){
         			checkUser.attr('checked', true);
+        			
         		}else if(chosenUser.role == 'ADMIN'){
         			checkAdmin.attr('checked', true);
         		}
-        		
-        		var userName, password, date, role;
+        			
+        		var  role;
         		
         		changeUser.on('click', function(event){
         			
-        			userName = userNameField.val();
-        			password = passwordField.val();
-        			date = dateField.val();
+        			
         			role = $('.form-check-input[name=materialExample]:checked').val();
         			
         			console.log('Changed role: ' + role);
         			
         			var params = {
-        					'action' : 'change',
-        					'username' : userName,
-        					'password' : password,
-        					'date' : date,
+        					'action' : 'update',
+        					'userName' : userName,
         					'role' : role
         			}
         			
+        			console.log(params);
+        			
         			$.post('UserServlet', params, function(data){
         				
+        				console.log(data);
+        				
+        				if(data.status == 'unauthenticated'){
+							window.location.replace('index.html');
+							return;
+						}
+        				if(data.status == 'success'){
+        					alert('You successfully update user!');
+        					changeUserModal.modal('toggle');
+        				}
+        				getUsers();
+        				
         			});
+        			
+        			return false;
         		});
+        		
+        		return false;
         	}
         });
+    	
     });
     
     
-    
-    
-    
-    
-    
-    
-    
+  var confirmModal = $('#popUpModal');
+  var modalBody = $('#modalBody');
+  var btnDelete = $('#btnDeleteUser');
+  
+  var deleteUserName;
+  
+  confirmModal.on('show.bs.modal', function(event){
+	 
+	  var button = $(event.relatedTarget);
+	  deleteUserName = button.attr('username');
+	  
+	  console.log('User for delete: ' + deleteUserName);
+	  console.log('LoggedUserName ' + loggedUserName);
+	  
+	  if(deleteUserName === loggedUserName){
+		  
+		  modalBody.text('You can not delete yourself!');
+		  btnDelete.hide();
+		  
+	  }else{
+		  
+		  modalBody.text('Are you sure you want delete this user?');
+		  btnDelete.show();
+		 
+	  }
+	  
+	  
+  	});
+  
+	  btnDelete.on('click', function(event){
+		 
+		  var params = {
+				  'action' : 'delete',
+				  'username': deleteUserName
+		  }
+		  
+		  console.log(params);
+		  
+		  $.post('UserServlet', params, function(data){
+			  
+			  if(data.status == 'unauthenticated'){
+				  window.location.replace('index.html');
+				  return;
+			  }
+			  if(data.status == 'unauthorized'){
+				  window.location.replace('index.html');
+				  return;
+			  }
+			  if(data.status == 'success'){
+				  alert('You successfully delete this user!');
+				  confirmModal.modal('toggle');
+				  getUsers();
+			  }
+		  });
+		  
+		  event.preventDefault();
+			
+		  return false;
+	  });
+	  
+
     
     
     $('th').click(function(){

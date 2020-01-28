@@ -27,13 +27,13 @@ public class AllMoviesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String loggedInUser = (String) request.getSession().getAttribute("loggedInUser");
 		if(loggedInUser == null) {
-			request.getRequestDispatcher("./FailureServlet").forward(request, response);
+			request.getRequestDispatcher("./LogoutServlet").forward(request, response);
 			return;
 		}
 		try {
 			User loggedUser = UserDAO.getUser(loggedInUser);
 			if(loggedUser == null) {
-				request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				request.getRequestDispatcher("./LogoutServlet").forward(request, response);
 				return;
 			}
 			
@@ -103,14 +103,14 @@ public class AllMoviesServlet extends HttpServlet {
 		
 		String loggedInUser = (String) request.getSession().getAttribute("loggedInUser");
 		if(loggedInUser == null) {
-			request.getRequestDispatcher("./FailureServlet").forward(request, response);
+			request.getRequestDispatcher("./LogoutServlet").forward(request, response);
 			return;
 		}
 		
 		try {
 			User loggedUser = UserDAO.getUser(loggedInUser);
 			if(loggedUser == null) {
-				request.getRequestDispatcher("./FailureServlet").forward(request, response);
+				request.getRequestDispatcher("./LogoutServlet").forward(request, response);
 				return;
 			}
 			if(loggedUser.getRole() != Role.ADMIN) {

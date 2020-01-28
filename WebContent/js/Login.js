@@ -22,7 +22,7 @@ $(document).ready(function(){
 			if(data.status == 'failure'){
 				
 				userNameInput.val('');
-				userNameInput.val('');
+				passwordInput.val('');
 				
 				return;
 			}
