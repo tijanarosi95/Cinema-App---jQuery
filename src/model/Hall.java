@@ -16,7 +16,7 @@ public class Hall {
 		super();
 		this.id = id;
 		this.name = name;
-		this.projectionTypes = new ArrayList<TypeOfProjection>();
+		this.projectionTypes = projectionTypes;
 	}
 
 

@@ -107,4 +107,24 @@
     <servlet-name>UnauthorizedServlet</servlet-name>
     <url-pattern>/UnauthorizedServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProjectionServlet</display-name>
+    <servlet-name>ProjectionServlet</servlet-name>
+    <servlet-class>servlets.projections.ProjectionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProjectionServlet</servlet-name>
+    <url-pattern>/ProjectionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AllProjectionsServlet</display-name>
+    <servlet-name>AllProjectionsServlet</servlet-name>
+    <servlet-class>servlets.projections.AllProjectionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AllProjectionsServlet</servlet-name>
+    <url-pattern>/AllProjectionsServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

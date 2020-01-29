@@ -153,12 +153,12 @@ img {
 }
 
 
-#durationMin, #yearMin{
+#durationMin, #yearMin, #priceMin {
     width: 12%;
     float: left;
 }
 
-#durationMax, #yearMax{
+#durationMax, #yearMax, #priceMax {
     width: 12%;
     float: right;
 }
@@ -168,6 +168,7 @@ img {
     margin-left: 20px;
     margin-top: 30px;
 }
+
 
 
 

@@ -1,6 +1,7 @@
 package model;
 
-import java.sql.Timestamp;
+
+import java.util.Date;
 
 public class Projection {
 	
@@ -8,14 +9,15 @@ public class Projection {
 	private Movie movie;
 	private TypeOfProjection projectionType;
 	private Hall hall;
-	private Timestamp dateTimeShow;
+	private Date dateTimeShow;
 	private double price;
 	private User admin;
+	boolean isActive;
 	
 	public Projection() {}
 
-	public Projection(int idProjection, Movie movie, TypeOfProjection projectionType, Hall hall, Timestamp dateTimeShow,
-			double price, User admin) {
+	public Projection(int idProjection, Movie movie, TypeOfProjection projectionType, Hall hall, Date dateTimeShow,
+			double price, User admin, boolean isActive) {
 		super();
 		this.idProjection = idProjection;
 		this.movie = movie;
@@ -24,6 +26,15 @@ public class Projection {
 		this.dateTimeShow = dateTimeShow;
 		this.price = price;
 		this.admin = admin;
+		this.isActive = isActive;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public int getIdProjection() {
@@ -58,11 +69,11 @@ public class Projection {
 		this.hall = hall;
 	}
 
-	public Timestamp getDateTimeShow() {
+	public Date getDateTimeShow() {
 		return dateTimeShow;
 	}
 
-	public void setDateTimeShow(Timestamp dateTimeShow) {
+	public void setDateTimeShow(Date dateTimeShow) {
 		this.dateTimeShow = dateTimeShow;
 	}
 
