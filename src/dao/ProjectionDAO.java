@@ -27,9 +27,9 @@ public class ProjectionDAO {
 		
 		try {
 			
-			String query = "Select id, movieid, type, hall, datetime, price, user, active from Projections p, Movies m "
-					+ "where p.movieid = m.id and and m.name like ? or type like ? or hall like ? and price >= ? and "
-					+ "price <= ? and datetime >= ? and datetime <= ?";
+			String query = "Select p.id, p.movieid, p.type, p.hall, p.datetime, p.price, p.user, p.active from Projections p, Movies m "
+					+ "where p.movieid = m.id and m.name like ? or p.type like ? and p.hall like ? and p.price >= ? and "
+					+ "p.price <= ? and p.datetime >= ? and p.datetime <= ?";
 			
 			pstm = conn.prepareStatement(query);
 			int index = 1;
@@ -38,8 +38,8 @@ public class ProjectionDAO {
 			pstm.setString(index++, "%" + hall + "%");
 			pstm.setDouble(index++, priceMin );
 			pstm.setDouble(index++, priceMax);
-			pstm.setString(index++, "%" + dateFrom + "%");
-			pstm.setString(index++, "%" + dateTo + "%");
+			pstm.setString(index++, dateFrom);
+			pstm.setString(index++, dateTo);
 			
 			set = pstm.executeQuery();
 			

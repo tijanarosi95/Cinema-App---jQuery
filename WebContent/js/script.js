@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	$('.collapse').collapse();
 	
-	var movieName = $('#movieName');
+	var movieNameInput = $('#movieName');
 	
 	var selectType = $('.multi-select');
 	var selectHall = $('.multi-select2');
@@ -53,8 +53,8 @@ $(document).ready(function(){
 	
 	var date = $('.date');
 	
-	var dateFrom = $('#date1');
-	var dateTo = $('#date2');
+	var dateFromInput = $('#date1');
+	var dateToInput = $('#date2');
 	
 	
 	date.datetimepicker({
@@ -64,5 +64,119 @@ $(document).ready(function(){
 	
 	
 	var projectionTable = $('#projectionTable');
+	
+	function getProjections(){
+		
+		var movieName = movieNameInput.val();
+		var types = selectType.val().toString();
+		var halls = selectHall.val().toString();
+		var minPrice = priceMin.val();
+		var maxPrice = priceMax.val();
+		var dateFrom = dateFromInput.val();
+		var dateTo = dateToInput.val();
+		
+		var params = {
+				
+				'movieName' : movieName,
+				'types' : types,
+				'halls' : halls,
+				'minPrice' : minPrice,
+				'maxPrice' : maxPrice,
+				'dateFrom' : dateFrom,
+				'dateTo' : dateTo
+		}
+		
+		console.log(params);
+		
+		$.get('AllProjectionsServlet', params, function(data){
+			
+			var list = data.filteredProjections;
+			console.log(data);
+			
+			if(data.status == 'success'){
+				
+				projectionTable.find('tr:gt(0)').remove();
+				
+				var filteredProjections = data.filteredProjections;
+				
+				var index =1;
+				
+				var today = new Date();
+				
+				var dd = String(today.getDate()).padStart(2, '0');
+				var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+				var yyyy = today.getFullYear();
 
+				today = yyyy + '-' + mm + '-' + dd;
+				
+				console.log(today);
+				
+				for(p in filteredProjections){
+					
+					console.log(p.dateTimeShow);
+					
+					if(p.dateTimeShow == today){
+						
+						console.log("Condition is true!");
+					}
+				}
+			}
+			
+		});
+	}
+	
+	movieNameInput.on('keyup', function(event){
+		
+		getProjections();
+		
+		event.preventDefault();
+		return false;
+	});
+	
+	selectType.on('change', function(event){
+		
+		getProjections();
+		
+		event.preventDefault();
+		return false;
+		
+	});
+	
+	selectHall.on('change', function(event){
+		
+		getProjections();
+		
+		event.preventDefault();
+		return false;
+	});
+	
+	sliderPrice.on('slide', function(event){
+		
+		getProjections();
+		
+	});
+	
+	$('#datetimepicker1').on('change', function(event){
+		
+		dateFromInput.val($(this).val());
+		
+		
+		getProjections();
+		
+		event.preventDefault();
+		return false;
+		
+	});
+	
+	$('#datetimepicker2').on('change', function(event){
+		
+		dateToInput.val($(this).val());
+		
+		getProjections();
+		
+		event.preventDefault();
+		return false;
+	});
+
+	getProjections();
 });
