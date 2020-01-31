@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import dao.MovieDAO;
-import dao.UserDAO;
 import enums.Genre;
 import model.Movie;
-import model.User;
+
 
 
 public class MovieServlet extends HttpServlet {
@@ -22,18 +21,9 @@ public class MovieServlet extends HttpServlet {
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String loggedInUser = (String) request.getSession().getAttribute("loggedInUser");
-		if(loggedInUser == null) {
-			request.getRequestDispatcher("./LogoutServlet").forward(request, response);
-			return;
-		}
+
 		try {
-			User loggedUser = UserDAO.getUser(loggedInUser);
-			if(loggedUser == null) {
-				request.getRequestDispatcher("./LogoutServlet").forward(request, response);
-				return;
-			}
-			
+
 			Map<String, Object> data = new LinkedHashMap<String, Object>();
 			
 			String param = request.getParameter("action");
@@ -48,7 +38,7 @@ public class MovieServlet extends HttpServlet {
 					Movie selectedMovie = MovieDAO.getMovie(movieID);
 					
 					data.put("selectedMovie", selectedMovie);
-					data.put("loggedInUser", loggedUser);
+					
 					break;
 				}
 			}

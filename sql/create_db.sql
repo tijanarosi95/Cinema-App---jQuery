@@ -67,15 +67,12 @@ Insert into ProjectionType(id, name) values(3,'4D');
 CREATE TABLE Hall(
     id INTEGER PRIMARY KEY,
     name varchar(5) not null,
-    projectionType INTEGER not null,
-    FOREIGN KEY(projectionType) REFERENCES ProjectionType(id)
+    projectionType varchar(10) not null
 );
 
-Insert into Hall(id, name, projectionType) values (1, 'A1', 1);
-Insert into Hall(id, name, projectionTYpe) values (2, 'A1', 2);
-Insert into Hall(id, name, projectionTYpe) values (3, 'A2', 2);
-Insert into Hall(id, name, projectionTYpe) values (4, 'A2', 3);
-Insert into Hall(id, name, projectionTYpe) values (5, 'A3', 3);
+Insert into Hall(id, name, projectionType) values (1, 'A1', '1,2');
+Insert into Hall(id, name, projectionTYpe) values (2, 'A2', '2,3');
+Insert into Hall(id, name, projectionTYpe) values (3, 'A3', '3');
 
 
 CREATE TABLE Projections(

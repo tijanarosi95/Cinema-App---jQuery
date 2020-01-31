@@ -58,8 +58,9 @@ $(document).ready(function(){
 	
 	
 	date.datetimepicker({
+		format : 'yy-m-d H:i',
 		useCurrent : false,
-		step : 5,
+		step : 15,
 	});
 	
 	
@@ -68,8 +69,8 @@ $(document).ready(function(){
 	function getProjections(){
 		
 		var movieName = movieNameInput.val();
-		var types = selectType.val().toString();
-		var halls = selectHall.val().toString();
+		var types = selectType.val();
+		var halls = selectHall.val();
 		var minPrice = priceMin.val();
 		var maxPrice = priceMax.val();
 		var dateFrom = dateFromInput.val();
@@ -113,16 +114,27 @@ $(document).ready(function(){
 				
 				for(p in filteredProjections){
 					
-					console.log(p.dateTimeShow);
+					var dateProjection = filteredProjections[p].dateTimeShow.split(' ')[0];
 					
-					if(p.dateTimeShow == today){
+					if( dateProjection === today){
 						
-						console.log("Condition is true!");
+						projectionTable.append(
+								'<tr>' +
+									'<td>' + index++ + '</td>' +
+									'<td><a href="Movie.html?id=' + filteredProjections[p].movie.idMovie + '">' + filteredProjections[p].movie.name + '</a></td>' +
+									'<td>' + filteredProjections[p].projectionType.name + '</td>' +
+									'<td>' + filteredProjections[p].hall.name + '</td>' +
+									'<td>' + '<p>' + filteredProjections[p].dateTimeShow + '</p>' + '</td>' +
+									'<td>' + filteredProjections[p].price + '</td>' +
+								'</tr>'
+								
+						);
 					}
 				}
 			}
 			
 		});
+		
 	}
 	
 	movieNameInput.on('keyup', function(event){

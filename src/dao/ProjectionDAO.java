@@ -27,9 +27,9 @@ public class ProjectionDAO {
 		
 		try {
 			
-			String query = "Select p.id, p.movieid, p.type, p.hall, p.datetime, p.price, p.user, p.active from Projections p, Movies m "
-					+ "where p.movieid = m.id and m.name like ? or p.type like ? and p.hall like ? and p.price >= ? and "
-					+ "p.price <= ? and p.datetime >= ? and p.datetime <= ?";
+			String query = "Select p.id, p.movieid, p.type, p.hall, p.datetime, p.price, p.user, p.active from Projections p "
+					+ "join Movies m on p.movieid = m.id where m.name like ? and p.type like ? and p.hall like ? and p.price >= ? and "
+					+ "p.price <= ? and p.datetime >= ? and p.datetime <= ? and p.active = ? order by m.name, p.datetime";
 			
 			pstm = conn.prepareStatement(query);
 			int index = 1;
@@ -40,6 +40,7 @@ public class ProjectionDAO {
 			pstm.setDouble(index++, priceMax);
 			pstm.setString(index++, dateFrom);
 			pstm.setString(index++, dateTo);
+			pstm.setBoolean(index++, true);
 			
 			set = pstm.executeQuery();
 			
@@ -52,9 +53,9 @@ public class ProjectionDAO {
 				Date showingDate = UserDAO.date_format.parse(set.getString(index++));
 				double projectionPrice = set.getDouble(index++);
 				User admin = UserDAO.getUser(set.getString(index++));
-				boolean isActive = set.getBoolean(index++);
+				//boolean isActive = set.getBoolean(index++);
 				
-				filteredProjections.add(new Projection(id, movie, typeProjection, hallProjection, showingDate, projectionPrice, admin, isActive));
+				filteredProjections.add(new Projection(id, movie, typeProjection, hallProjection, showingDate, projectionPrice, admin, true));
 
 			}
 			

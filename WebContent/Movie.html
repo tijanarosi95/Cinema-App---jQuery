@@ -32,14 +32,14 @@
                         <div class="collapse navbar-collapse">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item"><a class="nav-link active" href="AllMovies.html">All Movies</a></li>
-                                <li class="nav-item"><a class="nav-link active" href="AdminProfile.html">Profile</a></li>
-                                <li class="nav-item"><a class="nav-link active" id="logoutUser">Log out</a></li>
+                                <li class="nav-item" id="adminProfile"><a class="nav-link active" href="AdminProfile.html">Profile</a></li>
+                                <li class="nav-item" id="adminLogout"><a class="nav-link active" id="logoutUser">Log out</a></li>
                             </ul>
                         </div>
                 </nav>
             </div>
     
-        <div class="container-fluid">
+        <div class="container-fluid" id="adminChangeForm">
             <form id="movieForm">
             <div class="row justify-content">
                 <div class="form-group col-3">
@@ -106,6 +106,65 @@
                 </div>
             </div>
                 <button type="submit" class="btn btn-primary" id="btnChangeMovie">Change</button>
+
+            </form>
+        </div>
+
+        <div class="container-fluid" id="userViewForm">
+            <form id="userForm">
+                		
+                	<div class="form-group col-3">
+                        <p id="movname" style="color:deepskyblue; font-size: 50px;"></p>
+                    </div>
+                	
+                		
+                    <div class="form-group col-2">
+                       	<label style="color:deepskyblue; fontsize:25px;">DIRECTOR</label>
+                        <p id="director" style="color:white; font-size: 20px;"></p>
+                    </div>
+                		
+					
+                
+                    <div class="form-group col-3">
+                        <label style="color:deepskyblue; fontsize:25px;">ACTORS</label>
+                        <p id="actors" style="color:white; font-size: 20px;"></p>
+                    </div>
+                    
+                    <div class="form-group col-3">
+                        <label style="color:deepskyblue; fontsize:25px;">GENRES</label>
+                        <p id="genre" style="color:white; font-size: 20px;"></p>
+                    </div>
+               
+
+                
+                    <div class="form-group col-md-3">
+                        <label style="color:deepskyblue; fontsize:25px;">DURATION</label>
+                        <p id="duration" id="genre" style="color:white; font-size: 20px;"></p>
+                    </div>
+        
+                    <div class="form-group col-md-3">
+                        <label style="color:deepskyblue; fontsize:25px;">DISTRIBUTION</label>
+                        <p id="distribution" id="genre" style="color:white; font-size: 20px;"></p>
+                    </div>
+        
+                    <div class="form-group col-md-3">
+                        <label style="color:deepskyblue; fontsize:25px;">YEAR</label>
+                        <p id="year" id="genre" style="color:white; font-size: 20px;"></p>
+                    </div>
+                
+
+                
+                    <div class="form-group col-md-3">
+                        <label style="color:deepskyblue; fontsize:25px;">ORIGIN</label>
+                        <p id="origin" id="genre" style="color:white; font-size: 20px;"></p>
+                    </div>
+                
+                        
+                
+                    <div class="form-group col-md-3">
+                        <label style="color:deepskyblue; fontsize:25px;">DESCRIPTION</label>
+                        <p id="description" id="genre" style="color:white; font-size: 20px;"></p>
+                    </div>
 
             </form>
         </div>

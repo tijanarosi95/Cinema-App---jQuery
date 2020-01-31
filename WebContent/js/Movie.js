@@ -13,11 +13,40 @@ $(document).ready(function(){
         return false;
     });
 
+	var adminForm = $('#adminChangeForm');
+	var adminProfile = $('#adminProfile');
+	var adminLogout = $('#adminLogout');
+	
+	var userForm = $('#userViewForm');
+	var userRole;
+	
+	$.get('UserServlet', {'loggedUser': 'loggedUserRole'}, function(data){
+		
+		
+		userRole = data.loggedUserRole;
+		console.log('UserRoleOnMoviePage: ' + userRole);
+		
+		if(userRole == null){
+			adminForm.hide();
+			adminProfile.hide();
+			adminLogout.hide();
+			
+			userForm.show();
+			
+		}else if(userRole == 'ADMIN'){
+			adminForm.show();
+			adminProfile.show();
+			adminLogout.show();
+		}
+	});
+	
+	
     var selectGenre = $('#selectMovieGenre');
 
     selectGenre.select2({
     	tags: true,
     	tokenSeparators: [','],
+    	
     });
     
     $.get('MovieServlet', {'action' : 'genres'}, function(data){
@@ -33,10 +62,10 @@ $(document).ready(function(){
     
 
     var movieID = window.location.search.split('&')[0].split('=')[1];
-    var mode = window.location.search.split('&')[1].split('=')[1];
+    //var mode = window.location.search.split('&')[1].split('=')[1];
 
     console.log(movieID);
-    console.log(mode);
+    
     
     var movieInput = $('#movieNameInput');
     var directorInput = $('#directorInput');
@@ -65,12 +94,15 @@ $(document).ready(function(){
     		}
     		if(data.status == 'success'){
     			
-    			var loggedUser = data.loggedInUser;
+    			
     			var chosenMovie = data.selectedMovie;
     			
-    			if(loggedUser.role == 'ADMIN' && mode == 'change'){
+    			if(userRole == 'ADMIN'){
     				
-    				console.log(chosenMovie);
+					console.log(chosenMovie);
+					
+					adminForm.show();
+					userForm.hide();
     				
     				movieInput.val(chosenMovie.name);
     				directorInput.val(chosenMovie.director);
@@ -187,52 +219,26 @@ $(document).ready(function(){
     					return true;
     				}
     				
-    			}if(loggedUser.role == 'ADMIN' && mode == 'show'){
-    				
-    				console.log(chosenMovie);
-    				
-    				movieInput.val(chosenMovie.name);
-    				movieInput.prop('disabled', true);
-    				
-    				directorInput.val(chosenMovie.director);
-    				directorInput.prop('disabled', true);
-    				
-    				actorInput.val(chosenMovie.actors);
-    				actorInput.prop('disabled', true);
-    				
-    				var movieGenres = chosenMovie.genres;
-    				
-    				for(option in movieGenres){
-    					var checkedOption = new Option(movieGenres[option], movieGenres[option], true, true);
-    					selectGenre.append(checkedOption).trigger('change');
-    				}
-    				selectGenre.prop('disabled', true);
-    				
-    				durationInput.val(chosenMovie.duration);
-    				durationInput.prop('disabled', true);
-    				
-    				distributionInput.val(chosenMovie.distribution);
-    				distributionInput.prop('disabled', true);
-    				
-    				originInput.val(chosenMovie.originCountry);
-    				originInput.prop('disabled', true);
-    				
-    				yearInput.val(chosenMovie.productionYear);
-    				yearInput.prop('disabled', true);
-    				
-    				descInput.val(chosenMovie.description);
-    				descInput.prop('disabled', true);
-    				
-    				changeMovie.hide();
-    			}
     			
     			
-    		}
+				}else{
+					
+					$('#movname').text(chosenMovie.name);
+					$('#director').text(chosenMovie.director);
+					$('#actors').text(chosenMovie.actors);
+					$('#genre').text(chosenMovie.genres);
+					$('#duration').text(chosenMovie.duration);
+					$('#distribution').text(chosenMovie.distribution);
+					$('#year').text(chosenMovie.productionYear);
+					$('#origin').text(chosenMovie.originCountry);
+					$('#description').text(chosenMovie.description);
+				}	
     		
-    	});
+			}
+		});
     	
-    	
-    }
+	}	
+    
     
     getMovie();
 });

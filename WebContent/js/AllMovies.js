@@ -1,4 +1,33 @@
 $(document).ready(function(){
+	
+	$('.collapse').collapse();
+	
+	var userRole;
+	
+	var profile = $('#liProfile');
+	var logout = $('#liLogout');
+	var add = $('#liAddMovie');
+	
+	$.get('UserServlet', {'loggedUser': 'loggedUserRole'}, function(data){
+		
+		
+		userRole = data.loggedUserRole;
+		console.log('UserRoleOnMoviePage: ' + userRole);
+		
+		if(userRole == null){
+			profile.hide();
+			logout.hide();
+			add.hide();
+		}else if(userRole == 'ADMIN'){
+			profile.show();
+			logout.show();
+			add.show();
+		}
+		
+		
+	});
+	
+	
 	$('#logoutMovies').on('click', function(event){
 		$.get('LogoutServlet', function(data){
 			console.log(data);
@@ -11,20 +40,6 @@ $(document).ready(function(){
 		event.preventDefault();
 		return false;
 	});
-	
-	$('.collapse').collapse();
-	
-	var userRole;
-	
-	$.get('UserServlet', {'loggedUser': 'loggedUserRole'}, function(data){
-		
-		
-		userRole = data.loggedUserRole;
-		console.log('UserRoleOnMoviePage: ' + userRole);
-		
-		
-	});
-	
 	
 	
 	
@@ -137,7 +152,7 @@ $(document).ready(function(){
 					moviesTable.append(
 									'<tr>' +
 										'<td>' + index++ + '</td>' +
-										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie + '&mode=show">' + filteredMovies[m].name + '</a></td>' +
+										'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie + '">' + filteredMovies[m].name + '</a></td>' +
     									'<td>' +  filteredMovies[m].genres + '</td>' +
     									'<td>' + filteredMovies[m].duration + '</td>' +
     									'<td>' + filteredMovies[m].distribution + '</td>' +
@@ -154,7 +169,7 @@ $(document).ready(function(){
 						moviesTable.append(
 								'<tr>' +
 									'<td>' + index++ + '</td>' +
-									'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie + '&mode=show">' + filteredMovies[m].name + '</a></td>' +
+									'<td><a href="Movie.html?id=' + filteredMovies[m].idMovie + '">' + filteredMovies[m].name + '</a></td>' +
 									'<td>' +  filteredMovies[m].genres + '</td>' +
 									'<td>' + filteredMovies[m].duration + '</td>' +
 									'<td>' + filteredMovies[m].distribution + '</td>' +

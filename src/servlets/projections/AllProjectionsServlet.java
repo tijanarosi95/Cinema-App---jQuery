@@ -1,6 +1,7 @@
 package servlets.projections;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ProjectionDAO;
+import dao.UserDAO;
 import model.Projection;
 
 
@@ -44,10 +46,10 @@ public class AllProjectionsServlet extends HttpServlet {
 			}catch(Exception ex) {}
 			
 			String dateFrom = request.getParameter("dateFrom");
-			dateFrom = (dateFrom != null ? dateFrom : "");
+			dateFrom = (dateFrom != "" ? dateFrom : UserDAO.date_format.format(new Date(System.currentTimeMillis() - 24*60*60*1000)));
 			
 			String dateTo = request.getParameter("dateTo");
-			dateTo = (dateTo != null ? dateTo : "");
+			dateTo = (dateTo != "" ? dateTo : UserDAO.date_format.format(new Date(System.currentTimeMillis() + 24*60*60*1000)));
 			
 			List<Projection> filteredProjections = ProjectionDAO.getAll(movieName, types, halls, minPrice, maxPrice, dateFrom, dateTo);
 			
