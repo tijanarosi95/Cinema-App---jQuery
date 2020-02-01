@@ -124,7 +124,7 @@ $(document).ready(function(){
 									'<td><a href="Movie.html?id=' + filteredProjections[p].movie.idMovie + '">' + filteredProjections[p].movie.name + '</a></td>' +
 									'<td>' + filteredProjections[p].projectionType.name + '</td>' +
 									'<td>' + filteredProjections[p].hall.name + '</td>' +
-									'<td>' + '<p>' + filteredProjections[p].dateTimeShow + '</p>' + '</td>' +
+									'<td>'  + '<a href="Projection.html?id=' + filteredProjections[p].idProjection + '">' + filteredProjections[p].dateTimeShow + '</a>' + '</td>' +
 									'<td>' + filteredProjections[p].price + '</td>' +
 								'</tr>'
 								

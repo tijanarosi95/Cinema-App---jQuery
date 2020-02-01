@@ -67,4 +67,44 @@ public class ProjectionDAO {
 		
 		return filteredProjections;
 	}
+	
+	public static Projection getProjection(int id) throws Exception{
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+		
+		try {
+			
+			String query = "Select movieid, type, hall, datetime, price, user from Projections "
+								+ "where id = ?";
+			
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, id);
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				int index = 1;
+				Movie movie = MovieDAO.getMovie(set.getInt(index++));
+				TypeOfProjection type = CommonDAO.getProjectionType(set.getInt(index++));
+				Hall hall = CommonDAO.getHall(set.getInt(index++));
+				Date date = UserDAO.date_format.parse(set.getString(index++));
+				double price = set.getDouble(index++);
+				User user = UserDAO.getUser(set.getString(index++));
+				
+				return new Projection(id, movie, type, hall, date, price, user, true);
+				
+			}
+			
+			
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+		
+		return null;
+	}
 }

@@ -12,14 +12,7 @@ $(document).ready(function(){
         return false;
     });
     
-    var label1 = $('#check1');
-    var label2 = $('#check2');
     
-    $.get('UserServlet', {'loggedUser' : 'allRoles'}, function(data){
-    	
-    	label1.text(data.allRoles[0]);
-    	label2.text(data.allRoles[1]);
-    });
     
     
 
@@ -28,8 +21,8 @@ $(document).ready(function(){
     var usernameInput = $('#userNameInput');
     var dateRegistrationInput = $('#dateInput');
     
-    var checkedUser = $('#checkbox1');
-    var checkedAdmin = $('#checkbox2');
+    var role = $('#role');
+  
     
     
     
@@ -55,27 +48,17 @@ $(document).ready(function(){
             	var selectedUser = data.chosenUser;
             	console.log(selectedUser);
             	
-            	usernameInput.val(selectedUser.username);
-            	usernameInput.prop("disabled", true);
+            	usernameInput.text(selectedUser.username);
             	
-            	dateRegistrationInput.val(selectedUser.registrationDate);
-            	dateRegistrationInput.prop("disabled", true);
             	
+            	dateRegistrationInput.text(selectedUser.registrationDate);
+            	
+            	role.text(selectedUser.role);
             	
             	
             	console.log(selectedUser.role);
             	
-            	if(selectedUser.role == 'USER'){
-            		checkedUser.attr("checked", true);
-            		
-            	}else{
-            		checkedAdmin.attr("checked", true);
-            		
-            	}
-            	
-            	
-            	
-            	
+ 	
             }
         });
 

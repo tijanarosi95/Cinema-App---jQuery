@@ -170,7 +170,11 @@ img {
 }
 
 
-
+#bcgImage {
+	
+	width: 100%;
+	heght: 50%;
+}
 
 
 

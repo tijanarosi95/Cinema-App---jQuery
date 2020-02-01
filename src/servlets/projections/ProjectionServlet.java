@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.CommonDAO;
+import dao.ProjectionDAO;
+import model.Projection;
 
 
 public class ProjectionServlet extends HttpServlet {
@@ -29,6 +31,13 @@ public class ProjectionServlet extends HttpServlet {
 				}
 				case("halls"):{
 					data.put("halls", CommonDAO.getAllHalls());
+					break;
+				}
+				case("getProjection"):{
+					int id = Integer.parseInt(request.getParameter("projectionID"));
+					Projection projection = ProjectionDAO.getProjection(id);
+					
+					data.put("selectedProjection", projection);
 					break;
 				}
 			}
