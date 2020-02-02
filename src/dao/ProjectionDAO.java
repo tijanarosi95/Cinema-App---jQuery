@@ -68,6 +68,50 @@ public class ProjectionDAO {
 		return filteredProjections;
 	}
 	
+	public static List<Projection> getSome(int movieID, String currentDate) throws Exception {
+		
+		List<Projection> filteredProjection = new ArrayList<Projection>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+		
+		try {
+			
+			String query = "Select id, movieid, type, hall, datetime, price, user, active from Projections where "
+									+ "movieid = ? and active = ? and datetime > ? order by datetime";
+			
+			pstm = conn.prepareStatement(query);
+			int index = 1;
+			pstm.setInt(index++, movieID);
+			pstm.setBoolean(index++, true);
+			pstm.setString(index++, currentDate);
+			
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				index = 1;
+				int id = set.getInt(index++);
+				Movie movie = MovieDAO.getMovie(set.getInt(index++));
+				TypeOfProjection type = CommonDAO.getProjectionType(set.getInt(index++));
+				Hall hall = CommonDAO.getHall(set.getInt(index++));
+				Date date = UserDAO.date_format.parse(set.getString(index++));
+				double price = set.getDouble(index++);
+				User user = UserDAO.getUser(set.getString(index++));
+				
+				filteredProjection.add(new Projection(id, movie, type, hall, date, price, user, true));
+			}
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+		
+		return filteredProjection;
+	}
+	
 	public static Projection getProjection(int id) throws Exception{
 		
 		Connection conn = ConnectionManager.getConnection();

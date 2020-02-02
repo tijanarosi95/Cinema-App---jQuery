@@ -4,7 +4,8 @@ $(document).ready(function(){
 	
 	var userRole;
 	
-	var profile = $('#liProfile');
+	var adminProfile = $('#liAdminProfile');
+	var userProfile = $('#liUserProfile');
 	var logout = $('#liLogout');
 	var add = $('#liAddMovie');
 	
@@ -15,13 +16,25 @@ $(document).ready(function(){
 		console.log('UserRoleOnMoviePage: ' + userRole);
 		
 		if(userRole == null){
-			profile.hide();
+			adminProfile.hide();
+			userProfile.hide();
 			logout.hide();
 			add.hide();
+			
 		}else if(userRole == 'ADMIN'){
-			profile.show();
+			adminProfile.show();
 			logout.show();
 			add.show();
+			
+			userProfile.hide();
+			
+		}else if (userRole == 'USER'){
+			
+			adminProfile.hide();
+			logout.show();
+			add.hide();
+			
+			userProfile.show();
 		}
 		
 		

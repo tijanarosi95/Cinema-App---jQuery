@@ -2,6 +2,54 @@ $(document).ready(function(){
 	
 	$('.collapse').collapse();
 	
+	var userRole;
+	
+	var userProfile = $('#userProfile');
+	var adminProfile = $('#adminProfile');
+	
+	var btnLogIn = $('#btnLogIn');
+	var btnRegister = $('#btnRegister');
+	
+	var logo = $('#allProjections');
+	
+	$.get('UserServlet', {'loggedUser': 'loggedUserRole'}, function(data){
+		
+		userRole = data.loggedUserRole;
+		
+		if(userRole == null){
+			
+			btnLogIn.show();
+			btnRegister.show();
+			
+			userProfile.hide();
+			adminProfile.hide();
+			
+		}else if (userRole == 'ADMIN'){
+			
+			btnLogIn.hide();
+			btnRegister.hide();
+			
+			userProfile.hide();
+			adminProfile.show();
+			
+			logo.text('All Projections');
+			
+		}else if(userRole == 'USER'){
+			
+			btnLogIn.hide();
+			btnRegister.hide();
+			
+			userProfile.show();
+			adminProfile.hide();
+			
+			logo.text('All Projections');
+		}
+		
+	});
+	
+	
+	
+	
 	var movieNameInput = $('#movieName');
 	
 	var selectType = $('.multi-select');
@@ -77,7 +125,7 @@ $(document).ready(function(){
 		var dateTo = dateToInput.val();
 		
 		var params = {
-				
+				'action': 'getAll',
 				'movieName' : movieName,
 				'types' : types,
 				'halls' : halls,

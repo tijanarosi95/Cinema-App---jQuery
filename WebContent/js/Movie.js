@@ -15,10 +15,19 @@ $(document).ready(function(){
 
 	var adminForm = $('#adminChangeForm');
 	var adminProfile = $('#adminProfile');
-	var adminLogout = $('#adminLogout');
+	var userLogout = $('#userLogout');
 	
 	var userForm = $('#userViewForm');
+	var userProfile = $('#userProfile');
 	var userRole;
+
+	var btnBuyTicket = $('#liBuyTicket');
+
+	btnBuyTicket.on('click', function(e){
+		window.location.replace('FirstPhase.html?movieID=' + movieID);
+	});
+	
+
 	
 	$.get('UserServlet', {'loggedUser': 'loggedUserRole'}, function(data){
 		
@@ -29,14 +38,29 @@ $(document).ready(function(){
 		if(userRole == null){
 			adminForm.hide();
 			adminProfile.hide();
-			adminLogout.hide();
+			userLogout.hide();
+			userProfile.hide();
+
+			btnBuyTicket.hide();
 			
 			userForm.show();
 			
 		}else if(userRole == 'ADMIN'){
 			adminForm.show();
 			adminProfile.show();
-			adminLogout.show();
+			userLogout.show();
+
+			userForm.hide();
+			btnBuyTicket.hide();
+
+		}else if(userRole == 'USER'){
+			adminForm.hide();
+			adminProfile.hide();
+
+			userProfile.show();
+			userLogout.show();
+
+			btnBuyTicket.show();
 		}
 	});
 	

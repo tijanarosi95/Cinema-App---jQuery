@@ -23,46 +23,68 @@ public class AllProjectionsServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		try {
-			String movieName = request.getParameter("movieName");
-			movieName = (movieName != null ? movieName : "");
+		String action = request.getParameter("action");
+		
+		Map<String, Object> data = new LinkedHashMap<String, Object>();
+		
+		switch(action) {
+		
+			case("getAll"):{
 			
-			String types = request.getParameter("types");
-			types = (types != null ? types : "");
+				try {
+					String movieName = request.getParameter("movieName");
+					movieName = (movieName != null ? movieName : "");
 			
-			String halls = request.getParameter("halls");
-			halls = (halls != null ? halls : "");
+					String types = request.getParameter("types");
+					types = (types != null ? types : "");
 			
-			double minPrice = 0;
-			try {
-				minPrice = Double.parseDouble(request.getParameter("minPrice"));
-				minPrice = (minPrice >= 0 ? minPrice : 0);
-			}catch(Exception ex) {}
+					String halls = request.getParameter("halls");
+					halls = (halls != null ? halls : "");
 			
-			double maxPrice = Double.MAX_VALUE;
-			try {
-				maxPrice = Double.parseDouble(request.getParameter("maxPrice"));
-				maxPrice = (maxPrice >= 0 ? maxPrice : Double.MAX_VALUE);
-			}catch(Exception ex) {}
+					double minPrice = 0;
+					try {
+						minPrice = Double.parseDouble(request.getParameter("minPrice"));
+						minPrice = (minPrice >= 0 ? minPrice : 0);
+					}catch(Exception ex) {}
 			
-			String dateFrom = request.getParameter("dateFrom");
-			dateFrom = (dateFrom != "" ? dateFrom : UserDAO.date_format.format(new Date(System.currentTimeMillis() - 24*60*60*1000)));
+					double maxPrice = Double.MAX_VALUE;
+					try {
+						maxPrice = Double.parseDouble(request.getParameter("maxPrice"));
+						maxPrice = (maxPrice >= 0 ? maxPrice : Double.MAX_VALUE);
+					}catch(Exception ex) {}
 			
-			String dateTo = request.getParameter("dateTo");
-			dateTo = (dateTo != "" ? dateTo : UserDAO.date_format.format(new Date(System.currentTimeMillis() + 24*60*60*1000)));
+					String dateFrom = request.getParameter("dateFrom");
+					dateFrom = (dateFrom != "" ? dateFrom : UserDAO.date_format.format(new Date(System.currentTimeMillis() - 24*60*60*1000)));
 			
-			List<Projection> filteredProjections = ProjectionDAO.getAll(movieName, types, halls, minPrice, maxPrice, dateFrom, dateTo);
+					String dateTo = request.getParameter("dateTo");
+					dateTo = (dateTo != "" ? dateTo : UserDAO.date_format.format(new Date(System.currentTimeMillis() + 24*60*60*1000)));
 			
-			Map<String, Object> data = new LinkedHashMap<String, Object>();
+					List<Projection> filteredProjections = ProjectionDAO.getAll(movieName, types, halls, minPrice, maxPrice, dateFrom, dateTo);
+						
 			
-			data.put("filteredProjections", filteredProjections);
+					data.put("filteredProjections", filteredProjections);
 			
-			request.setAttribute("data", data);
-			
-			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
-			
-			
-		}catch(Exception ex) {ex.printStackTrace();}
+
+				}catch(Exception ex) {ex.printStackTrace();}
+				break;
+			}
+			case("getSome"):{
+				try {
+					int movieID = Integer.parseInt(request.getParameter("movieID"));
+					String currentDateTime = UserDAO.date_format.format(new Date(System.currentTimeMillis()));
+					List<Projection> projections = ProjectionDAO.getSome(movieID, currentDateTime);
+					
+					data.put("projections", projections);
+					
+				}catch(Exception ex) {ex.printStackTrace();}
+				break;
+			}
+		}
+		
+		request.setAttribute("data", data);
+		
+		request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+		
 	}
 
 

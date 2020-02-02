@@ -45,7 +45,7 @@ $(document).ready(function(){
 					}
 					else if(data.loggedUserRole == 'USER'){
 						
-						window.location.replace('');
+						window.location.replace('UserProfile.html');
 					}
 				}
 			});
