@@ -48,6 +48,8 @@ $(document).ready(function(){
 	
 	var table = $('#someProjections');
 	
+	var toSecondPhase = $('#toSecondPhase');
+	
 	function getProjections(){
 		
 		var params = {
@@ -57,7 +59,7 @@ $(document).ready(function(){
 	
 		$.get('AllProjectionsServlet', params, function(data){
 		
-			console.log(data);
+			
 			
 			if(data.status == 'unauthenticated'){
 				window.location.replace('index.html');
@@ -80,17 +82,52 @@ $(document).ready(function(){
 							'<td>' + projections[p].projectionType.name + '</td>' +
 							'<td>' + projections[p].hall.name + '</td>' +
 							'<td>' + projections[p].price + '</td>' +
-							'<td>' +  '<input class="single-check" type="checkbox" data-toggle="toggle" data-onstyle="info" ' + 
-							'data-offstyle="light" data-projID="' +  projections[p].idProjection  + '">'  +  '</td>' +
+							'<td>' +  '<input class="single-check" name="check" type="checkbox" data-toggle="toggle" data-onstyle="info" ' + 
+							'data-offstyle="light" data-max="1" data-projID="' +  projections[p].idProjection  + '">'  +  '</td>' +
 						'</tr>'
 					);
 					
 				}
 				
 				$('.single-check').bootstrapToggle({});
+				
+				$('.single-check').on('change', function(e){
+					
+					var name = $(this).attr('name');
+					var limit = $(this).attr('data-max');
+					var id ;
+					
+					if($('input[name=' + name + ']:checked').length >= limit){
+						
+						 $("input[name=" + name  + "]").not(":checked").attr("disabled", "disabled");
+						 
+						 id = $(this).attr('data-projID');
+						 
+						 var url = 'SecondPhase.html?id=' + id;
+							
+						 toSecondPhase.attr('href', url);
+						 
+					}else{
+						
+						$("input[name=" + name  + "]").removeAttr("disabled");
+					}
+					
+					if(id == null){
+						toSecondPhase.hide();
+						
+					}else{
+						toSecondPhase.show();
+					}
+					
+					
+					
+				});
+					
 			}
 		
 		});
+		
+		
 		
 	}
 	

@@ -6,6 +6,7 @@ $(document).ready(function(){
 	
 	var userProfile = $('#userProfile');
 	var adminProfile = $('#adminProfile');
+	var btnAddProjection = $('#liAddProjection');
 	
 	var btnLogIn = $('#btnLogIn');
 	var btnRegister = $('#btnRegister');
@@ -23,6 +24,7 @@ $(document).ready(function(){
 			
 			userProfile.hide();
 			adminProfile.hide();
+			btnAddProjection.hide();
 			
 		}else if (userRole == 'ADMIN'){
 			
@@ -31,6 +33,7 @@ $(document).ready(function(){
 			
 			userProfile.hide();
 			adminProfile.show();
+			btnAddProjection.show();
 			
 			logo.text('All Projections');
 			
@@ -42,11 +45,73 @@ $(document).ready(function(){
 			userProfile.show();
 			adminProfile.hide();
 			
+			btnAddProjection.hide();
+			
 			logo.text('All Projections');
 		}
 		
 	});
 	
+	var selectedType = $('#selectedType');
+	var selectedHall = $('#selectedHall');
+	var dateTime = $('#dateTimeInput');
+	var price = $('#priceID');
+	
+	var btnAddSubmit = $('#addProjSubmit');
+	
+	var selectMovie = $('#selectedMovie');
+	
+	
+	var params = {
+			
+			'movieName' : '',
+			'genre': '',
+			'minDuration': '',
+			'maxDuration': '',
+			'distribution': '',
+			'origin': '',
+			'minYear': '',
+			'maxYear': ''
+	}
+	
+	$.get('AllMoviesServlet', params, function(data){
+		
+		if(data.status == 'success'){
+			
+			var allMovies = data.filteredMovies;
+			
+			for(movie in allMovies){
+				
+				var option = new Option(allMovies[movie].name, allMovies[movie].idMovie);
+				
+				selectMovie.append(option);
+			}
+		}
+		
+	});
+	
+	var type, hall, datetime, ticketPrice;
+	
+	btnAddSubmit.on('click', function(event){
+		
+		type = selectedType.val();
+		hall = selectedHall.val();
+		datetime = dateTime.val();
+		ticketPrice = price.val();
+		
+		var params = {
+				
+				'action': 'add',
+				'type': type,
+				'hall': hall,
+				'datetime': datetime,
+				'ticketPrice': ticketPrice
+		}
+		
+		console.log(params);
+		
+		
+	});
 	
 	
 	
@@ -185,6 +250,8 @@ $(document).ready(function(){
 		
 	}
 	
+	
+	
 	movieNameInput.on('keyup', function(event){
 		
 		getProjections();
@@ -236,6 +303,13 @@ $(document).ready(function(){
 		
 		event.preventDefault();
 		return false;
+	});
+	
+	$('#datetimeAdd').on('change', function(event){
+		
+		dateTime.val($(this).val());
+		
+		event.preventDefault();
 	});
 
 	getProjections();

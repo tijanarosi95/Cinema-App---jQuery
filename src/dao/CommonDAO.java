@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import model.Hall;
+import model.Seat;
 import model.TypeOfProjection;
 
 public class CommonDAO {
@@ -189,6 +190,42 @@ public class CommonDAO {
 		}
 		
 		return halls;
+	}
+	
+	public static List<Seat> getAllSeats(int hallID) throws Exception {
+		
+		List<Seat> allSeats = new ArrayList<Seat>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+
+		try {
+			
+			String query = "Select serialNum, hall from Seats where hall = ?";
+			
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, hallID);
+			
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				int index = 1;
+				int serialNum = set.getInt(index++);
+				Hall hall = getHall(set.getInt(index++));
+				
+				allSeats.add(new Seat(serialNum, hall));
+			}
+			
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+		
+		return allSeats;
 	}
 	
 	public static ArrayList<TypeOfProjection> returnTypes (List<String> dbTypes) throws Exception{

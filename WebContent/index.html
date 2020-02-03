@@ -32,6 +32,9 @@
 
 
 <!--jquery's datetimepicker css-->
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+	
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     
@@ -51,7 +54,7 @@
             	<li class="nav-item active"><a class="nav-link active" href="AllMovies.html">All Movies</a></li>
             	<li class="nav-item active" id="userProfile"><a class="nav-link active" href="UserProfile.html">Profile</a></li>
             	<li class="nav-item active" id="adminProfile"><a class="nav-link active" href="AdminProfile.html">Profile</a></li>
-            	
+            	<li class="nav-item" id="liAddProjection"><button class=" btn btn-primary navbar-btn" data-toggle="modal" data-target="#addProjModal">Add projection</button></li>
                 <li class="nav-item dropdown active" id="btnRegister"><a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Register</a>
                     <div class="dropdown-menu dropdown-menu-right bg-dark">
                         <form class="form-horizontal">
@@ -231,11 +234,66 @@
             </table>
         
     </div>
-<!--jquery's datetimepicker js-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    
+    <div class="modal fade" id="addProjModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-dark">
+              <h5 class="modal-title" id="exampleModalLabel">Add new projection</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body bg-dark">
+              <form>
+                <div class="form-group">
+                	<label class="col-form-label">Movie:</label>
+                	<select class="form-control selectMovie" id="selectedMovie" style="width:100%; display: block;"></select>
+                	<p id="messageMovie" style="color: red;"></p>
+                </div>
+                <div class="row justify-content">
+                	<div class="form-group col-md-6">
+                		<label class="col-form-label">Projection type:</label>
+                		<select class="form-control multi-select" id="selectedType"></select>
+                		<p id="messageType" style="color: red;"></p>
+                	</div>
+                	<div class="form-group col-md-6">
+                		<label class="col-form-label">Hall:</label>
+                		<select class="form-control multi-select2" id="selectedHall"></select>
+                		<p id="messageHall" style="color: red;"></p>
+                	</div>
+                </div>
+                <div class="row justify-content">
+                	<div class="form-group col-md-6">
+                		<label class="col-form-label">Date and time:</label>
+                		<div class='input-group date' id='datetimeAdd'>
+                             <input type='text' class="form-control" id="dateTimeInput"/>
+                                   <span class="input-group-addon"> 
+                                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                   </span>
+                             <p id="messageDate" style="color: red;"></p>
+                        </div>
+                	</div>
+                	
+                	<div class="form-group col-md-6">
+                		<label class="col-form-label">Price:</label>
+                		<input type="number" class="form-control" id="priceID"/>
+                		<p id="messagePrice" style="color: red;"></p>
+                	</div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer bg-dark">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="addProjSubmit">Add projection</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
 
 
-<!--my javascript-->
+
     
 
     
