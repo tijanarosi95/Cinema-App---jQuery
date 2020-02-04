@@ -73,7 +73,7 @@ $(document).ready(function(){
 		
 	});
 	
-	var graph = $('#graph');
+	var toThirdPhase = $('#toThirdPhase');
 	
 	function getSeats(){
 		
@@ -94,20 +94,60 @@ $(document).ready(function(){
 				
 				var seats = data.seats;
 				
-				for(s in seats){
+				
+				
+				for(seat in seats){
 					
-					//for(var j = 0; j < 6; j++){
-						
-					graph.append(
+					$('#seatDiv').append(
+							'<input class="single-check" name="check" type="checkbox" data-toggle="toggle" data-onstyle="info" seatnum="' +  seats[seat].serialNumber +
+							'" data-offstyle="success" data-off="' + seats[seat].serialNumber  +  '" data-on="' +  seats[seat].serialNumber   + '">' );
 							
-							
-							'<td><input class="single-check" name="check" type="checkbox" data-toggle="toggle" data-onstyle="info" ' + 
-								'data-offstyle="success" data-seatID="' + seats[s].serialNumber + '"></td>' 
-							
-						);
-					
-					//}
 				}
+				
+				$('.single-check').bootstrapToggle({});
+				
+				
+				
+				$('.single-check').on('change', function(event){
+					
+					var seatNum;
+					
+					var checked = [];
+					
+					var name = $(this).attr('name');
+					
+					if($('input[name=' + name  + ']:checked').length >= 1){
+						
+						$.each($("input[name='check']:checked"), function(){
+							
+							seatNum = $(this).attr('seatnum');
+							
+							checked.push(seatNum);
+						});
+						
+						toThirdPhase.show();
+						
+						var url = 'ThirdPhase.html?id=' + projectionID + '&seat=' +  checked.toString();
+						
+						toThirdPhase.attr('href', url);
+						
+						console.log(url);
+						
+					}
+					
+					if(seatNum == null){
+						
+						toThirdPhase.hide();
+						
+					}else{
+						
+						toThirdPhase.show();
+					}
+					
+					
+					
+					
+				});
 				
 			}
 			

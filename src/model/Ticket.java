@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 
 public class Ticket {
@@ -8,12 +8,12 @@ public class Ticket {
 	private int idTicket;
 	private Projection projection;
 	private ArrayList<Seat> seats;
-	private Timestamp dateTimeofSale;
+	private Date dateTimeofSale;
 	private User user;
 	
 	public Ticket() {}
 
-	public Ticket(int idTicket, Projection projection, ArrayList<Seat> seats, Timestamp dateTimeofSale, User user) {
+	public Ticket(int idTicket, Projection projection, ArrayList<Seat> seats, Date dateTimeofSale, User user) {
 		super();
 		this.idTicket = idTicket;
 		this.projection = projection;
@@ -46,11 +46,11 @@ public class Ticket {
 		this.seats = seats;
 	}
 
-	public Timestamp getDateTimeofSale() {
+	public Date getDateTimeofSale() {
 		return dateTimeofSale;
 	}
 
-	public void setDateTimeofSale(Timestamp dateTimeofSale) {
+	public void setDateTimeofSale(Date dateTimeofSale) {
 		this.dateTimeofSale = dateTimeofSale;
 	}
 

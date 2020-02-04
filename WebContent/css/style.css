@@ -203,5 +203,11 @@ img {
 	width:10%;
 }
 
+#seatDiv{
+	display: grid;
+	grid-template-columns: 50px 50px 50px;
+	grid-gap: 25px;
+}
+
 
 

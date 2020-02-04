@@ -244,4 +244,24 @@ public class CommonDAO {
 		return types;
 	}
 	
+	public static ArrayList<Seat> returnSeats (List<String> dbSeats, int hallID) throws Exception {
+		
+		ArrayList<Seat> allSeats = (ArrayList<Seat>) getAllSeats(hallID);
+		
+		ArrayList<Seat> seats = new ArrayList<Seat>();
+		
+		for(String s : dbSeats) {
+			for(Seat seat : allSeats) {
+				if(s.equals(Integer.toString(seat.getSerialNumber()))) {
+					
+					seats.add(seat);
+					System.out.println(seat.getSerialNumber());
+				}
+			}
+		}
+		
+		return seats;
+		
+	}
+	
 }

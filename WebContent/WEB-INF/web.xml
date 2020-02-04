@@ -127,4 +127,14 @@
     <servlet-name>AllProjectionsServlet</servlet-name>
     <url-pattern>/AllProjectionsServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TicketServlet</display-name>
+    <servlet-name>TicketServlet</servlet-name>
+    <servlet-class>servlets.tickets.TicketServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TicketServlet</servlet-name>
+    <url-pattern>/TicketServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

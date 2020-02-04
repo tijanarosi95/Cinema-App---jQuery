@@ -1,0 +1,14 @@
+#seatDiv{
+	display: grid;
+	grid-template-columns: 50px 50px 50px;
+	grid-gap: 25px;
+}
+
+#seatID {
+	
+	height: 40px;
+	width: 40px;
+	background-color: darkcyan;
+	
+	
+}
