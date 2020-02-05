@@ -1,7 +1,26 @@
 $(document).ready(function(){
 	
+	$('#logoutUser').on('click', function(event){
+		$.get('LogoutServlet', function(data){
+			
+			if(data.status == 'unauthenticated'){
+				console.log(data);
+				window.location.replace('index.html');
+			}
+		});
+		
+		event.preventDefault();
+		return false;
+	});
+	
 	var adminProfile = $('#adminProfile');
-	var adminLogout = $('#adminLogout');
+	var logout = $('#Logout');
+	
+	var userProfile = $('#userProfile');
+	
+	var btnBuy = $('#liBuyTicket');
+	
+	var ticketsDiv = $('#ticketsDiv');
 	
 	var userRole;
 	
@@ -12,9 +31,30 @@ $(document).ready(function(){
 		if(userRole == null){
 			
 			adminProfile.hide();
-			adminLogout.hide();
-		}else{
+			logout.hide();
 			
+			userProfile.hide();
+			btnBuy.hide();
+			ticketsDiv.hide();
+			
+		}else if (userRole == 'USER'){
+			
+			adminProfile.hide();
+			
+			logout.show();
+			userProfile.show();
+			btnBuy.show();
+			ticketsDiv.hide();
+			
+		}else if(userRole == 'ADMIN'){
+			
+			adminProfile.show();
+			logout.show();
+			ticketsDiv.show();
+			
+			userProfile.hide();
+			btnBuy.hide();
+	
 		}
 		
 	});
@@ -71,5 +111,55 @@ $(document).ready(function(){
 		
 	});
 	
+	$('#btnBuy').on('click', function(event){
+		
+		var url = 'SecondPhase.html?id=' + projectionID;
+		
+		$(this).attr('href', url);
+		
+	});
+	
+	
+	var table = $('#tableTickets');
+	
+	var parameters = {
+			
+			'action': 'getProjectionTickets',
+			'projID': projectionID
+	}
+	
+	console.log(parameters);
+	
+	$.get('TicketServlet', parameters, function(data){
+		
+		if(data.status == 'unauthenticated'){
+			
+			window.location.replace('index.html');
+			return;
+		}
+		if(data.status == 'success'){
+			
+			var tickets = data.tickets;
+			
+			
+			table.find('tr:gt(0)').remove();
+			
+			var index = 1;
+			
+			for(t in tickets){
+				
+				table.append(
+						'<tr>' +
+							'<td>' + index++ + '</td>' +
+							'<td>' + '<a href="Ticket.html?id=' + tickets[t].idTicket + '">' + tickets[t].dateTimeofSale + '</a></td>' +
+							'<td>' + '<a href="User.html?username=' + tickets[t].user.username + '">' + tickets[t].user.username + '</a></td>' +
+						'</tr>'
+				);
+			}
+		}
+		
+	});
+	
+	return false;
 	
 });

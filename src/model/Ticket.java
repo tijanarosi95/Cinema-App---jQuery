@@ -10,16 +10,26 @@ public class Ticket {
 	private ArrayList<Seat> seats;
 	private Date dateTimeofSale;
 	private User user;
+	private boolean isActive;
 	
 	public Ticket() {}
 
-	public Ticket(int idTicket, Projection projection, ArrayList<Seat> seats, Date dateTimeofSale, User user) {
+	public Ticket(int idTicket, Projection projection, ArrayList<Seat> seats, Date dateTimeofSale, User user, boolean isActive) {
 		super();
 		this.idTicket = idTicket;
 		this.projection = projection;
 		this.seats = seats;
 		this.dateTimeofSale = dateTimeofSale;
 		this.user = user;
+		this.isActive = isActive;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public int getIdTicket() {

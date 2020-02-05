@@ -211,4 +211,31 @@ public class UserDAO {
 			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
 		}
 	}
+	
+	public static boolean updatePassword(String username, String newPassword) throws Exception {
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			
+			String query = "Update Users SET password = ? where userName = ?";
+			
+			pstm = conn.prepareStatement(query);
+			
+			int index = 1;
+			
+			pstm.setString(index++, newPassword);
+			pstm.setString(index++, username);
+			
+			return pstm.executeUpdate() == 1;
+			
+		}finally {
+			
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+		
+	}
 }

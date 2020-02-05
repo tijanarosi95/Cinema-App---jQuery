@@ -24,6 +24,8 @@ $(document).ready(function(){
 				userNameInput.val('');
 				passwordInput.val('');
 				
+				
+				
 				return;
 			}
 			

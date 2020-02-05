@@ -11,20 +11,12 @@ $(document).ready(function(){
         event.preventDefault();
         return false;
     });
-    
-    
-    
-    
-
+   
     var username =  window.location.search.split('&')[0].split('=')[1];
     
     var usernameInput = $('#userNameInput');
     var dateRegistrationInput = $('#dateInput');
-    
     var role = $('#role');
-  
-    
-    
     
     console.log("link: " + username);
     
@@ -64,5 +56,42 @@ $(document).ready(function(){
 
     }
     
+    var table = $('#table');
+    
+    function getUserTickets (){
+    	
+    	var params = {
+    			
+    			'action': 'getUserTickets',
+    			'username': username
+    		}
+    	
+    		console.log(params);
+    	
+    		$.get('TicketServlet', params, function(data){
+    		
+    		if(data.status == 'success'){
+    			
+    			var tickets = data.tickets;
+    			
+    			table.find('tr:gt(0)').remove();
+    			
+    			var index = 1;
+    			
+    			for(t in tickets){
+    				
+    				table.append(
+    						'<tr>' +
+    							'<td>' + index++ + '</td>' +
+    							'<td>' + '<a href="Ticket.html?id=' + tickets[t].idTicket + '">' + tickets[t].dateTimeofSale + '</a></td>' +
+    						'</tr>'
+    				);
+    			}
+    		}
+    	});
+    }
+    
     getChosenUser();
+    
+    getUserTickets();
 });

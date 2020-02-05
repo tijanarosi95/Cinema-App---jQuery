@@ -204,7 +204,7 @@ public class CommonDAO {
 
 		try {
 			
-			String query = "Select serialNum, hall from Seats where hall = ?";
+			String query = "Select seatid, hallid from HasSeat where hallid = ?";
 			
 			pstm = conn.prepareStatement(query);
 			pstm.setInt(1, hallID);
@@ -226,6 +226,40 @@ public class CommonDAO {
 		}
 		
 		return allSeats;
+	}
+	
+	public static Seat getSeat(int id, int hallID) throws Exception {
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+		
+		try {
+			
+			String query = "Select distinct serialNum from Seats where serialNum = ?";
+			
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, id);
+			
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				int index = 1;
+				int num = set.getInt(index++);
+				Hall hall = getHall(hallID);
+				
+				return new Seat(num, hall);
+				
+			}
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+		
+		return null;
 	}
 	
 	public static ArrayList<TypeOfProjection> returnTypes (List<String> dbTypes) throws Exception{

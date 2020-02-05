@@ -35,7 +35,7 @@ $(document).ready(function(){
 			}
 			
 			if(data.status == 'success'){
-				window.location.replace('');
+				alert('You have successfully registered!Please log in!');
 			}
 		});
 		

@@ -55,8 +55,36 @@ public class AllUsersServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String loggedInUser = (String) request.getSession().getAttribute("loggedInUser");
+		
+		if(loggedInUser == null) {
+			
+			request.getRequestDispatcher("./LogoutServlet").forward(request, response);
+			return;
+		}
+		
+		try {
+			
+			User loggedUser = UserDAO.getUser(loggedInUser);
+			
+			if(loggedUser == null) {
+				
+				request.getRequestDispatcher("./LogoutServlet").forward(request, response);
+				return;
+			}
+			
+			String username = request.getParameter("username");
+			String newPassword = request.getParameter("newPassword");
+			
+			UserDAO.updatePassword(username, newPassword);
+			
+			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			request.getRequestDispatcher("./FailureServlet").forward(request, response);
+		}
 	}
 
 }

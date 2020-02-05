@@ -22,10 +22,10 @@ public class LogoutServlet extends HttpServlet {
 		
 		Map<String, Object> data = new LinkedHashMap<String, Object>();
 		data.put("status", "unauthenticated");
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);
-		System.out.println(jsonData);
+		System.out.println(jsonData + " ODJAVAAAAAAAAAAA");
 		
 		response.setContentType("application/json");
 		response.getWriter().write(jsonData);
