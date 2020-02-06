@@ -62,6 +62,53 @@ public class TicketDAO {
 		}
 	}
 	
+	
+	public static Ticket getTicket(int ticketID) throws Exception {
+		
+		ArrayList<Seat> seats = new ArrayList<Seat>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+		
+		try {
+			
+			String query = "Select t.id, t.projID, p.hall, t.seatID, t.date, t.user, t.active from Tickets t, Projections p"
+					+ " where t.id = ? and p.id = t.projID";
+			
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setInt(1, ticketID);
+			
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				
+				int index = 1;
+				int id = set.getInt(index++);
+				Projection projection = ProjectionDAO.getProjection(set.getInt(index++));
+				int hallID = set.getInt(index++);
+				Seat seat = CommonDAO.getSeat(set.getInt(index++), hallID);
+				Date date = UserDAO.date_format.parse(set.getString(index++));
+				User user = UserDAO.getUser(set.getString(index++));
+				boolean isActive = set.getBoolean(index++);
+				
+				seats.add(seat);
+				
+				return new Ticket(id, projection, seats, date, user, isActive);
+				
+			}
+		}finally {
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+			
+		}
+		return null;
+	}
+	
 	public static List<Ticket> getAllTickets(int projectionID) throws Exception {
 		
 		List<Ticket> tickets = new ArrayList<Ticket>();
@@ -155,6 +202,29 @@ public class TicketDAO {
 		}
 		
 		return tickets;
+	}
+	
+	public static boolean deleteTicket(int id) throws Exception {
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			
+			String query = "Delete from Tickets where id = ?";
+			
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setInt(1, id);
+			
+			return pstm.executeUpdate() == 1;
+			
+		}finally {
+			
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
 	}
 	
 }

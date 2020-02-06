@@ -57,6 +57,7 @@ $(document).ready(function(){
 	var dateTime = $('#dateTimeInput');
 	var price = $('#priceID');
 	
+	var modal = $('#addProjModal');
 	var btnAddSubmit = $('#addProjSubmit');
 	
 	var selectMovie = $('#selectedMovie');
@@ -90,10 +91,11 @@ $(document).ready(function(){
 		
 	});
 	
-	var type, hall, datetime, ticketPrice;
+	var movie, type, hall, datetime, ticketPrice;
 	
 	btnAddSubmit.on('click', function(event){
 		
+		movie = selectMovie.val();
 		type = selectedType.val();
 		hall = selectedHall.val();
 		datetime = dateTime.val();
@@ -102,6 +104,7 @@ $(document).ready(function(){
 		var params = {
 				
 				'action': 'add',
+				'movie' : movie,
 				'type': type,
 				'hall': hall,
 				'datetime': datetime,
@@ -110,10 +113,139 @@ $(document).ready(function(){
 		
 		console.log(params);
 		
+		if(isValid()){
+			
+			if(isFree()){
+			
+				$.post('ProjectionServlet', params, function(data){
+				
+					
+					if(data.status == 'unauthenticated'){
+						
+						window.location.replace('index.html');
+						return;
+					}
+					if(data.status == 'success'){
+						
+						alert('You successfully added new projection!');
+						
+						modal.modal('toggle');
+						
+						modal.on('hidden.bs.modal', function(event){
+							
+							$(this).find('form').trigger('reset');
+							
+							getProjections();
+						});
+					}
+					
+					
+				});
+			
+			}
+		}
+		
 		
 	});
 	
+	function isValid(){
+		
+		var today = new Date();
+		
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+		var yyyy = today.getFullYear();
+		
+		var hh = String(today.getHours()).padStart(2, '0');
+		var min = String(today.getMinutes()).padStart(2, '0');
+		
+		today = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min;
+		
+		
+		console.log(today);
+		
+		for(h in hallsCollection){
+			
+			console.log(hallsCollection[h]);
+			
+			if(hallsCollection[h].id == hall){
+				
+				var hallsTypes = hallsCollection[h].projectionTypes;
+				
+				console.log(hallsTypes);
+				
+			}
+		}
+		
+		if(!hallsTypes.some(t => t.id === Number(type))){
+			
+			$('#messageType').text('This projection type does not exist in selected hall!');
+			
+			return false;
+		}
+		
+
+		if(datetime < today){
+			
+			$('#messageDate').text('Date can not be in the past!');
+			
+			return false;
+		}
+		if(datetime === ""){
+			
+			$('#messageDate').text('Date can not be empty!');
+			
+			return false;
+		}
+		if(price === ""){
+			
+			$('#messagePrice').text('Price can not be empty!');
+			
+			return false;
+		}
+		
+		return true;
+	}
 	
+	
+	
+	function isFree(){
+		
+		for(p in allProjections){
+			
+			if(allProjections[p].hall.id == hall && 
+					allProjections[p].dateTimeShow.split(' ')[0] == datetime.split(' ')[0]){
+				
+				var newProjDate = new Date(datetime);
+				
+				var movieDuration = allProjections[p].movie.duration;
+				
+				var startAt = new Date(allProjections[p].dateTimeShow);
+				
+				var finishedAt = new Date(startAt.getTime() + allProjections[p].movie.duration * 60000);
+				
+				if(newProjDate <= finishedAt && newProjDate >= startAt){
+					
+					$('#messageDate').text('There is already projection in entered time!');
+					
+					return false;
+				}
+				
+				if(new Date(newProjDate.getTime() + movieDuration * 60000) <= finishedAt &&
+						new Date(newProjDate.getTime() + movieDuration * 60000) >= startAt){
+					
+					console.log(movieDuration);
+					
+					$('#messageDate').text('There is already projection in entered time!');
+					
+					return false;
+				}
+			}
+		}
+		
+		return true;
+		
+	}
 	
 	var movieNameInput = $('#movieName');
 	
@@ -124,7 +256,6 @@ $(document).ready(function(){
 	
 	select.select2({
 		width: 'element',
-		
 		tokenSeparators: [',']
 	});
 		
@@ -139,9 +270,11 @@ $(document).ready(function(){
 		
 	});
 	
+	var hallsCollection;
+	
 	$.get('ProjectionServlet', {'action': 'halls'}, function(data){
 		console.log(data.halls);
-		var hallsCollection = data.halls;
+		hallsCollection = data.halls;
 		for(hall in hallsCollection){
 			var option = new Option(hallsCollection[hall].name, hallsCollection[hall].id);
 			selectHall.append(option);
@@ -176,6 +309,7 @@ $(document).ready(function(){
 		step : 15,
 	});
 	
+	var allProjections = [];
 	
 	var projectionTable = $('#projectionTable');
 	
@@ -204,13 +338,11 @@ $(document).ready(function(){
 		
 		$.get('AllProjectionsServlet', params, function(data){
 			
-			var list = data.filteredProjections;
-			console.log(data);
 			
 			if(data.status == 'success'){
 				
 				projectionTable.find('tr:gt(0)').remove();
-				
+				 
 				var filteredProjections = data.filteredProjections;
 				
 				var index =1;
@@ -225,13 +357,35 @@ $(document).ready(function(){
 				
 				console.log(today);
 				
+				console.log(userRole);
+				
 				for(p in filteredProjections){
+					
+					allProjections.push(filteredProjections[p]);
 					
 					var dateProjection = filteredProjections[p].dateTimeShow.split(' ')[0];
 					
-					if( dateProjection === today){
+					if(userRole === 'ADMIN'){
 						
 						projectionTable.append(
+								
+								'<tr>' +
+									'<td>' + index++ + '</td>' +
+									'<td><a href="Movie.html?id=' + filteredProjections[p].movie.idMovie + '">' + filteredProjections[p].movie.name + '</a></td>' +
+									'<td>' + filteredProjections[p].projectionType.name + '</td>' +
+									'<td>' + filteredProjections[p].hall.name + '</td>' +
+									'<td>'  + '<a href="Projection.html?id=' + filteredProjections[p].idProjection + '">' + filteredProjections[p].dateTimeShow + '</a>' + '</td>' +
+									'<td>' + filteredProjections[p].price + '</td>' +
+									'<td>' +  '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popupModal"' +
+												' data-projID="' + filteredProjections[p].idProjection + '">Delete</button></td>' +
+								'</tr>'
+								
+							);
+						
+					}else if( dateProjection === today){
+						
+						projectionTable.append(
+								
 								'<tr>' +
 									'<td>' + index++ + '</td>' +
 									'<td><a href="Movie.html?id=' + filteredProjections[p].movie.idMovie + '">' + filteredProjections[p].movie.name + '</a></td>' +
@@ -241,14 +395,61 @@ $(document).ready(function(){
 									'<td>' + filteredProjections[p].price + '</td>' +
 								'</tr>'
 								
-						);
-					}
+							);
+						
+					} 
 				}
 			}
 			
 		});
 		
 	}
+	
+	var confirmModal = $('#popupModal');
+	var modalBody = $('#modalBody');
+	var btnDelete = $('#btnDeleteProjection');
+	
+	var projectionID;
+	
+	confirmModal.on('show.bs.modal', function(event){
+		
+		var button = $(event.relatedTarget);
+		
+		projectionID = button.attr('data-projID');
+		
+		console.log(projectionID);
+		
+		modalBody.text('Are you sure you want delete this projection?');
+		
+	});
+	
+	
+	
+	btnDelete.on('click', function(event){
+		
+		console.log(projectionID + "+++");
+		
+		var params = {
+				
+				'action': 'delete',
+				'projID': projectionID
+		}
+		
+		$.post('ProjectionServlet', params, function(data){
+			
+			if(data.status == 'success'){
+				
+				alert('You successfully delete projection!');
+				
+				confirmModal.modal('toggle');
+				
+				getProjections();
+			}
+			
+			return false;
+		});
+		
+	});
 	
 	
 	

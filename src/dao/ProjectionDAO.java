@@ -151,4 +151,89 @@ public class ProjectionDAO {
 		
 		return null;
 	}
+	
+	public static boolean addProjection(Projection p) throws Exception {
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			
+			String query = "Insert into Projections(movieid, type, hall, datetime, price, user, active) values "
+								+ "(?,?,?,?,?,?,?)";
+			
+			pstm = conn.prepareStatement(query);
+			
+			int index = 1;
+			
+			pstm.setInt(index++, p.getMovie().getIdMovie());
+			pstm.setInt(index++, p.getProjectionType().getId());
+			pstm.setInt(index++, p.getHall().getId());
+			pstm.setString(index++, UserDAO.date_format.format(p.getDateTimeShow()));
+			pstm.setDouble(index++, p.getPrice());
+			pstm.setString(index++, p.getAdmin().getUsername());
+			pstm.setBoolean(index++, p.isActive());
+			
+			return pstm.executeUpdate() == 1;
+			
+		}finally {
+			
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+	}
+	
+	public static boolean deleteProjection(int id) throws Exception {
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			
+			conn.setAutoCommit(false);
+			
+			conn.commit();
+			
+			String query = "Update Projections set active = 0 where id = ? and id = (Select distinct projID from Tickets)";
+			
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setInt(1, id);
+			
+			if(pstm.executeUpdate() == 0) {
+				
+				pstm.close();
+				
+				query = "Delete from Projections where id = ?";
+				
+				pstm = conn.prepareStatement(query);
+				
+				int index = 1;
+				
+				pstm.setInt(index++, id);
+				
+				pstm.executeUpdate();
+				
+				conn.commit();
+				
+				return true;
+			}
+			
+		}catch(Exception ex){
+			
+			try {conn.rollback();} catch (Exception ex1) {ex1.printStackTrace();}
+			
+			throw ex;
+		}finally {
+			
+			try {conn.setAutoCommit(true);} catch (Exception ex1) {ex1.printStackTrace();}
+			
+			try {pstm.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		}
+		
+		return false;
+	}
 }

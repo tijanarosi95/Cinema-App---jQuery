@@ -120,46 +120,151 @@ $(document).ready(function(){
 	});
 	
 	
+	var allTickets = [];
+	
+	
 	var table = $('#tableTickets');
 	
-	var parameters = {
+	function getTickets(){
+	
+		var parameters = {
 			
 			'action': 'getProjectionTickets',
 			'projID': projectionID
-	}
-	
-	console.log(parameters);
-	
-	$.get('TicketServlet', parameters, function(data){
-		
-		if(data.status == 'unauthenticated'){
-			
-			window.location.replace('index.html');
-			return;
 		}
-		if(data.status == 'success'){
+	
+		console.log(parameters);
+	
+		$.get('TicketServlet', parameters, function(data){
+		
+			if(data.status == 'unauthenticated'){
 			
-			var tickets = data.tickets;
+				window.location.replace('index.html');
+				return;
+			}
+			if(data.status == 'success'){
+			
+				var tickets = data.tickets;
 			
 			
-			table.find('tr:gt(0)').remove();
+				table.find('tr:gt(0)').remove();
 			
-			var index = 1;
+				var index = 1;
 			
-			for(t in tickets){
+				for(t in tickets){
 				
-				table.append(
+					allTickets.push(tickets[t]);
+				
+					table.append(
 						'<tr>' +
 							'<td>' + index++ + '</td>' +
 							'<td>' + '<a href="Ticket.html?id=' + tickets[t].idTicket + '">' + tickets[t].dateTimeofSale + '</a></td>' +
 							'<td>' + '<a href="User.html?username=' + tickets[t].user.username + '">' + tickets[t].user.username + '</a></td>' +
+							'<td>' + '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popupModal"'  + 
+										' data-ticketID="'  +  tickets[t].idTicket  + '">Delete</button></td>' +
 						'</tr>'
-				);
+					);
+				}
+			}
+		
+		});
+	
+	}	
+	var modal = $('#popupModal');
+	var modalBody = $('#modalBody');
+	var btnDeleteTicket = $('#btnDeleteTicket');
+	
+	var ticketID;
+	
+	modal.on('show.bs.modal', function(event){
+		
+		console.log(allTickets);
+		
+		var button = $(event.relatedTarget);
+		
+		ticketID = button.attr('data-ticketID');
+		
+		var today = new Date();
+		
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+		var yyyy = today.getFullYear();
+		
+		var hh = String(today.getHours()).padStart(2, '0');
+		var min = String(today.getMinutes()).padStart(2, '0');
+		
+		today = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min;
+		
+		console.log(today);
+		
+		for(t in allTickets){
+			
+			if(allTickets[t].projection.dateTimeShow < today){
+				
+				modalBody.text('You can not delete ticket because ticket projection is in the past!');
+				
+				btnDeleteTicket.hide();
+			}
+			if(allTickets[t].projection.dateTimeShow > today){
+				
+				modalBody.text('Are you sure you want delete this ticket?');
+				
+				btnDeleteTicket.show();
 			}
 		}
 		
+		
 	});
 	
-	return false;
+	btnDeleteTicket.on('click', function(event){
+		
+		var params = {
+				
+				'ticketID': ticketID
+		}
+		
+		$.post('TicketDeleteServlet', params, function(data){
+			
+			if(data.status == 'success'){
+				
+				alert('You successufully delete this ticket!');
+				
+				modal.modal('toggle');
+				
+				getTickets();
+			}
+			
+			return false;
+		});
+		
+	});
 	
+	
+	$('th').click(function(){
+		var table = $(this).parents('table').eq(0);
+		var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+		this.asc = !this.asc;
+		if(!this.asc){
+			rows = rows.reverse();
+		}
+		for (var i = 0; i < rows.length; i++){
+			table.append(rows[i]);
+		}
+	});
+	
+	function comparer(index){
+		return function(a, b){
+			var valA = getCellValue(a, index);
+			var valB = getCellValue(b, index);
+			
+			return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+		}
+	}
+	
+	function getCellValue(row, index){
+		return $(row).children('td').eq(index).text();
+	}
+	
+	
+	getTickets();
 });

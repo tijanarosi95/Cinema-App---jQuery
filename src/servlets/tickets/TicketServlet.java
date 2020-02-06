@@ -69,6 +69,16 @@ public class TicketServlet extends HttpServlet {
 					
 					break;
 				}
+				case("getTicket"):{
+					
+					int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+					
+					Ticket ticket = TicketDAO.getTicket(ticketID);
+					
+					data.put("ticket", ticket);
+					
+					break;
+				}
 			
 			}
 			
