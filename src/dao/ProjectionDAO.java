@@ -196,11 +196,14 @@ public class ProjectionDAO {
 			
 			conn.commit();
 			
-			String query = "Update Projections set active = 0 where id = ? and id = (Select distinct projID from Tickets)";
+			String query = "Update Projections set active = 0 where id = ? and id = (Select distinct projID from Tickets "
+					+ "where projID = ?)";
 			
 			pstm = conn.prepareStatement(query);
 			
 			pstm.setInt(1, id);
+			
+			pstm.setInt(2, id);
 			
 			if(pstm.executeUpdate() == 0) {
 				

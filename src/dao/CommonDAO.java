@@ -262,6 +262,52 @@ public class CommonDAO {
 		return null;
 	}
 	
+	
+	public static List<Seat> getBusySeats(int projID) throws Exception{
+		
+		List<Seat> seats = new ArrayList<Seat>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+		
+		try {
+			
+			String query = "Select seatID, hall from Tickets t, Projections p where p.id = t.projID"
+					+ " and projID = ?";
+			
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setInt(1, projID);
+			
+			set = pstm.executeQuery();
+			
+			
+			while(set.next()) {
+				
+				int index = 1;
+				
+				int seatID = set.getInt(index++);
+				
+				Hall hall = getHall(set.getInt(index++));
+				
+				
+				seats.add(new Seat(seatID, hall));
+			}
+			
+		}finally {
+			
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+			
+		}
+		
+		return seats;
+	}
+	
 	public static ArrayList<TypeOfProjection> returnTypes (List<String> dbTypes) throws Exception{
 		
 		ArrayList<TypeOfProjection> types = new ArrayList<TypeOfProjection>();

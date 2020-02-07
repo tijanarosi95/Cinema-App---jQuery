@@ -24,6 +24,7 @@ $(document).ready(function(){
 	var btnBuyTicket = $('#liBuyTicket');
 
 	btnBuyTicket.on('click', function(e){
+		
 		window.location.replace('FirstPhase.html?movieID=' + movieID);
 	});
 	
@@ -256,6 +257,7 @@ $(document).ready(function(){
 					$('#year').text(chosenMovie.productionYear);
 					$('#origin').text(chosenMovie.originCountry);
 					$('#description').text(chosenMovie.description);
+				
 				}	
     		
 			}

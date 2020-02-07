@@ -3,6 +3,7 @@ package servlets.projections;
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import enums.Role;
 import model.Hall;
 import model.Movie;
 import model.Projection;
+import model.Seat;
 import model.TypeOfProjection;
 import model.User;
 
@@ -44,6 +46,12 @@ public class ProjectionServlet extends HttpServlet {
 				case("seats"):{
 					int hallID = Integer.parseInt(request.getParameter("hallID"));
 					data.put("seats", CommonDAO.getAllSeats(hallID));
+					break;
+				}
+				case("getBusySeats"):{
+					int projID = Integer.parseInt(request.getParameter("projID"));
+					List<Seat> busySeats = CommonDAO.getBusySeats(projID);
+					data.put("busySeats", busySeats);
 					break;
 				}
 				case("getProjection"):{

@@ -49,12 +49,7 @@ $(document).ready(function(){
     		loggedUserName = data.loggedInUser.username;
     	
     		console.log('userNameee ' + userName);
-    	
-    		if(userName == loggedUserName){
-    			changeUserModal.modal('hide');    		
-    			alert('You can not change your role!');
-    			
-    		}
+
     		
     		
     	});
@@ -63,6 +58,7 @@ $(document).ready(function(){
     
     
     function getUsers(){
+    	
     	var usernameFilter = userNameInput.val();
     	var typeOfUserButton = $('.custom-control-input[name=defaultRadios]:checked').val();
     	console.log(usernameFilter);
@@ -199,12 +195,21 @@ $(document).ready(function(){
         				console.log(data);
         				
         				if(data.status == 'unauthenticated'){
+        					
 							window.location.replace('index.html');
+							
 							return;
 						}
         				if(data.status == 'success'){
+        					
         					alert('You successfully update user!');
+        					
         					changeUserModal.modal('toggle');
+        					
+        					if(userName === loggedUserName){
+        						
+        						autoLogOut();
+        					}
         				}
         				getUsers();
         				
@@ -218,6 +223,18 @@ $(document).ready(function(){
         });
     	
     });
+    
+    function autoLogOut(){
+    	
+    	$.get('LogoutServlet', function(data){
+			
+			if(data.status == 'unautheticated'){
+				
+				window.location.replace('index.html');
+			}
+			
+		});
+    }
     
     
   var confirmModal = $('#popUpModal');

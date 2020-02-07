@@ -264,7 +264,7 @@ $(document).ready(function(){
 		console.log(data.projectionTypes);
 		var typesCollection = data.projectionTypes;
 		for(type in typesCollection){
-			var option = new Option(typesCollection[type].name, typesCollection[type].id);
+			var option = new Option(typesCollection[type].name, typesCollection[type].id, false, false);
 			selectType.append(option);
 		}
 		
@@ -276,7 +276,7 @@ $(document).ready(function(){
 		console.log(data.halls);
 		hallsCollection = data.halls;
 		for(hall in hallsCollection){
-			var option = new Option(hallsCollection[hall].name, hallsCollection[hall].id);
+			var option = new Option(hallsCollection[hall].name, hallsCollection[hall].id, false, false);
 			selectHall.append(option);
 		}
 	});
@@ -316,8 +316,8 @@ $(document).ready(function(){
 	function getProjections(){
 		
 		var movieName = movieNameInput.val();
-		var types = selectType.val();
-		var halls = selectHall.val();
+		var types = selectType.val().toString();
+		var halls = selectHall.val().toString();
 		var minPrice = priceMin.val();
 		var maxPrice = priceMax.val();
 		var dateFrom = dateFromInput.val();
@@ -382,7 +382,7 @@ $(document).ready(function(){
 								
 							);
 						
-					}else if( dateProjection === today){
+					}else if(dateProjection === today){
 						
 						projectionTable.append(
 								
@@ -391,12 +391,11 @@ $(document).ready(function(){
 									'<td><a href="Movie.html?id=' + filteredProjections[p].movie.idMovie + '">' + filteredProjections[p].movie.name + '</a></td>' +
 									'<td>' + filteredProjections[p].projectionType.name + '</td>' +
 									'<td>' + filteredProjections[p].hall.name + '</td>' +
-									'<td>'  + '<a href="Projection.html?id=' + filteredProjections[p].idProjection + '">' + filteredProjections[p].dateTimeShow + '</a>' + '</td>' +
+									'<td>'  + '<a href="Projection.html?id=' + filteredProjections[p].idProjection + '">' + filteredProjections[p].dateTimeShow + '</a></td>' +
 									'<td>' + filteredProjections[p].price + '</td>' +
 								'</tr>'
 								
 							);
-						
 					} 
 				}
 			}

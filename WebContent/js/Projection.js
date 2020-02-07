@@ -22,20 +22,29 @@ $(document).ready(function(){
 	
 	var ticketsDiv = $('#ticketsDiv');
 	
-	var userRole;
+	
 	
 	$.get('UserServlet', {'loggedUser' : 'loggedUserRole'}, function(data){
 		
+		var userRole;
+		
 		userRole = data.loggedUserRole;
+		
+		console.log(userRole + '++++');
 		
 		if(userRole == null){
 			
 			adminProfile.hide();
 			logout.hide();
-			
+			ticketsDiv.hide();
 			userProfile.hide();
 			btnBuy.hide();
-			ticketsDiv.hide();
+			
+			
+			console.log('UNDEFINESSS');
+			
+			getProjection();
+			
 			
 		}else if (userRole == 'USER'){
 			
@@ -46,6 +55,7 @@ $(document).ready(function(){
 			btnBuy.show();
 			ticketsDiv.hide();
 			
+			
 		}else if(userRole == 'ADMIN'){
 			
 			adminProfile.show();
@@ -54,11 +64,16 @@ $(document).ready(function(){
 			
 			userProfile.hide();
 			btnBuy.hide();
-	
+			
+			getTickets();
+
 		}
 		
+		event.preventDefault();
+		
+		return false;
+		
 	});
-	
 	
 	
 	
@@ -70,46 +85,56 @@ $(document).ready(function(){
 	var hall = $('#hall'); 
 	var price = $('#price');
 	
-	var params = {
+	function getProjection(){
+		
+		
+		var parameters = {
+				
+				'action': 'getBusySeats',
+				'projID': projectionID
+		}
+	
+		var params = {
 			
 			'action' : 'getProjection',
 			'projectionID' : projectionID
-	}
+		}
 	
-	$.get('ProjectionServlet', params, function(data){
+		$.get('ProjectionServlet', params, function(data){
 		
-		console.log(data.selectedProjection);
+			console.log(data.selectedProjection);
 		
-		var projection = data.selectedProjection;
+			var projection = data.selectedProjection;
 		
-		if(data.status === 'success'){
+			if(data.status === 'success'){
+
 			
-			for(img in images){
+				movieName.text(projection.movie.name);
+			
+				var movieLink = 'Movie.html?id=' + projection.movie.idMovie;
+			
+				movieName.attr('href', movieLink);
+			
+				type.text(projection.projectionType.name);
+				hall.text(projection.hall.name);
+				date.text(projection.dateTimeShow);
+				price.text(projection.price);
 				
+				var today = new Date();
 				
+				var projShow = new Date(projection.dateTimeShow);
 				
-				if(images[img].id == projection.movie.idMovie){
+				if(projShow < today){
 					
-					console.log(images[img].image);
-					
-					$('#bcgImage').css('background-image', images[img].image);
+					btnBuy.hide();
 				}
 			}
-			
-			movieName.text(projection.movie.name);
-			
-			var movieLink = 'Movie.html?id=' + projection.movie.idMovie;
-			
-			movieName.attr('href', movieLink);
-			
-			type.text(projection.projectionType.name);
-			hall.text(projection.hall.name);
-			date.text(projection.dateTimeShow);
-			price.text(projection.price);
-		}
 		
 		
-	});
+		});
+	
+	
+	}
 	
 	$('#btnBuy').on('click', function(event){
 		
@@ -170,11 +195,14 @@ $(document).ready(function(){
 		});
 	
 	}	
+	
 	var modal = $('#popupModal');
 	var modalBody = $('#modalBody');
 	var btnDeleteTicket = $('#btnDeleteTicket');
 	
 	var ticketID;
+
+	
 	
 	modal.on('show.bs.modal', function(event){
 		
@@ -265,6 +293,7 @@ $(document).ready(function(){
 		return $(row).children('td').eq(index).text();
 	}
 	
+	getProjection();
 	
-	getTickets();
+	
 });

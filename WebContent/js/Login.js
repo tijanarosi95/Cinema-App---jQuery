@@ -21,6 +21,8 @@ $(document).ready(function(){
 			
 			if(data.status == 'failure'){
 				
+				$('#messageLogg').text('Incorrect username/password!');
+				
 				userNameInput.val('');
 				passwordInput.val('');
 				

@@ -59,6 +59,7 @@ public class TicketServlet extends HttpServlet {
 					
 					break;
 				}
+				
 				case("getUserTickets"):{
 					
 					String username = request.getParameter("username");

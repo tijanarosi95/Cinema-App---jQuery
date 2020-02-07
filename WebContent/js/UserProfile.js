@@ -47,48 +47,67 @@ $(document).ready(function(){
 			
 			if(data.status == 'success'){
 					
-				alert('You successufully changed your password!');
-	
+				alert('You successfully changed your password!');
+				
+				
+				autoLogout();
 			}
 			
 		});
 		
+		event.preventDefault();
+		
+		return false;
 	});
 	
+	function autoLogout(){
+		
+		$.get('LogoutServlet', function(data){
+			
+			if(data.status == 'unautheticated'){
+				
+				window.location.replace('index.html');
+			}
+			
+		});
+	}
 	
 	var userName;
 	var password;
 	
-	$.get('UserServlet', {'loggedUser' : 'loggedInUser'}, function(data){
+	function getUser(){
+	
+		$.get('UserServlet', {'loggedUser' : 'loggedInUser'}, function(data){
 			
-		console.log(data);
+			console.log(data);
 			
-		if(data.status == 'unauthenticated'){
+			if(data.status == 'unauthenticated'){
 			window.location.replace('index.html');
 			return;
-		}
+			}
 			
-		if(data.status == 'success'){
+			if(data.status == 'success'){
 				
-			console.log(data);	
+				console.log(data);	
 				
-			var loggedUser = data.loggedInUser;
+				var loggedUser = data.loggedInUser;
 				
 				
-			userName = loggedUser.username;
-			password = loggedUser.password;
+				userName = loggedUser.username;
+				password = loggedUser.password;
 				
-			var userNameParagraph = $('#userNameVal');
-			var dateRegParagraph = $('#dateRegVal');
+				var userNameParagraph = $('#userNameVal');
+				var dateRegParagraph = $('#dateRegVal');
 				
-			userNameParagraph.text(loggedUser.username);
-			dateRegParagraph.text(loggedUser.registrationDate);
+				userNameParagraph.text(loggedUser.username);
+				dateRegParagraph.text(loggedUser.registrationDate);
 			
-			getTickets();
-		}
-	});
+				getTickets();
+			}
+		});
 	
-
+	}
+	
 	var table = $('#table');
 	
 	function getTickets(){
@@ -104,26 +123,27 @@ $(document).ready(function(){
 	
 		$.get('TicketServlet', params, function(data){
 		
-		if(data.status == 'success'){
+			if(data.status == 'success'){
 			
-			var tickets = data.tickets;
+				var tickets = data.tickets;
 			
-			table.find('tr:gt(0)').remove();
+				table.find('tr:gt(0)').remove();
 			
-			var index = 1;
+				var index = 1;
 			
-			for(t in tickets){
+				for(t in tickets){
 				
-				table.append(
+					table.append(
 							'<tr>' +
 								'<td>' + index++ + '</td>' +
 								'<td>' + '<a href="Ticket.html?id=' + tickets[t].idTicket + '">' + tickets[t].dateTimeofSale + '</a></td>' +
 								'</tr>'
 							);
+					}
 			}
-		}
-	});
-	
+		});
 	}
+	
+	getUser();
 	
 });

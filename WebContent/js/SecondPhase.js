@@ -77,9 +77,24 @@ $(document).ready(function(){
 	
 	function getSeats(){
 		
+		var parameters = {
+				
+				'action': 'getBusySeats',
+				'projID': projectionID
+		}
 		
+		var busySeats;
 		
-		var paraams ={
+		$.get('ProjectionServlet', parameters, function(data){
+			
+			busySeats = data.busySeats;
+			
+		});
+		
+		console.log(busySeats);
+		
+		var paraams = {
+				
 				'action': 'seats',
 				'hallID' : hallID
 		}
@@ -98,13 +113,26 @@ $(document).ready(function(){
 				
 				for(seat in seats){
 					
-					$('#seatDiv').append(
+					if(busySeats.some(s => s.serialNumber === seats[seat].serialNumber)){
+						
+						$('#seatDiv').append(
 							'<input class="single-check" name="check" type="checkbox" data-toggle="toggle" data-onstyle="info" seatnum="' +  seats[seat].serialNumber +
-							'" data-offstyle="success" data-off="' + seats[seat].serialNumber  +  '" data-on="' +  seats[seat].serialNumber   + '">' );
+							'" data-offstyle="dark" data-off="' + seats[seat].serialNumber  +  '" data-on="' +  seats[seat].serialNumber   + '" disabled="disabled">' );
+						
+						
+					
+					}
+					if(!busySeats.some(s => s.serialNumber === seats[seat].serialNumber)){
+						
+						$('#seatDiv').append(
+								'<input class="single-check" name="check" type="checkbox" data-toggle="toggle" data-onstyle="info" seatnum="' +  seats[seat].serialNumber +
+								'" data-offstyle="light" data-off="' + seats[seat].serialNumber  +  '" data-on="' +  seats[seat].serialNumber   + '">' );
 							
+						
+					}
 				}
 				
-				$('.single-check').bootstrapToggle({});
+				$('.single-check').bootstrapToggle();
 				
 				
 				
@@ -117,8 +145,10 @@ $(document).ready(function(){
 					var name = $(this).attr('name');
 					
 					if($('input[name=' + name  + ']:checked').length >= 1){
-						
+										
 						$.each($("input[name='check']:checked"), function(){
+							
+							
 							
 							seatNum = $(this).attr('seatnum');
 							
