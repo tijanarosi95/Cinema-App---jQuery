@@ -54,10 +54,10 @@ public class AllProjectionsServlet extends HttpServlet {
 					}catch(Exception ex) {}
 			
 					String dateFrom = request.getParameter("dateFrom");
-					dateFrom = (dateFrom != "" ? dateFrom : UserDAO.date_format.format(new Date(System.currentTimeMillis() - 24*60*60*1000)));
+					dateFrom = (dateFrom != "" ? dateFrom : UserDAO.date_format.format(new Date(System.currentTimeMillis() - 48*60*60*1000)));
 			
 					String dateTo = request.getParameter("dateTo");
-					dateTo = (dateTo != "" ? dateTo : UserDAO.date_format.format(new Date(System.currentTimeMillis() + 24*60*60*1000)));
+					dateTo = (dateTo != "" ? dateTo : UserDAO.date_format.format(new Date(System.currentTimeMillis() + 48*60*60*1000)));
 			
 					List<Projection> filteredProjections = ProjectionDAO.getAll(movieName, types, halls, minPrice, maxPrice, dateFrom, dateTo);
 						

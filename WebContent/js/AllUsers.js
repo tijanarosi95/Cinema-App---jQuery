@@ -49,6 +49,11 @@ $(document).ready(function(){
     		loggedUserName = data.loggedInUser.username;
     	
     		console.log('userNameee ' + userName);
+    		
+    		if(loggedUserName == null){
+    			
+    			autoLogOut();
+    		}
 
     		
     		
@@ -206,12 +211,12 @@ $(document).ready(function(){
         					
         					changeUserModal.modal('toggle');
         					
-        					if(userName === loggedUserName){
-        						
-        						autoLogOut();
-        					}
+        					autoLogOut();
+ 	
         				}
-        				getUsers();
+        				event.preventDefault();
+        				
+        				return false;
         				
         			});
         			
@@ -228,7 +233,9 @@ $(document).ready(function(){
     	
     	$.get('LogoutServlet', function(data){
 			
-			if(data.status == 'unautheticated'){
+    		console.log('ODJAvaa');
+    		
+			if(data.status == 'unauthenticated'){
 				
 				window.location.replace('index.html');
 			}

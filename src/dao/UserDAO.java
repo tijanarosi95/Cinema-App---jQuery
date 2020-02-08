@@ -107,12 +107,13 @@ public class UserDAO {
 		ResultSet set = null;
 		try {
 			String query = "Select userName, password, dateRegistration, role, active from Users "
-					+ " where userName like ? and role like ?";
+					+ " where userName like ? and role like ? and active = ?";
 			
 			pstm = conn.prepareStatement(query);
 			int index = 1;
 			pstm.setString(index++, "%" + username + "%");
 			pstm.setString(index++, "%" + role + "%");
+			pstm.setBoolean(index++, true);
 			
 			set = pstm.executeQuery();
 			
@@ -123,9 +124,8 @@ public class UserDAO {
 				//throws ParseException : Unparseable date because time in my db has ms 
 				Date registartionDate = date_format.parse(set.getString(index++));
 				Role userRole = Role.valueOf(set.getString(index++));
-				boolean isActive = set.getBoolean(index++);
 				
-				filteredUsers.add(new User (userName, password, registartionDate,userRole , isActive));
+				filteredUsers.add(new User (userName, password, registartionDate,userRole , true));
 				
 			}
 			
@@ -198,18 +198,52 @@ public class UserDAO {
 		PreparedStatement pstm = null;
 	
 		try {
+			
+			conn.setAutoCommit(false);
+			
+			conn.commit();
 		
-			String query = "Delete from Users where userName = ?";
+			String query = "Update Users SET active = 0 where userName = ? and userName = (Select distinct user"
+								+ " from Tickets where user = ?)";
 			
 			pstm = conn.prepareStatement(query);
 			int index = 1;
-			pstm.setString(index, user.getUsername());
+			pstm.setString(index++, user.getUsername());
+			pstm.setString(index++, user.getUsername());
 			
-			return pstm.executeUpdate() == 1;
+			if(pstm.executeUpdate() == 0) {
+				
+				pstm.close();
+				
+				query = "Delete from Users where userName = ?";
+				
+				pstm = conn.prepareStatement(query);
+				
+				index = 1;
+				
+				pstm.setString(index, user.getUsername());
+				
+				pstm.executeUpdate();
+				
+				conn.commit();
+				
+				return true;
+			}
+			
+		}catch(Exception ex){
+			
+			try {conn.rollback();} catch (Exception ex1) {ex1.printStackTrace();}
+			
+			throw ex;
 		}finally {
+			
+			try {conn.setAutoCommit(true);} catch (Exception ex1) {ex1.printStackTrace();}
+			
 			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
 			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
 		}
+		
+		return false;
 	}
 	
 	public static boolean updatePassword(String username, String newPassword) throws Exception {

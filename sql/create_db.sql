@@ -62,7 +62,9 @@ Insert into ProjectionType(id, name) values(1,'2D');
 Insert into ProjectionType(id, name) values(2,'3D');
 Insert into ProjectionType(id, name) values(3,'4D');
 
-
+select * from ProjectionType;
+select * from Hall;
+select * from Projections;
 
 CREATE TABLE Hall(
     id INTEGER PRIMARY KEY,
@@ -90,11 +92,86 @@ CREATE TABLE Projections(
     FOREIGN KEY(user) REFERENCES Users(userName)  
 );
 
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 1, "2020-01-30 15:00", 350, 'markom123', true);
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (2, 1, 1, "2020-01-31 18:00", 400, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 1, "2020-02-08 23:00", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (2, 1, 1, "2020-02-08 12:00", 400, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (3, 1, 1, "2020-02-08 15:00", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 2, "2020-02-08 23:30", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (4, 3, 3, "2020-02-08 20:30", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (4, 2, 2, "2020-02-08 21:00", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (5, 1, 1, "2020-02-08 20:30", 350, 'markom123', true);
 
-SELECT * FROM Users;
-SELECT * FROM Movies;
-select * from ProjectionType;
-select * from Hall;
-select * from Projections;
+select p.id, p.movieid, p.type, p.hall, p.datetime, p.price, p.user, p.active from Projection p
+join Movies m on p.movieid = m.id 
+where p.type = '2' and p.hall like '%1%' and p.price > 100 and p.datetime > '2020/01/31 10:00';
+
+CREATE TABLE Seats (
+    serialNum INTEGER PRIMARY KEY AUTOINCREMENT,
+    name varchar(10) not null
+);
+
+Select * from Seats;
+
+Insert into Seats(name) values ('6b');
+
+CREATE TABLE HasSeat (
+    hallid INTEGER NOT NULL,
+    seatid INTEGER NOT NULL,
+    
+    FOREIGN KEY(hallid) REFERENCES Hall(id),
+    FOREIGN KEY(seatid) REFERENCES Seats(serialNum),
+    PRIMARY KEY(hallid, seatid)
+);
+
+Insert into HasSeat(hallID, seatID) values (2, 1);
+Insert into HasSeat(hallID, seatID) values (2, 2);
+Insert into HasSeat(hallID, seatID) values (2, 3);
+Insert into HasSeat(hallID, seatID) values (2, 4);
+Insert into HasSeat(hallID, seatID) values (2, 5);
+Insert into HasSeat(hallID, seatID) values (2, 6);
+Insert into HasSeat(hallID, seatID) values (2, 7);
+Insert into HasSeat(hallID, seatID) values (2, 8);
+Insert into HasSeat(hallID, seatID) values (2, 9);
+Insert into HasSeat(hallID, seatID) values (2, 10);
+Insert into HasSeat(hallID, seatID) values (2, 11);
+Insert into HasSeat(hallID, seatID) values (2, 12);
+
+Select distinct s.serialNum from Seats s where s.serialNum = 3;
+
+Select t.id, t.projID, p.hall, t.seatID, t.date, t.user, t.active from Tickets t, Projections p where t.id = 1 and p.id = t.projID;
+
+Select t.projID, p.hall from Tickets t, Projections p where t.user like '%tijanar%' and p.id = t.projID;
+
+CREATE TABLE Tickets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    projID INTEGER NOT NULL,
+    seatID INTEGER NOT NULL,
+    date text varchar(20) NOT NULL,
+    user varchar(30),
+    active bool not null,
+    FOREIGN KEY(projID) REFERENCES Projections(id),
+    FOREIGN KEY(seatID) REFERENCES Seats(serialNum),
+    FOREIGN KEY(user) REFERENCES Users(userName)
+);
+Delete from Projections where id > 4;
+
+Select * from Projections p, Tickets t where p.id = 4 and p.id = t.projID;
+
+Update Projections SET active = 1 where id = 33 and id = (Select projID from Tickets);
+
+Select seatID, hall from Tickets t, Projections p where p.id = t.projID and projID = 2;
+
+
+Select m.name, m.id, count(p.movieid) br_proj, count(t.projID) from Movies m, Projections p, Tickets t
+where m.id = p.movieid and t.projID = p.id group by m.id, p.movieid;
+
+
+
+Select m.name, m.id movie_id, count(p.movieid) br_proj from Movies m left join
+Projections p on p.movieid = m.id union all
+Select p.id as 'projekcija id', p.movieid as 'movie id', count(t.projID) as 'broj prodatih karata' from Projections p left join Tickets t
+on t.projID = p.id group by m.name;
+
+Select m.name, count(p.id) br_proj, count(t.projID) br_karti, sum(p.price) from Movies m
+left join Projections p on m.id = p.movieid
+left join Tickets t on t.projID = p.id group by m.id, p.movieid;
+

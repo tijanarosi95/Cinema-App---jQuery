@@ -69,7 +69,7 @@ public class MovieDAO {
 		try {
 			String query = "Select id, name, director, actors, genre, duration, distributer, origin, year, description, active "
 							+ "from Movies where name like ? and genre like ? and duration >= ? "
-							+ "and duration <= ? and distributer like ? and origin like ? and year >= ? and year <= ?";
+							+ "and duration <= ? and distributer like ? and origin like ? and year >= ? and year <= ? and active = ?";
 			
 			pstm = conn.prepareStatement(query);
 			int index = 1;
@@ -81,6 +81,7 @@ public class MovieDAO {
 			pstm.setString(index++, "%" + origin + "%");
 			pstm.setInt(index++, minYear);
 			pstm.setInt(index++, maxYear);
+			pstm.setBoolean(index++, true);
 			
 			set = pstm.executeQuery();
 			
@@ -97,11 +98,10 @@ public class MovieDAO {
 				String originCountry = set.getString(index++);
 				int year = set.getInt(index++);
 				String description = set.getString(index++);
-				boolean isActive = set.getBoolean(index++);
 				
 				
 				
-				movies.add(new Movie(id, name, director, actors, movieGenre, duration, distributionM, originCountry, year, description, isActive));
+				movies.add(new Movie(id, name, director, actors, movieGenre, duration, distributionM, originCountry, year, description, true));
 				
 			}
 		}finally {
@@ -178,29 +178,70 @@ public class MovieDAO {
 	}
 	
 	public static boolean delete(int id) throws Exception{
+		
 		Connection conn = ConnectionManager.getConnection();
 		
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "Delete from Movies where id = ?";
+			
+			conn.setAutoCommit(false);
+			
+			conn.commit();
+			
+			String query = "Update Movies SET active = 0 where id = ? and id = (Select distinct movieid from Projections "
+								+ "where movieid = ?)";
 			
 			pstm = conn.prepareStatement(query);
+			
 			int index = 1;
+			
 			pstm.setInt(index++, id);
 			
-			return pstm.executeUpdate() == 1;
+			pstm.setInt(index++, id);
+			
+			if(pstm.executeUpdate() == 0) {
+				
+				pstm.close();
+				
+				query = "Delete from Movies where id = ?";
+				
+				pstm = conn.prepareStatement(query);
+				
+				index = 1;
+				
+				pstm.setInt(index++, id);
+				
+				pstm.executeUpdate();
+				
+				conn.commit();
+				
+				return true;
+				
+			}
+			
+		}catch(Exception ex){
+			
+			try {conn.rollback();} catch (Exception ex1) {ex1.printStackTrace();}
+			
+			throw ex;
 			
 		}finally{
+			
+			try {conn.setAutoCommit(true);} catch (Exception ex1) {ex1.printStackTrace();}
+			
 			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
 			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
 		}
+		
+		return false;
 	}
 	
 	
 	public static ArrayList<Genre> returnGenres(List<String> dbGenres){
 		
 		ArrayList<Genre> genres = new ArrayList<Genre>();
+		
 		for(String g : dbGenres) {
 			try {
 				Genre genre = Genre.valueOf(g);
