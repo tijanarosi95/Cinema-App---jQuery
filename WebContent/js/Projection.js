@@ -84,15 +84,26 @@ $(document).ready(function(){
 	var date= $('#dateandtime');
 	var hall = $('#hall'); 
 	var price = $('#price');
+	var seatsNum = $('#seatsNum');
 	
 	function getProjection(){
 		
-		
-		var parameters = {
+		$.get('ProjectionServlet', {'action': 'getFreeSeats'}, function(data){
+			
+			var freeSeatsNum = data.freeSeats;
+			
+			console.log(freeSeatsNum);
+			
+			for(s in freeSeatsNum){
 				
-				'action': 'getBusySeats',
-				'projID': projectionID
-		}
+				if(freeSeatsNum[projectionID]){
+					
+					seatsNum.text(freeSeatsNum[projectionID]);
+				}
+			}
+			
+		});
+		
 	
 		var params = {
 			
@@ -119,6 +130,7 @@ $(document).ready(function(){
 				hall.text(projection.hall.name);
 				date.text(projection.dateTimeShow);
 				price.text(projection.price);
+				
 				
 				var today = new Date();
 				

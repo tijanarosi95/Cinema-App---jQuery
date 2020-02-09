@@ -12,6 +12,11 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    
+    
     <script src="js/AdminProfile.js"></script>
     
     <link rel="stylesheet" href="css/style.css">
@@ -59,6 +64,44 @@
     <div class="main-container">
         <i class="fa fa-user fa-3x" ></i><p style="color: white; margin-left: 20px;" id="userNameVal"></p>
         <i class="fa fa-calendar fa-3x"></i><p style="color: white; margin-left: 20px;" id="dateRegVal"></p>
+    </div>
+    
+    <div class="container-fluid row" style="float:right; width:70%; margin-top: 100px;">
+    	<div class="form-group col-md-4">
+            <label>Date and time from:</label>
+            <div class='input-group date' id='datetimepicker1'>
+                  <input type='text' class="form-control" id="date1"/>
+                  <span class="input-group-addon"> 
+                       <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </span>
+           	</div>
+       </div>
+       <div class="form-group col-md-4">
+            <label>Date and time to:</label>
+            <div class='input-group date' id='datetimepicker2'>
+                  <input type='text' class="form-control" id="date2"/>
+                  <span class="input-group-addon"> 
+                       <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </span>
+           	</div>
+       </div>
+    
+    </div>
+    
+    <div class="table-responsive-md" > 
+        <table class="table table-hover table-dark" id="reportTable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Movie</th>
+                    <th scope="col">Projections Number</th>
+                    <th scope="col">Tickets Number</th>
+                    <th scope="col">Total Price</th>
+                </tr>
+            </thead>
+
+        </table>
+
     </div>
 
 

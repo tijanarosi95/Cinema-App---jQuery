@@ -147,4 +147,14 @@
     <servlet-name>TicketDeleteServlet</servlet-name>
     <url-pattern>/TicketDeleteServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReportServlet</display-name>
+    <servlet-name>ReportServlet</servlet-name>
+    <servlet-class>servlets.reports.ReportServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReportServlet</servlet-name>
+    <url-pattern>/ReportServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -346,16 +346,9 @@ $(document).ready(function(){
 			$('#messageName').text('You must input name!');
 			return false;
 		}
-		if(directorNameInput === ""){
-			$('#messageDir').text('You must input director!');
-			return false;
-		}
+
 		if(duration === ""){
 			('#messageDur').text('You must input duration!');
-			return false;
-		}
-		if(actors === ""){
-			$('#messageAct').text('You must input actors!');
 			return false;
 		}
 		if(distribution === ""){
@@ -368,10 +361,6 @@ $(document).ready(function(){
 		}
 		if(yearMovie === ""){
 			$('#messageYear').text('You must input year!');
-			return false;
-		}
-		if(description === ""){
-			$('#messageDesc').text('You must input description!');
 			return false;
 		}
 		return true;

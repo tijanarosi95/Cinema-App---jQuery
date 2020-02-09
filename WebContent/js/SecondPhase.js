@@ -89,8 +89,7 @@ $(document).ready(function(){
 			
 			busySeats = data.busySeats;
 			
-		});
-		
+		});		
 		console.log(busySeats);
 		
 		var paraams = {

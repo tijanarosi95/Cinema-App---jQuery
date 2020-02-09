@@ -92,13 +92,19 @@ CREATE TABLE Projections(
     FOREIGN KEY(user) REFERENCES Users(userName)  
 );
 
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 1, "2020-02-08 23:00", 350, 'markom123', true);
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (2, 1, 1, "2020-02-08 12:00", 400, 'markom123', true);
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (3, 1, 1, "2020-02-08 15:00", 350, 'markom123', true);
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 2, "2020-02-08 23:30", 350, 'markom123', true);
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (4, 3, 3, "2020-02-08 20:30", 350, 'markom123', true);
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (4, 2, 2, "2020-02-08 21:00", 350, 'markom123', true);
-Insert into Projections(movieid, type, hall, datetime, price, user, active) values (5, 1, 1, "2020-02-08 20:30", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 1, "2020-02-09 23:00", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 2, "2020-02-09 21:30", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (1, 2, 2, "2020-02-09 14:30", 350, 'markom123', true);
+
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (2, 3, 3, "2020-02-09 12:00", 400, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (2, 1, 1, "2020-02-09 15:00", 350, 'markom123', true);
+
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (4, 3, 2, "2020-02-09 10:30", 350, 'markom123', true);
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (4, 3, 3, "2020-02-09 21:00", 420, 'markom123', true);
+
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (3, 2, 1, "2020-02-09 17:30", 350, 'markom123', true);
+
+Insert into Projections(movieid, type, hall, datetime, price, user, active) values (5, 1, 1, "2020-02-09 20:10", 350, 'markom123', true);
 
 select p.id, p.movieid, p.type, p.hall, p.datetime, p.price, p.user, p.active from Projection p
 join Movies m on p.movieid = m.id 
@@ -122,18 +128,24 @@ CREATE TABLE HasSeat (
     PRIMARY KEY(hallid, seatid)
 );
 
-Insert into HasSeat(hallID, seatID) values (2, 1);
-Insert into HasSeat(hallID, seatID) values (2, 2);
-Insert into HasSeat(hallID, seatID) values (2, 3);
-Insert into HasSeat(hallID, seatID) values (2, 4);
-Insert into HasSeat(hallID, seatID) values (2, 5);
-Insert into HasSeat(hallID, seatID) values (2, 6);
-Insert into HasSeat(hallID, seatID) values (2, 7);
-Insert into HasSeat(hallID, seatID) values (2, 8);
-Insert into HasSeat(hallID, seatID) values (2, 9);
-Insert into HasSeat(hallID, seatID) values (2, 10);
-Insert into HasSeat(hallID, seatID) values (2, 11);
-Insert into HasSeat(hallID, seatID) values (2, 12);
+Insert into HasSeat(hallID, seatID) values (3, 1);
+Insert into HasSeat(hallID, seatID) values (3, 2);
+Insert into HasSeat(hallID, seatID) values (3, 3);
+Insert into HasSeat(hallID, seatID) values (3, 4);
+Insert into HasSeat(hallID, seatID) values (3, 5);
+Insert into HasSeat(hallID, seatID) values (3, 6);
+Insert into HasSeat(hallID, seatID) values (3, 7);
+Insert into HasSeat(hallID, seatID) values (3, 8);
+Insert into HasSeat(hallID, seatID) values (3, 9);
+Insert into HasSeat(hallID, seatID) values (3, 10);
+Insert into HasSeat(hallID, seatID) values (3, 11);
+Insert into HasSeat(hallID, seatID) values (3, 12);
+Insert into HasSeat(hallID, seatID) values (2, 13);
+Insert into HasSeat(hallID, seatID) values (2, 14);
+Insert into HasSeat(hallID, seatID) values (2, 15);
+Insert into HasSeat(hallID, seatID) values (2, 16);
+Insert into HasSeat(hallID, seatID) values (2, 17);
+Insert into HasSeat(hallID, seatID) values (2, 18);
 
 Select distinct s.serialNum from Seats s where s.serialNum = 3;
 

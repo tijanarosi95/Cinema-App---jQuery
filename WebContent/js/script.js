@@ -162,6 +162,7 @@ $(document).ready(function(){
 		today = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min;
 		
 		
+		
 		console.log(today);
 		
 		for(h in hallsCollection){
@@ -180,6 +181,13 @@ $(document).ready(function(){
 		if(!hallsTypes.some(t => t.id === Number(type))){
 			
 			$('#messageType').text('This projection type does not exist in selected hall!');
+			
+			return false;
+		}
+		
+		if(Date.parse(datetime) == false){
+			
+			$('#messageDate').text('Wrong datetime format!');
 			
 			return false;
 		}
@@ -206,6 +214,7 @@ $(document).ready(function(){
 		
 		return true;
 	}
+	
 	
 	
 	
@@ -305,8 +314,19 @@ $(document).ready(function(){
 	
 	date.datetimepicker({
 		format : 'yy-m-d H:i',
+		yearRange: '2019:2025',
 		useCurrent : false,
 		step : 15,
+	});
+	
+	date.validate({
+		errorPlacement: date.errorPlacement,
+		rules:{
+			validDefaultDatepicker:{
+				required: true,
+				dpDate: true
+			}
+		}
 	});
 	
 	var allProjections = [];

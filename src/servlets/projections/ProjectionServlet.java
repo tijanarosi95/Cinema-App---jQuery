@@ -54,6 +54,10 @@ public class ProjectionServlet extends HttpServlet {
 					data.put("busySeats", busySeats);
 					break;
 				}
+				case("getFreeSeats"):{
+					data.put("freeSeats", CommonDAO.getFreeSeats());
+					break;
+				}
 				case("getProjection"):{
 					int id = Integer.parseInt(request.getParameter("projectionID"));
 					Projection projection = ProjectionDAO.getProjection(id);

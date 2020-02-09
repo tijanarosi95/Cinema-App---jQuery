@@ -5,9 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Hall;
+import model.Movie;
+import model.Report;
 import model.Seat;
 import model.TypeOfProjection;
 
@@ -306,6 +310,98 @@ public class CommonDAO {
 		}
 		
 		return seats;
+	}
+	
+	public static Map<Integer, Integer> getFreeSeats() throws Exception{
+		
+		Map<Integer, Integer> freeSeatsNum = new LinkedHashMap<Integer, Integer>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+		
+		try {
+			
+			String query = "Select p.id, count(distinct h.seatid) - count(distinct t.seatID) num_free from Projections p " + 
+					"left join Tickets t on p.id = t.projID left join HasSeat h on h.hallid = p.hall group by h.hallid, p.id";
+			
+			pstm = conn.prepareStatement(query);
+			
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				
+				int index = 1;
+				
+				int projID = set.getInt(index++);
+				
+				int seatsNum = set.getInt(index++);
+				
+				freeSeatsNum.put(projID, seatsNum);
+				
+			}
+			
+		}finally {
+			
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+			
+		}
+		
+		return freeSeatsNum;
+	}
+	
+	public static List<Report> getReports(String dateFrom, String dateTo) throws Exception {
+		
+		List<Report> reports = new ArrayList<Report>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		
+		PreparedStatement pstm = null;
+		
+		ResultSet set = null;
+		
+		try {
+			
+			String query = "Select m.id, count(distinct p.id) num_proj, count(t.id) num_tickets, count(t.id) * p.price t_price "
+							+ "from Movies m left join Projections p on m.id = p.movieid " + 
+									"left join Tickets t on t.projID = p.id group by m.id " +
+										"having p.datetime >= ? and p.datetime <= ?";
+			
+			pstm = conn.prepareStatement(query);
+			
+			int index = 1;
+			
+			pstm.setString(index++, dateFrom);
+			
+			pstm.setString(index++, dateTo);
+			
+			set = pstm.executeQuery();
+			
+			while(set.next()) {
+				
+				index = 1;
+				
+				Movie movie = MovieDAO.getMovie(set.getInt(index++));
+				int projNum = set.getInt(index++);
+				int ticketsNum = set.getInt(index++);
+				double t_price = set.getDouble(index++);
+				
+				reports.add(new Report(movie, projNum, ticketsNum, t_price));
+	
+			}
+	
+		}finally {
+
+			try {pstm.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {set.close();}catch(Exception ex) {ex.printStackTrace();}
+			try {conn.close();}catch(Exception ex) {ex.printStackTrace();}
+		}
+		
+		return reports;
 	}
 	
 	public static ArrayList<TypeOfProjection> returnTypes (List<String> dbTypes) throws Exception{
