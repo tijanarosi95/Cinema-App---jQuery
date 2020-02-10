@@ -135,8 +135,9 @@ $(document).ready(function(){
 							
 							$(this).find('form').trigger('reset');
 							
-							getProjections();
 						});
+						
+						getProjections();
 					}
 					
 					

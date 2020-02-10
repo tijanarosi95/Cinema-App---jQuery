@@ -1,13 +1,16 @@
 package servlets.user;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
 import enums.Role;
@@ -95,6 +98,7 @@ public class UserServlet extends HttpServlet {
 			String action = request.getParameter("action");
 			
 			switch(action) {
+			
 				case("update"):{
 					
 				User changedUser = UserDAO.getUser(request.getParameter("userName"));	
@@ -102,12 +106,18 @@ public class UserServlet extends HttpServlet {
 				Role userRole = Role.valueOf(role);
 				
 				changedUser.setRole(userRole);
+				
+				invalidate(changedUser.getUsername(), request);
+				
 				UserDAO.updateUser(changedUser);
 				break;
+				
 			}
 				case("delete"):{
 					
 				User selectedUser = UserDAO.getUser(request.getParameter("username"));
+				
+				invalidate(selectedUser.getUsername(), request);
 				
 				UserDAO.deleteUser(selectedUser);
 				break;
@@ -120,6 +130,24 @@ public class UserServlet extends HttpServlet {
 			ex.printStackTrace();
 			request.getRequestDispatcher("./FailureServlet").forward(request, response);
 		}
+	}
+	
+	private void invalidate(String userName, HttpServletRequest request) {
+		
+		ServletContext context = request.getSession().getServletContext();
+		
+		@SuppressWarnings("unchecked")
+		HashMap<String, HttpSession> map = (HashMap<String, HttpSession>) context.getAttribute("usersSessions");
+		
+		HttpSession userSession = map.get(userName);
+		
+		if(userSession != null) {
+			
+			map.remove(userName);
+			userSession.invalidate();
+		}
+		
+		return;
 	}
 
 }

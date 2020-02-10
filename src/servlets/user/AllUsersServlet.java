@@ -1,14 +1,17 @@
 package servlets.user;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
 import model.User;
@@ -77,6 +80,8 @@ public class AllUsersServlet extends HttpServlet {
 			String username = request.getParameter("username");
 			String newPassword = request.getParameter("newPassword");
 			
+			invalidate(username, request);
+			
 			UserDAO.updatePassword(username, newPassword);
 			
 			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
@@ -85,6 +90,24 @@ public class AllUsersServlet extends HttpServlet {
 			ex.printStackTrace();
 			request.getRequestDispatcher("./FailureServlet").forward(request, response);
 		}
+	}
+	
+	private void invalidate(String userName, HttpServletRequest request) {
+		
+		ServletContext context = request.getSession().getServletContext();
+		
+		@SuppressWarnings("unchecked")
+		HashMap<String, HttpSession> map = (HashMap<String, HttpSession>) context.getAttribute("usersSessions");
+		
+		HttpSession userSession = map.get(userName);
+		
+		if(userSession != null) {
+			
+			map.remove(userName);
+			userSession.invalidate();
+		}
+		
+		return;
 	}
 
 }

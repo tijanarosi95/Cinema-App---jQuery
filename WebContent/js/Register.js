@@ -35,7 +35,12 @@ $(document).ready(function(){
 			}
 			
 			if(data.status == 'success'){
+				
 				alert('You have successfully registered!Please log in!');
+				
+				usernameInput.val('');
+				passwordInput.val('');
+				repeatedPassword.val('');
 			}
 		});
 		

@@ -113,6 +113,7 @@ $(document).ready(function(){
 	
 	date.datetimepicker({
 		format : 'yy-m-d H:i',
+		yearRange: '2019:2025',
 		useCurrent : false,
 		step : 15,
 	});
@@ -168,44 +169,37 @@ $(document).ready(function(){
 							'</tr>'
 				
 				);
-			}
-		});
-	
-	
-		var sum1 = 0;
-		var sum2 = 0;
-		var sum3 = 0;
-		
-		$('table thead').not(':first').not(':last').each(function(){
-			
-			sum1 += getnum($(this).find("td:eq(2)").text());
-			sum2 += getnum($(this).find("td:eq(3)").text());
-			sum3 += getnum($(this).find("td:eq(4)").text());
-			
-			
-			function getnum(t){
-				if(isNumeric(t)){
-					return parseInt(t, 10);
-				}
-				return 0;
-				
-				function isNumeric(n){
-					return !isNaN(parseFloat(n)) && isFinite(n);
-				}
+					
 			}
 			
-			console.log(sum1);
-			
-			
-			
 		});
-		
-		$('#sum1').text(sum1);
-		$('#sum2').text(sum2);
-		$('#sum3').text(sum3);
 		
 	}	
-		
+	
+	$('.sort').click(function(){
+		var table = $(this).parents('table').eq(0);
+		var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+		this.asc = !this.asc;
+		if(!this.asc){
+			rows = rows.reverse();
+		}
+		for (var i = 0; i < rows.length; i++){
+			table.append(rows[i]);
+		}
+	});
+	
+	function comparer(index){
+		return function(a, b){
+			var valA = getCellValue(a, index);
+			var valB = getCellValue(b, index);
+			
+			return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+		}
+	}
+	
+	function getCellValue(row, index){
+		return $(row).children('td').eq(index).text();
+	}
 	
 	
 	

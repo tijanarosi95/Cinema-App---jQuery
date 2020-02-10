@@ -64,7 +64,7 @@ $(document).ready(function(){
 		
 		$.get('LogoutServlet', function(data){
 			
-			if(data.status == 'unautheticated'){
+			if(data.status == 'unauthenticated'){
 				
 				window.location.replace('index.html');
 			}

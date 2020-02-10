@@ -1,10 +1,14 @@
 package servlets.user;
 
 import java.io.IOException;
+import java.util.HashMap;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
 import model.User;
@@ -34,12 +38,26 @@ public class LogInServlet extends HttpServlet {
 			
 			request.getSession().setAttribute("loggedInUser", loggedInUser.getUsername());
 			
+			setSession(userName, request);
+			
 			request.getRequestDispatcher("./SuccessServlet").forward(request, response);
 			
 		}catch(Exception ex) {
 			
 			ex.printStackTrace();
 		}
+		
+		
+	}
+	
+	private void setSession(String userName, HttpServletRequest request) {
+		
+		ServletContext context = request.getSession().getServletContext();
+		
+		@SuppressWarnings("unchecked")
+		HashMap<String, HttpSession> map = (HashMap<String, HttpSession>) context.getAttribute("usersSessions");
+		
+		map.put(userName, request.getSession());
 	}
 
 }

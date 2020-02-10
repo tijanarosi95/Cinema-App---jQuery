@@ -122,9 +122,11 @@ label {
 }
 
 footer {
+	float:left;
+	width: 5%;
     position: fixed;
     color: white;
-    height: 50px;
+    height: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
@@ -145,7 +147,7 @@ footer {
 }
 
 #profileDiv{
-    height: 250px;
+    height: 300px;
 }
 
 img {

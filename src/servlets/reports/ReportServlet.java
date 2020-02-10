@@ -50,10 +50,10 @@ public class ReportServlet extends HttpServlet {
 			}
 			
 			String dateFrom = request.getParameter("dateFrom");
-			dateFrom = ( dateFrom != "" ? dateFrom : UserDAO.date_format.format(new Date(System.currentTimeMillis() - 48*60*60*1000)));
+			dateFrom = ( dateFrom != "" ? dateFrom : UserDAO.date_format.format(new Date(System.currentTimeMillis() - 72*60*60*1000)));
 			
 			String dateTo = request.getParameter("dateTo");
-			dateTo = (dateTo != "" ? dateTo : UserDAO.date_format.format(new Date(System.currentTimeMillis() + 48*60*60*1000)));
+			dateTo = (dateTo != "" ? dateTo : UserDAO.date_format.format(new Date(System.currentTimeMillis() + 72*60*60*1000)));
 			
 			List<Report> reports = CommonDAO.getReports(dateFrom, dateTo);
 			

@@ -35,8 +35,6 @@
                             <a class="dropdown-item" href="AllMovies.html">Movies</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="index.html">Projections</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Reports</a>
                         </div>
                     </li>
 
@@ -47,8 +45,9 @@
                             <form class="form-horizontal">
                                 <span id="changePassword">Change password?</span>
                                 <input class="form-control" type="password" placeholder="Enter your password.." id="oldPassword">
+                                <p id="messagePassword" style="color:red;"></p>
                                 <input class="form-control" type="password" placeholder="Enter your new password.." id="newPassword">
-                                <input class="btn btn-primary" type="submit" value="Change" id="changePasswordSubmit" >
+                                <input class="btn btn-primary" type="submit" value="Change" id="changePasswordSubmit">
                             </form>
                         </div>
                     </li>
@@ -68,7 +67,7 @@
     
     <div class="container-fluid row" style="float:right; width:70%; margin-top: 100px;">
     	<div class="form-group col-md-4">
-            <label>Date and time from:</label>
+            <label style="color:brown;"><b>Date and time from:</b></label>
             <div class='input-group date' id='datetimepicker1'>
                   <input type='text' class="form-control" id="date1"/>
                   <span class="input-group-addon"> 
@@ -77,7 +76,7 @@
            	</div>
        </div>
        <div class="form-group col-md-4">
-            <label>Date and time to:</label>
+            <label style="color:brown;"><b>Date and time to:</b></label>
             <div class='input-group date' id='datetimepicker2'>
                   <input type='text' class="form-control" id="date2"/>
                   <span class="input-group-addon"> 
@@ -94,9 +93,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Movie</th>
-                    <th scope="col">Projections Number</th>
-                    <th scope="col">Tickets Number</th>
-                    <th scope="col">Total Price</th>
+                    <th scope="col" class="sort">Projections Number</th>
+                    <th scope="col" class="sort">Tickets Number</th>
+                    <th scope="col" class="sort">Total Price</th>
                 </tr>
             </thead>
 

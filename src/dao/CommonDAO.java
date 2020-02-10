@@ -368,8 +368,8 @@ public class CommonDAO {
 			
 			String query = "Select m.id, count(distinct p.id) num_proj, count(t.id) num_tickets, count(t.id) * p.price t_price "
 							+ "from Movies m left join Projections p on m.id = p.movieid " + 
-									"left join Tickets t on t.projID = p.id group by m.id " +
-										"having p.datetime >= ? and p.datetime <= ?";
+									"left join Tickets t on t.projID = p.id where " +
+										"p.datetime >= ? and p.datetime <= ? group by m.id";
 			
 			pstm = conn.prepareStatement(query);
 			
